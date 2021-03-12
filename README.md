@@ -13,7 +13,7 @@ SCHULATLAS
   <img alt="Status Beta" src="https://img.shields.io/badge/Status-Draft-green.svg?style=flat"/>  <img alt="GPL v3" src="https://img.shields.io/badge/License-GPL%20v3-orange.svg"/>  <img alt="React" src="https://img.shields.io/badge/-React-blue?logo=react&style=flat"/>  <img alt="Java" src="https://img.shields.io/badge/-Java-brown?logo=java&style=flat"/>  <img alt="Spring" src="https://img.shields.io/badge/-Spring-lightgrey?logo=spring&style=flat"/>  <img alt="Docker" src="https://img.shields.io/badge/-Docker-grey?logo=docker&style=flat"/>  <img alt="MongoDb" src="https://img.shields.io/badge/-MongoDb-yellow?logo=mongodb&style=flat"/>
 </p>
 
-Germany is known worldwide, among other things, for its sustained success in the education sector. Thanks to the problem of the intertial system, however, this makes us locals perceive things a little differently. Unfortunately, old-fashioned federalism and a lack of transparency mean that traceability and comparability are more or less impossible for all sides.
+Among other things germany is known worldwide for its sustained success in the education sector. Thanks to the problem of the intertial system, however, this makes us locals perceive things a little differently. Unfortunately, old-fashioned federalism and a lack of transparency mean that traceability and comparability are more or less impossible for all sides.
 
 **SCHULATLAS** addresses this problem, aggregates data from the provinces' quality management, processes it and outputs it both as overlays on maps and in a statistics module within the context of Open Data / Open Government. Data can be maintained via public API and accessed by anyone.
 
