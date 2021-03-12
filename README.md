@@ -29,11 +29,11 @@ In this way, **SCHULATLAS** can hopefully contribute to the transition to a 21st
 **SCHULATLAS** is an open source project and contributions of any kind are welcome and highly appreciated. Issues, bugs and feature requests are all liested on the [issues](https://github.com/dride-for-sure/schulatlas/) page. Feel free to open a ticket and make feature requests. Have a look at the [CONTRIBUTING.md](CONTRIBUTING.md) to lean about the common style guide and project structure.
 
 #### Local Development
-Clone the git repository and install via `npm`:
+Clone the git repository and install the frontend via `npm`:
 
 ```
 git clone git@github.com:dride-for-sure/schulatlas.git
-cd schulatlas
+cd schulatlas/frontend
 npm i
 ```
 
@@ -41,6 +41,9 @@ To run the development server use:
 ```
 npm start
 ```
+
+To install the backend use `maven` and launch a local development server with the help of `spring`.
+
 
 #### Seed data
 To seed a local test environment mongodb intance please use the [`seed.js`](#) (*Upcoming*).
