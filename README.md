@@ -23,7 +23,7 @@ In this way, **SCHULATLAS** can hopefully contribute to the transition to a 21st
 - Website written in React with TypeScript to communicate the vision in a visually engaging way
 - Backend written in Java with the help of Spring to aggregate, process and serve datasets
 - Real-time processing of all datasets and create interactive custom map overlays to visualize the user-selected datapoints with the help of HERE Studio
-- Public REST API to maintain and access Data
+- Public REST API to maintain and access all gathered Datasets
 
 ### Contributing
 **SCHULATLAS** is an open source project and contributions of any kind are welcome and highly appreciated. Issues, bugs and feature requests are all liested on the [issues](https://github.com/dride-for-sure/schulatlas/) page. Feel free to open a ticket and make feature requests. Have a look at the [CONTRIBUTING.md](CONTRIBUTING.md) to lean about the common style guide and project structure.
