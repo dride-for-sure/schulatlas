@@ -32,7 +32,7 @@ In this way, **SCHULATLAS** can hopefully contribute to the transition to a 21st
 Clone the git repository and install via `npm`:
 
 ```
-git@github.com:dride-for-sure/schulatlas.git
+git clone git@github.com:dride-for-sure/schulatlas.git
 cd schulatlas
 npm i
 ```
