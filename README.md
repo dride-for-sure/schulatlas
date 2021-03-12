@@ -48,7 +48,7 @@ To seed a local test environment use the `seed.js` for your local mongodb instan
 **SCHULATLAS** is an open source project and contributions of any kind are welcome and highly appreciated. Issues, bugs and feature requests are all liested on the [issues](https://github.com/dride-for-sure/schulatlas/) page. Feel free to open a ticket and make feature requests. Have a look at the [CONTRIBUTING.md](CONTRIBUTING.md) to lean about the common style guide and project structure.
 **SCHULATLAS** is an open source project and contributions of any kind are welcome and highly appreciated. Issues, bugs and feature requests are all liested on the [issues](https://github.com/dride-for-sure/schulatlas/) page. Feel free to open a ticket and make feature requests. Have a look at the [CONTRIBUTING.md](CONTRIBUTING.md) to lean about the common style guide and project structure.
 
-Happy coding! :metal:
-
 ### License
 SCHULATLAS is an open source project under the [GPLv3 License]("LICENSE")
+
+Happy coding! :metal:
