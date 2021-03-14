@@ -22,7 +22,7 @@ In this way, **SCHULATLAS** can hopefully contribute to the transition to a 21st
 ### Features
 - Website written in React with TypeScript to communicate the vision in a visually engaging way
 - Backend written in Java with the help of Spring to aggregate, process and serve datasets
-- Real-time processing of all datasets and create interactive custom map overlays to visualize the user-selected datapoints with the help of [HERE Studio](https://developer.here.com/products/platform/studio)
+- Real-time processing of all datasets and create interactive custom map overlays to visualize the user-selected datapoints with the help of [Leaflet](https://leafletjs.com/)
 - Public REST API to maintain and access all gathered Datasets
 
 ### Contributing
