@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.opensource.schulaltas.model.property.Property;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -29,6 +30,5 @@ public class School {
  private Integer markedOutdated;
 
  @JsonProperty ("properties")
- List<SchoolProperty> propertyList;
-
+ List<Property> propertyList;
 }
