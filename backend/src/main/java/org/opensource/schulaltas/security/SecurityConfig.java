@@ -2,6 +2,7 @@ package org.opensource.schulaltas.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -35,8 +36,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
  protected void configure (HttpSecurity http) throws Exception {
   http.csrf().disable()
           .authorizeRequests()
+          .mvcMatchers( HttpMethod.POST, "/api/school" ).authenticated()
+          .mvcMatchers( HttpMethod.PUT, "/api/school/**" ).authenticated()
+          .mvcMatchers( HttpMethod.DELETE, "/api/school/**" ).hasRole( "ADMIN" )
+          .mvcMatchers( HttpMethod.POST, "/api/page/**" ).authenticated()
+          .mvcMatchers( HttpMethod.PUT, "/api/page/**" ).authenticated()
+          .mvcMatchers( HttpMethod.DELETE, "/api/page/**" ).hasRole( "ADMIN" )
+          .mvcMatchers( HttpMethod.PUT, "/api/landing-page/**" ).authenticated()
+          .mvcMatchers( HttpMethod.DELETE, "/api/landing-page/**" ).hasRole( "ADMIN" )
+          .mvcMatchers( HttpMethod.POST, "/api/property/**" ).authenticated()
+          .mvcMatchers( HttpMethod.PUT, "/api/property/**" ).authenticated()
+          .mvcMatchers( HttpMethod.DELETE, "/api/property/**" ).hasRole( "ADMIN" )
           .mvcMatchers( "/authenticate" ).permitAll()
-          .mvcMatchers( "/api/school/**", "/api/page/**" ).authenticated()
           .and()
           .sessionManagement().sessionCreationPolicy( SessionCreationPolicy.STATELESS )
           .and()
