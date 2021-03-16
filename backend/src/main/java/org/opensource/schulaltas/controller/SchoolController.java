@@ -39,6 +39,14 @@ public class SchoolController {
                          HttpStatus.NOT_ACCEPTABLE, "Could not add school: " + schoolDto.getNumber() ) );
  }
 
+ @PostMapping ("/school/{number}")
+ public School increaseOutdatedCount (@PathVariable String number) {
+  return schoolService.increaseOutdatedCount( number )
+                 .orElseThrow( () -> new ResponseStatusException(
+                         HttpStatus.NOT_ACCEPTABLE,
+                         "Could not increase counter for school: " + number ) );
+ }
+
  @PutMapping ("/school")
  public School updateSchool (@RequestBody SchoolDto schoolDto) {
   return schoolService.updateSchool( schoolDto )
