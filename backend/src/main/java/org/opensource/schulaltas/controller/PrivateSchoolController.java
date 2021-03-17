@@ -34,7 +34,10 @@ public class PrivateSchoolController {
 
  @PostMapping
  public School addSchool (@RequestBody SchoolDto schoolDto) {
-  return schoolService.addSchool( schoolDto );
+  return schoolService.addSchool( schoolDto )
+                 .orElseThrow( () -> new ResponseStatusException(
+                         HttpStatus.BAD_REQUEST,
+                         "School with number: " + schoolDto.getNumber() + " is already within the database" ) );
  }
 
  @PutMapping ("/{number}")
