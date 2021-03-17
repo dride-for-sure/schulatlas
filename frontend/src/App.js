@@ -1,9 +1,9 @@
+import React from 'react';
+
 function App() {
-  return (
-	<>
-		Hello
-	</>
-  );
+    return (
+        <p>Hello</p>
+    );
 }
 
 export default App;
