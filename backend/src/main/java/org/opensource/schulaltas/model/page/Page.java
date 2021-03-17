@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.opensource.schulaltas.model.attachment.Image;
+import org.opensource.schulaltas.model.component.HeroSecondary;
+import org.opensource.schulaltas.model.component.TextBlock;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 

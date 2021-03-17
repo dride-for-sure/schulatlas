@@ -20,6 +20,7 @@ public class SchoolDto {
  Address address;
  Contact contact;
  String author;
+ 
  @JsonProperty ("properties")
  List<Property> propertyList;
 }
