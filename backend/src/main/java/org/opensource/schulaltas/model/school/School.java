@@ -30,5 +30,5 @@ public class School {
  private Integer markedOutdated;
 
  @JsonProperty ("properties")
- List<Property> propertyList;
+ List<Property> properties;
 }
