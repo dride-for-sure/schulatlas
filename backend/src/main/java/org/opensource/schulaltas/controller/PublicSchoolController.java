@@ -34,7 +34,7 @@ public class PublicSchoolController {
                          HttpStatus.BAD_REQUEST, "School with number: " + number + " is not available" ) );
  }
 
- @PostMapping ("/{number}")
+ @PostMapping ("/{number}/outdated")
  public School increaseOutdatedCount (@PathVariable String number) {
   return schoolService.increaseOutdatedCount( number )
                  .orElseThrow( () -> new ResponseStatusException(
