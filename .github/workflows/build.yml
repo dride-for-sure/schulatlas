@@ -1,16 +1,9 @@
-<<<<<<< HEAD
 name: Run Backend Tests
 
 on:
   push:
     branches:
       - '!main'
-=======
-name: run backend tests
-
-on:
-  push
->>>>>>> main
 
 jobs:
   build:
