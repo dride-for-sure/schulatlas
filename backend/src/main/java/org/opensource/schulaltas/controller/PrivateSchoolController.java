@@ -11,53 +11,41 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Controller
-@RequestMapping ("/api")
-public class SchoolController {
+@RequestMapping ("/auth/school")
+public class PrivateSchoolController {
 
  private final SchoolService schoolService;
 
- public SchoolController (SchoolService schoolService) {
+ public PrivateSchoolController (SchoolService schoolService) {
   this.schoolService = schoolService;
  }
 
- @GetMapping ("/school")
+ @GetMapping
  public List<School> listSchools () {
   return schoolService.listSchools();
  }
 
- @GetMapping ("/school/{number}")
+ @GetMapping ("/{number}")
  public School getSchool (@PathVariable String number) {
   return schoolService.getSchool( number )
                  .orElseThrow( () -> new ResponseStatusException(
                          HttpStatus.BAD_REQUEST, "School with number: " + number + " is not available" ) );
  }
 
- @PostMapping ("/school")
+ @PostMapping
  public School addSchool (@RequestBody SchoolDto schoolDto) {
-  return schoolService.addSchool( schoolDto )
-                 .orElseThrow( () -> new ResponseStatusException(
-                         HttpStatus.NOT_ACCEPTABLE, "Could not add school: " + schoolDto.getNumber() ) );
+  return schoolService.addSchool( schoolDto );
  }
 
- @PostMapping ("/school/{number}")
- public School increaseOutdatedCount (@PathVariable String number) {
-  return schoolService.increaseOutdatedCount( number )
-                 .orElseThrow( () -> new ResponseStatusException(
-                         HttpStatus.NOT_ACCEPTABLE,
-                         "Could not increase counter for school: " + number ) );
- }
-
- @PutMapping ("/school")
+ @PutMapping ("/{number}")
  public School updateSchool (@RequestBody SchoolDto schoolDto) {
   return schoolService.updateSchool( schoolDto )
                  .orElseThrow( () -> new ResponseStatusException(
                          HttpStatus.BAD_REQUEST, "Could not update school: " + schoolDto.getNumber() ) );
  }
 
- @DeleteMapping ("/school/{number}")
+ @DeleteMapping ("/{number}")
  public void deleteSchool (@PathVariable String number) {
-  schoolService.deleteSchool( number )
-          .orElseThrow( () -> new ResponseStatusException(
-                  HttpStatus.BAD_REQUEST, "Could not delete school: " + number ) );
+  schoolService.deleteSchool( number );
  }
 }

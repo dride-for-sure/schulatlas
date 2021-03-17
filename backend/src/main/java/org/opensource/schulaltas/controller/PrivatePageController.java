@@ -11,46 +11,41 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Controller
-@RequestMapping ("/api")
-public class PageController {
+@RequestMapping ("/auth/page")
+public class PrivatePageController {
 
  private final PageService pageService;
 
- public PageController (PageService pageService) {
+ public PrivatePageController (PageService pageService) {
   this.pageService = pageService;
  }
 
- @GetMapping ("/page")
+ @GetMapping
  public List<Page> listPages () {
   return pageService.listPages();
  }
 
- @GetMapping ("/page/{name}")
+ @GetMapping ("/{name}")
  public Page getPage (String name) {
   return pageService.getPage( name )
                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
                          "Page: " + name + " is not available" ) );
  }
 
- @PostMapping ("/page")
+ @PostMapping
  public Page addPage (@RequestBody PageDto pageDto) {
-  return pageService.addPage( pageDto )
-                 .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
-                         "Could not add page: " + pageDto.getName() ) );
+  return pageService.addPage( pageDto );
  }
 
- @PutMapping ("/page")
+ @PutMapping ("/{name}")
  public Page updatePage (@RequestBody PageDto pageDto) {
   return pageService.updatePage( pageDto )
                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
                          "Could not update page: " + pageDto.getName() ) );
  }
 
- @DeleteMapping ("/page/{name}")
+ @DeleteMapping ("/{name}")
  public void deletePage (@PathVariable String name) {
-  return pageService.deletePage( name )
-                 .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
-                         "Could not delete page: " + name ) );
+  pageService.deletePage( name );
  }
-
 }

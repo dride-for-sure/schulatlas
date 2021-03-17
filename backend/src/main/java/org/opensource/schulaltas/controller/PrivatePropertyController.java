@@ -10,45 +10,41 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Controller
-@RequestMapping ("/api")
-public class PropertyController {
+@RequestMapping ("/auth/property")
+public class PrivatePropertyController {
 
  private final PropertyService propertyService;
 
- public PropertyController (PropertyService propertyService) {
+ public PrivatePropertyController (PropertyService propertyService) {
   this.propertyService = propertyService;
  }
 
- @GetMapping ("/property")
+ @GetMapping
  public List<Property> listProperties () {
   return propertyService.listProperties();
  }
 
- @GetMapping ("/property/{name}")
+ @GetMapping ("/{name}")
  public Property getProperty (@PathVariable String name) {
   return propertyService.getProperty( name )
                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
                          "Property: " + name + " is not available" ) );
  }
 
- @PostMapping ("/property")
+ @PostMapping
  public Property addProperty (@RequestBody Property property) {
-  return propertyService.addProperty( property )
-                 .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
-                         "Could not add property: " + property.getName() ) );
+  return propertyService.addProperty( property );
  }
 
- @PutMapping ("/property")
+ @PutMapping ("/{name}")
  public Property updateProperty (@RequestBody Property property) {
   return propertyService.updateProperty( property )
                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
                          "Could not update property: " + property.getName() ) );
  }
 
- @DeleteMapping ("/property/{name}")
+ @DeleteMapping ("/{name}")
  public void deleteProperty (@PathVariable String name) {
-  propertyService.deleteProperty( name )
-          .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
-                  "Could not delete property: " + name ) );
+  propertyService.deleteProperty( name );
  }
 }

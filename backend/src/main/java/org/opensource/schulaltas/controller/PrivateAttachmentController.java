@@ -9,28 +9,28 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping ("/api")
-public class AttachmentController {
+@RequestMapping ("/auth/attachment")
+public class PrivateAttachmentController {
 
  private final AttachmentService attachmentService;
 
- public AttachmentController (AttachmentService attachmentService) {
+ public PrivateAttachmentController (AttachmentService attachmentService) {
   this.attachmentService = attachmentService;
  }
 
- @GetMapping ("/attachment")
+ @GetMapping
  public List<Attachment> listAttachments () {
   return attachmentService.listAttachments();
  }
 
- @GetMapping ("/attachment/{id}")
+ @GetMapping ("/{id}")
  public Attachment getAttachment (@PathVariable String id) {
   return attachmentService.getAttachment( id )
                  .orElseThrow( () -> new ResponseStatusException(
                          HttpStatus.BAD_REQUEST, "Attachment: " + id + " not available" ) );
  }
 
- @PostMapping ("/attachment")
+ @PostMapping
  public boolean addAttachment (@RequestParam ("file") MultipartFile file) {
   if ( file.isEmpty() ) {
    throw new ResponseStatusException( HttpStatus.NOT_ACCEPTABLE, "This is not a valid file" );
@@ -41,10 +41,8 @@ public class AttachmentController {
   return true;
  }
 
- @DeleteMapping ("/attachment/{id}")
+ @DeleteMapping ("/{id}")
  public void deleteAttachment (@PathVariable String id) {
-  attachmentService.deleteAttachment( id )
-          .orElseThrow( () -> new ResponseStatusException(
-                  HttpStatus.BAD_REQUEST, "Could not delete attachment: " + id ) );
+  attachmentService.deleteAttachment( id );
  }
 }
