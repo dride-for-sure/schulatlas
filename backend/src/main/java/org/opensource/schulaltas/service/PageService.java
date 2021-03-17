@@ -1,5 +1,8 @@
 package org.opensource.schulaltas.service;
 
+import org.opensource.schulaltas.controller.model.PageDto;
+import org.opensource.schulaltas.model.page.Page;
+import org.opensource.schulaltas.repository.PageDb;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,12 +25,31 @@ public class PageService {
   return pageDb.findById( name );
  }
 
- public Optional<Page> addPage (PageDto pageDto) {
-  return pageDb.save( pageDto );
+ public Page addPage (PageDto pageDto) {
+  Page page = Page.builder()
+                      .name( pageDto.getName() )
+                      .updated( System.currentTimeMillis() )
+                      .userId( pageDto.getUserId() )
+                      .components( pageDto.getComponents() )
+                      .build();
+  return pageDb.save( page );
  }
 
  public Optional<Page> updatePage (PageDto pageDto) {
-  return pageDb.save( pageDto );
+  Optional<Page> pageToUpdate = pageDb.findById( pageDto.getName() );
+  if ( pageToUpdate.isPresent() ) {
+   Page updatedPage = pageToUpdate.get()
+                              .toBuilder()
+                              .updated( System.currentTimeMillis() )
+                              .userId( pageDto.getUserId() )
+                              .components( pageDto.getComponents() )
+                              .build();
+   return Optional.of( pageDb.save( updatedPage ) );
+  }
+  return Optional.empty();
  }
 
+ public void deletePage (String name) {
+  pageDb.deleteById( name );
+ }
 }

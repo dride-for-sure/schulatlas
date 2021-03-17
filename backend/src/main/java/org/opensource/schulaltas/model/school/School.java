@@ -4,11 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.opensource.schulaltas.model.property.Property;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -24,8 +22,8 @@ public class School {
  private Address address;
  private Contact contact;
  private Geo geo;
- private Date updated;
- private String user;
+ private Long updated;
+ private String userId;
  private Integer markedOutdated;
  List<Property> properties;
 }

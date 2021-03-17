@@ -1,6 +1,7 @@
 package org.opensource.schulaltas.controller;
 
 import org.opensource.schulaltas.model.page.Page;
+import org.opensource.schulaltas.service.PageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

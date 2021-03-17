@@ -1,6 +1,6 @@
 package org.opensource.schulaltas.controller;
 
-import org.opensource.schulaltas.model.property.Property;
+import org.opensource.schulaltas.model.school.Property;
 import org.opensource.schulaltas.service.PropertyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;

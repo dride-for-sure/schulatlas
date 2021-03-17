@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.opensource.schulaltas.model.property.Property;
 import org.opensource.schulaltas.model.school.Address;
 import org.opensource.schulaltas.model.school.Contact;
+import org.opensource.schulaltas.model.school.Property;
 
 import java.util.List;
 
