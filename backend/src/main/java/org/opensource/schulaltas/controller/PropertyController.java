@@ -11,11 +11,11 @@ import java.util.List;
 
 @Controller
 @RequestMapping ("/api")
-public class PropertiesController {
+public class PropertyController {
 
  private final PropertyService propertyService;
 
- public PropertiesController (PropertyService propertyService) {
+ public PropertyController (PropertyService propertyService) {
   this.propertyService = propertyService;
  }
 
