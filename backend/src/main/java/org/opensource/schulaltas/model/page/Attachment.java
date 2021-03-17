@@ -1,9 +1,10 @@
-package org.opensource.schulaltas.model.property;
+package org.opensource.schulaltas.model.page;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.opensource.schulaltas.model.page.enums.AttachmentType;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,11 +12,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder (toBuilder = true)
-@Document (collection = "properties")
-public class Property {
+@Document (collection = "attachments")
+public class Attachment {
 
  @Id
- private String name;
- private String value;
- private String unit;
+ private String fileName;
+ private String url;
+ private AttachmentType type;
 }

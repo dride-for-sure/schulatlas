@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.opensource.schulaltas.model.component.Component;
+import org.opensource.schulaltas.model.page.Component;
 
 import java.util.List;
 
@@ -17,8 +17,5 @@ public class PageDto {
 
  @JsonProperty ("author")
  private String userId;
-
- @JsonProperty ("components")
  private List<Component> components;
-
 }

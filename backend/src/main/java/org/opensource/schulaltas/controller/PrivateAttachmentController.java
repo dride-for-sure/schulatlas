@@ -1,6 +1,7 @@
 package org.opensource.schulaltas.controller;
 
-import org.opensource.schulaltas.model.attachment.Attachment;
+import org.opensource.schulaltas.model.page.Attachment;
+import org.opensource.schulaltas.service.AttachmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,7 +36,7 @@ public class PrivateAttachmentController {
   if ( file.isEmpty() ) {
    throw new ResponseStatusException( HttpStatus.NOT_ACCEPTABLE, "This is not a valid file" );
   }
-  if ( attachmentService.isValidAttachment ) {
+  if ( attachmentService.isValidAttachment( file ) ) {
    attachmentService.addAttachment( file );
   }
   return true;

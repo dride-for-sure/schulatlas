@@ -1,6 +1,6 @@
 package org.opensource.schulaltas.controller;
 
-import org.opensource.schulaltas.model.attachment.Attachment;
+import org.opensource.schulaltas.model.page.Attachment;
 import org.opensource.schulaltas.service.AttachmentService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
