@@ -1,8 +1,6 @@
 package org.opensource.schulaltas.controller;
 
-import org.opensource.schulaltas.controller.model.LandingPageDto;
 import org.opensource.schulaltas.controller.model.PageDto;
-import org.opensource.schulaltas.model.page.LandingPage;
 import org.opensource.schulaltas.model.page.Page;
 import org.opensource.schulaltas.service.PageService;
 import org.springframework.http.HttpStatus;
@@ -27,13 +25,6 @@ public class PageController {
   return pageService.listPages();
  }
 
- @GetMapping ("/landing-page")
- public LandingPage getLandingPage () {
-  return pageService.getLandingPage()
-                 .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
-                         "Landing page is not available" ) );
- }
-
  @GetMapping ("/page/{name}")
  public Page getPage (String name) {
   return pageService.getPage( name )
@@ -53,13 +44,6 @@ public class PageController {
   return pageService.updatePage( pageDto )
                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
                          "Could not update page: " + pageDto.getName() ) );
- }
-
- @PutMapping ("/landing-page")
- public LandingPage updateLandingPage (@RequestBody LandingPageDto landingPageDto) {
-  return pageService.updateLandingPage( landingPageDto )
-                 .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
-                         "Could not update landing page" ) );
  }
 
  @DeleteMapping ("/page/{name}")
