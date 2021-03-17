@@ -1,6 +1,7 @@
 package org.opensource.schulaltas.controller;
 
 import org.opensource.schulaltas.model.component.Component;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +17,7 @@ public class ComponentController {
   this.componentService = componentService;
  }
 
+ @GetMapping ("/component")
  public List<Component> listComponents () {
   return componentService.listComponents();
  }
