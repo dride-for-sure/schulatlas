@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.opensource.schulaltas.model.component.Component;
-import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
@@ -14,11 +13,12 @@ import java.util.List;
 @NoArgsConstructor
 public class PageDto {
 
- @Id
  private String name;
- private String author;
- 
+
+ @JsonProperty ("author")
+ private String userId;
+
  @JsonProperty ("components")
- List<Component> componentList;
+ private List<Component> components;
 
 }
