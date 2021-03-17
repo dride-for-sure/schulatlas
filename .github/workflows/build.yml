@@ -1,7 +1,9 @@
-name: run backend tests
+name: Run Backend Tests
 
 on:
-  push
+  push:
+    branches:
+      - '!main'
 
 jobs:
   build:
