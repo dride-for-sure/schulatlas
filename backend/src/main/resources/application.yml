@@ -1,0 +1,7 @@
+spring:
+  data:
+    mongodb:
+      database: schulatlas
+security:
+  jwt:
+    secret: top-secret
