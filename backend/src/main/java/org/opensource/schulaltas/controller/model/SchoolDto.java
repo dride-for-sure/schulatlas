@@ -15,12 +15,12 @@ import java.util.List;
 @NoArgsConstructor
 public class SchoolDto {
 
- String number;
- String name;
- Address address;
- Contact contact;
- String author;
- 
- @JsonProperty ("properties")
- List<Property> propertyList;
+ private String number;
+ private String name;
+ private Address address;
+ private Contact contact;
+
+ @JsonProperty ("author")
+ private String userId;
+ private List<Property> properties;
 }

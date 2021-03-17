@@ -9,4 +9,5 @@ public interface ComponentDb extends PagingAndSortingRepository<Component, Strin
 
  @Override
  List<Component> findAll ();
+
 }

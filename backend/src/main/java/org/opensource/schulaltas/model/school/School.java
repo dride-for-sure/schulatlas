@@ -1,6 +1,5 @@
 package org.opensource.schulaltas.model.school;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +27,5 @@ public class School {
  private Date updated;
  private String user;
  private Integer markedOutdated;
-
- @JsonProperty ("properties")
- List<Property> propertyList;
+ List<Property> properties;
 }
