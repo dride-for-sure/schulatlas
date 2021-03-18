@@ -1,45 +1,60 @@
 package org.opensource.schulaltas.service;
 
+import org.opensource.schulaltas.model.school.AvailableProperty;
 import org.opensource.schulaltas.model.school.Property;
-import org.opensource.schulaltas.repository.PropertyDb;
+import org.opensource.schulaltas.repository.AvailablePropertyDb;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PropertyService {
 
- private final PropertyDb propertyDb;
+ private final AvailablePropertyDb availablePropertyDb;
 
- public PropertyService (PropertyDb propertyDb) {
-  this.propertyDb = propertyDb;
+ public PropertyService (AvailablePropertyDb availablePropertyDb) {
+  this.availablePropertyDb = availablePropertyDb;
  }
 
- public List<Property> listProperties () {
-  return propertyDb.findAll();
+ public List<AvailableProperty> listProperties () {
+  return availablePropertyDb.findAll();
  }
 
- public Optional<Property> getProperty (String name) {
-  return propertyDb.findById( name );
- }
-
- public Optional<Property> addProperty (Property property) {
-  if ( !propertyDb.existsById( property.getName() ) ) {
-   return Optional.of( propertyDb.save( property ) );
+ public Optional<AvailableProperty> addProperty (AvailableProperty availableProperty) {
+  if ( !availablePropertyDb.existsById( availableProperty.getName() ) ) {
+   return Optional.of( availablePropertyDb.save( availableProperty ) );
   }
   return Optional.empty();
  }
 
- public Optional<Property> updateProperty (Property property) {
-  if ( propertyDb.existsById( property.getName() ) ) {
-   return Optional.of( propertyDb.save( property ) );
+ public Optional<AvailableProperty> updateProperty (AvailableProperty availableProperty) {
+  if ( availablePropertyDb.existsById( availableProperty.getName() ) ) {
+   return Optional.of( availablePropertyDb.save( availableProperty ) );
   }
   return Optional.empty();
  }
 
  public void deleteProperty (String name) {
-  propertyDb.deleteById( name );
+  availablePropertyDb.deleteById( name );
  }
 
+ public Boolean areAvailableProperties (List<Property> properties) {
+  List<Property> availableProperties =
+          availablePropertyDb.findAll()
+                  .stream()
+                  .map( availableProperty -> Property.builder()
+                                                     .name( availableProperty.getName() )
+                                                     .unit( availableProperty.getUnit() )
+                                                     .build() )
+                  .collect( Collectors.toList() );
+  List<Property> givenProperties = properties.stream()
+                                           .map( property -> Property.builder()
+                                                                     .name( property.getName() )
+                                                                     .unit( property.getUnit() )
+                                                                     .build() )
+                                           .collect( Collectors.toList() );
+  return availableProperties.containsAll( givenProperties );
+ }
 }

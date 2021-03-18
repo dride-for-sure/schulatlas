@@ -4,14 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder (toBuilder = true)
-public class Property {
+@Document (collection = "AvailableProperties")
+public class AvailableProperty {
 
  private String name;
  private String unit;
- private String value;
 }

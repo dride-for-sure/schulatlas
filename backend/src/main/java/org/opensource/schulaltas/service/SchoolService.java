@@ -16,15 +16,19 @@ public class SchoolService {
  private final SchoolDb schoolDb;
  private final GeoService geoService;
  private final TimeUtil timeUtil;
+ private final PropertyService propertyService;
 
- public SchoolService (SchoolDb schoolDb, GeoService geoService, TimeUtil timeUtil) {
+ public SchoolService (SchoolDb schoolDb, GeoService geoService, TimeUtil timeUtil,
+                       PropertyService propertyService) {
   this.schoolDb = schoolDb;
   this.geoService = geoService;
   this.timeUtil = timeUtil;
+  this.propertyService = propertyService;
  }
 
  public List<School> listSchools () {
-  return schoolDb.findAll();
+  List<School> schools = schoolDb.findAll();
+  return schools;
  }
 
  public Optional<School> getSchool (String number) {
@@ -34,8 +38,9 @@ public class SchoolService {
  public Optional<School> addSchool (SchoolDto schoolDto) {
   Optional<GeoObject> geo = geoService.getCoordinatesFromAddress( schoolDto.getAddress() );
   Optional<School> school = schoolDb.findById( schoolDto.getNumber() );
+  Boolean areAvailableProperties = propertyService.areAvailableProperties( schoolDto.getProperties() );
   if ( school.isEmpty() ) {
-   if ( geo.isPresent() ) {
+   if ( geo.isPresent() && areAvailableProperties ) {
     School newSchool = School.builder()
                                .number( schoolDto.getNumber() )
                                .name( schoolDto.getName() )
@@ -71,6 +76,7 @@ public class SchoolService {
  public Optional<School> updateSchool (SchoolDto schoolDto) {
   Optional<GeoObject> geo = geoService.getCoordinatesFromAddress( schoolDto.getAddress() );
   Optional<School> schoolToUpdate = schoolDb.findById( schoolDto.getNumber() );
+  Boolean areAvailableProperties = propertyService.areAvailableProperties( schoolDto.getProperties() );
   if ( schoolToUpdate.isPresent() && geo.isPresent() ) {
    School updatedSchool = schoolToUpdate.get()
                                   .toBuilder()
