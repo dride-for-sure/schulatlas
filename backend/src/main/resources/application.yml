@@ -2,6 +2,9 @@ spring:
   data:
     mongodb:
       database: schulatlas
+google:
+  api:
+    geo: top-secret
 security:
   jwt:
     secret: top-secret

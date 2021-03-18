@@ -21,7 +21,7 @@ public class School {
  private String name;
  private Address address;
  private Contact contact;
- private Geo geo;
+ private GeoObject geoObject;
  private Long updated;
  private String userId;
  private Integer markedOutdated;
