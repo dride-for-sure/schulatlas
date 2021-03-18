@@ -4,4 +4,7 @@ spring:
       database: schulatlas
 google:
   api:
-    geo: top-secret:wq
+    geo: top-secret
+security:
+  jwt:
+    secret: top-secret
