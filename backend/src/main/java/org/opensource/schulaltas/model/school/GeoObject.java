@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder (toBuilder = true)
 public class GeoObject {
 
- private final String type = "Point";
+ private String type = "Point";
  private Coordinates coordinates;
 }
