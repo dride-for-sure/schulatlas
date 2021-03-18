@@ -33,22 +33,26 @@ public class SchoolService {
 
  public Optional<School> addSchool (SchoolDto schoolDto) {
   Optional<GeoObject> geo = geoService.getCoordinatesFromAddress( schoolDto.getAddress() );
-  if ( !schoolDb.existsById( schoolDto.getNumber() ) && geo.isPresent() ) {
-   School school = School.builder()
-                           .number( schoolDto.getNumber() )
-                           .name( schoolDto.getName() )
-                           .address( schoolDto.getAddress() )
-                           .contact( schoolDto.getContact() )
-                           .geoObject( geo.get() )
-                           .updated( timeUtil.now() )
-                           .userId( schoolDto.getUserId() )
-                           .markedOutdated( 0 )
-                           .properties( schoolDto.getProperties() )
-                           .build();
-   schoolDb.save( school );
-   return Optional.of( school );
+  Optional<School> school = schoolDb.findById( schoolDto.getNumber() );
+  if ( school.isEmpty() ) {
+   if ( geo.isPresent() ) {
+    School newSchool = School.builder()
+                               .number( schoolDto.getNumber() )
+                               .name( schoolDto.getName() )
+                               .address( schoolDto.getAddress() )
+                               .contact( schoolDto.getContact() )
+                               .geoObject( geo.get() )
+                               .updated( timeUtil.now() )
+                               .userId( schoolDto.getUserId() )
+                               .markedOutdated( 0 )
+                               .properties( schoolDto.getProperties() )
+                               .build();
+    schoolDb.save( newSchool );
+    return Optional.of( newSchool );
+   }
+   return Optional.empty();
   }
-  return Optional.empty();
+  return school;
  }
 
  public Optional<School> increaseOutdatedCount (String number) {
@@ -65,14 +69,15 @@ public class SchoolService {
  }
 
  public Optional<School> updateSchool (SchoolDto schoolDto) {
+  Optional<GeoObject> geo = geoService.getCoordinatesFromAddress( schoolDto.getAddress() );
   Optional<School> schoolToUpdate = schoolDb.findById( schoolDto.getNumber() );
-  if ( schoolToUpdate.isPresent() ) {
+  if ( schoolToUpdate.isPresent() && geo.isPresent() ) {
    School updatedSchool = schoolToUpdate.get()
                                   .toBuilder()
                                   .name( schoolDto.getName() )
                                   .address( schoolDto.getAddress() )
                                   .contact( schoolDto.getContact() )
-                                  .geo( geoService.getCoordinatesFromAddress( schoolDto.getAddress() ) )
+                                  .geoObject( geo.get() )
                                   .userId( schoolDto.getUserId() )
                                   .updated( System.currentTimeMillis() )
                                   .properties( schoolDto.getProperties() )
