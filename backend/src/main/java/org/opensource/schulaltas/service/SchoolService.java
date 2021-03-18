@@ -13,10 +13,12 @@ public class SchoolService {
 
  private final SchoolDb schoolDb;
  private final GeoService geoService;
+ private final TimeUtil timeUtil;
 
- public SchoolService (SchoolDb schoolDb, GeoService geoService) {
+ public SchoolService (SchoolDb schoolDb, GeoService geoService, TimeUtil timeUtil) {
   this.schoolDb = schoolDb;
   this.geoService = geoService;
+  this.timeUtil = timeUtil;
  }
 
  public List<School> listSchools () {
@@ -27,20 +29,23 @@ public class SchoolService {
   return schoolDb.findById( number );
  }
 
- public School addSchool (SchoolDto schoolDto) {
-  School school = School.builder()
-                          .number( schoolDto.getNumber() )
-                          .name( schoolDto.getName() )
-                          .address( schoolDto.getAddress() )
-                          .contact( schoolDto.getContact() )
-                          .geo( geoService.getCoordinatesFromAddress( schoolDto.getAddress() ) )
-                          .updated( System.currentTimeMillis() )
-                          .userId( schoolDto.getUserId() )
-                          .markedOutdated( 0 )
-                          .properties( schoolDto.getProperties() )
-                          .build();
-  schoolDb.save( school );
-  return school;
+ public Optional<School> addSchool (SchoolDto schoolDto) {
+  if ( !schoolDb.existsById( schoolDto.getNumber() ) ) {
+   School school = School.builder()
+                           .number( schoolDto.getNumber() )
+                           .name( schoolDto.getName() )
+                           .address( schoolDto.getAddress() )
+                           .contact( schoolDto.getContact() )
+                           .geo( geoService.getCoordinatesFromAddress( schoolDto.getAddress() ) )
+                           .updated( timeUtil.now() )
+                           .userId( schoolDto.getUserId() )
+                           .markedOutdated( 0 )
+                           .properties( schoolDto.getProperties() )
+                           .build();
+   schoolDb.save( school );
+   return Optional.of( school );
+  }
+  return Optional.empty();
  }
 
  public Optional<School> increaseOutdatedCount (String number) {

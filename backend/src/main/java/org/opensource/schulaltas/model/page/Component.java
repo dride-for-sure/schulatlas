@@ -1,6 +1,7 @@
 package org.opensource.schulaltas.model.page;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -12,6 +13,7 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder (toBuilder = true)
 @Document (collection = "components")
 public class Component {
 

@@ -12,9 +12,11 @@ import java.util.Optional;
 public class PageService {
 
  private final PageDb pageDb;
+ private final TimeUtil timeUtil;
 
- public PageService (PageDb pageDb) {
+ public PageService (PageDb pageDb, TimeUtil timeUtil) {
   this.pageDb = pageDb;
+  this.timeUtil = timeUtil;
  }
 
  public List<Page> listPages () {
@@ -26,13 +28,17 @@ public class PageService {
  }
 
  public Page addPage (PageDto pageDto) {
-  Page page = Page.builder()
-                      .name( pageDto.getName() )
-                      .updated( System.currentTimeMillis() )
-                      .userId( pageDto.getUserId() )
-                      .components( pageDto.getComponents() )
-                      .build();
-  return pageDb.save( page );
+  Optional<Page> page = pageDb.findById( pageDto.getName() );
+  if ( page.isEmpty() ) {
+   Page newPage = Page.builder()
+                          .name( pageDto.getName() )
+                          .updated( timeUtil.now() )
+                          .userId( pageDto.getUserId() )
+                          .components( pageDto.getComponents() )
+                          .build();
+   return pageDb.save( newPage );
+  }
+  return page.get();
  }
 
  public Optional<Page> updatePage (PageDto pageDto) {
@@ -40,7 +46,7 @@ public class PageService {
   if ( pageToUpdate.isPresent() ) {
    Page updatedPage = pageToUpdate.get()
                               .toBuilder()
-                              .updated( System.currentTimeMillis() )
+                              .updated( timeUtil.now() )
                               .userId( pageDto.getUserId() )
                               .components( pageDto.getComponents() )
                               .build();
