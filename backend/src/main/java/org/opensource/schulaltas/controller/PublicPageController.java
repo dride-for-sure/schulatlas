@@ -4,6 +4,7 @@ import org.opensource.schulaltas.model.page.Page;
 import org.opensource.schulaltas.service.PageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -26,7 +27,7 @@ public class PublicPageController {
  }
 
  @GetMapping ("/{name}")
- public Page getPage (String name) {
+ public Page getPage (@PathVariable String name) {
   return pageService.getPage( name )
                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
                          "Page: " + name + " is not available" ) );

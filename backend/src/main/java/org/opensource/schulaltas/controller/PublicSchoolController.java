@@ -34,7 +34,7 @@ public class PublicSchoolController {
  public School increaseOutdatedCount (@PathVariable String number) {
   return schoolService.increaseOutdatedCount( number )
                  .orElseThrow( () -> new ResponseStatusException(
-                         HttpStatus.NOT_ACCEPTABLE,
+                         HttpStatus.BAD_REQUEST,
                          "Could not increase counter for school: " + number ) );
  }
 }
