@@ -19,7 +19,9 @@ class SchoolServiceTest {
  private final SchoolDb schoolDb = mock( SchoolDb.class );
  private final GeoService geoService = mock( GeoService.class );
  private final TimeUtil timeUtil = mock( TimeUtil.class );
- private final SchoolService schoolService = new SchoolService( schoolDb, geoService, timeUtil );
+ private final PropertyService propertyService = mock( PropertyService.class );
+ private final SchoolService schoolService = new SchoolService( schoolDb, geoService, timeUtil,
+         propertyService );
 
  @Test
  @DisplayName ("Lists schools should return all schools within the db")
@@ -124,6 +126,7 @@ class SchoolServiceTest {
                           .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
                           .build();
 
+  when( propertyService.areAvailableProperties( schoolDto.getProperties() ) ).thenReturn( true );
   when( schoolDb.findById( schoolDto.getNumber() ) ).thenReturn( Optional.empty() );
   when( geoService.getCoordinatesFromAddress( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() ) )
           .thenReturn( Optional.of( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() ) );
@@ -163,6 +166,7 @@ class SchoolServiceTest {
                           .properties( schoolDto.getProperties() )
                           .build();
 
+  when( propertyService.areAvailableProperties( schoolDto.getProperties() ) ).thenReturn( true );
   when( schoolDb.findById( schoolDto.getNumber() ) ).thenReturn( Optional.of( school ) );
   when( geoService.getCoordinatesFromAddress( schoolDto.getAddress() ) )
           .thenReturn( Optional.of( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() ) );
@@ -188,7 +192,19 @@ class SchoolServiceTest {
                                 .userId( "A" )
                                 .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
                                 .build();
+  School school = School.builder()
+                          .number( schoolDto.getNumber() )
+                          .name( schoolDto.getName() )
+                          .address( schoolDto.getAddress() )
+                          .contact( schoolDto.getContact() )
+                          .geoObject( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() )
+                          .updated( 1L )
+                          .userId( schoolDto.getUserId() )
+                          .markedOutdated( 0 )
+                          .properties( schoolDto.getProperties() )
+                          .build();
 
+  when( propertyService.areAvailableProperties( schoolDto.getProperties() ) ).thenReturn( true );
   when( schoolDb.findById( schoolDto.getNumber() ) ).thenReturn( Optional.empty() );
   when( geoService.getCoordinatesFromAddress( schoolDto.getAddress() ) ).thenReturn( Optional.empty() );
 
@@ -197,6 +213,44 @@ class SchoolServiceTest {
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
+  verify( schoolDb, never() ).save( school.toBuilder().build() );
+ }
+
+ @Test
+ @DisplayName ("Add a new school with an invalid property")
+ void addSchoolWithInvalidProperty () {
+  // GIVEN
+  SchoolDto schoolDto = SchoolDto.builder()
+                                .number( "1337" )
+                                .name( "Goetheschule" )
+                                .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
+                                .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
+                                .userId( "A" )
+                                .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
+                                .build();
+  School school = School.builder()
+                          .number( schoolDto.getNumber() )
+                          .name( schoolDto.getName() )
+                          .address( schoolDto.getAddress() )
+                          .contact( schoolDto.getContact() )
+                          .geoObject( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() )
+                          .updated( 1L )
+                          .userId( schoolDto.getUserId() )
+                          .markedOutdated( 0 )
+                          .properties( schoolDto.getProperties() )
+                          .build();
+
+  when( propertyService.areAvailableProperties( schoolDto.getProperties() ) ).thenReturn( false );
+  when( schoolDb.findById( schoolDto.getNumber() ) ).thenReturn( Optional.empty() );
+  when( geoService.getCoordinatesFromAddress( schoolDto.getAddress() ) )
+          .thenReturn( Optional.of( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() ) );
+
+  // WHEN
+  Optional<School> actual = schoolService.addSchool( schoolDto );
+
+  // THEN
+  assertThat( actual.isEmpty(), is( true ) );
+  verify( schoolDb, never() ).save( school.toBuilder().build() );
  }
 
  @Test
