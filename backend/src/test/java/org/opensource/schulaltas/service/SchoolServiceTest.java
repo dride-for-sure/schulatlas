@@ -30,7 +30,7 @@ class SchoolServiceTest {
                            .name( "Goetheschule" )
                            .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                            .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
-                           .geo( Geo.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() )
+                           .geoObject( GeoObject.builder().coordinates( Coordinates.builder().longitude( 1.1 ).latitude( 1.1 ).build() ).build() )
                            .updated( 1L )
                            .userId( "A" )
                            .markedOutdated( 0 )
@@ -42,7 +42,7 @@ class SchoolServiceTest {
                            .name( "Goetheschule" )
                            .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                            .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
-                           .geo( Geo.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() )
+                           .geoObject( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() )
                            .updated( 1L )
                            .userId( "A" )
                            .markedOutdated( 0 )
@@ -69,7 +69,7 @@ class SchoolServiceTest {
                           .name( "Goetheschule" )
                           .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                           .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
-                          .geo( Geo.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() )
+                          .geoObject( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() )
                           .updated( 1L )
                           .userId( "A" )
                           .markedOutdated( 0 )
@@ -117,15 +117,16 @@ class SchoolServiceTest {
                           .name( "Goetheschule" )
                           .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                           .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
-                          .geo( Geo.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() )
+                          .geoObject( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() )
                           .updated( 1L )
                           .userId( "A" )
                           .markedOutdated( 0 )
                           .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
                           .build();
 
+  when( schoolDb.findById( schoolDto.getNumber() ) ).thenReturn( Optional.empty() );
   when( geoService.getCoordinatesFromAddress( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() ) )
-          .thenReturn( Geo.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() );
+          .thenReturn( Optional.of( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() ) );
   when( timeUtil.now() ).thenReturn( 1L );
   when( schoolDb.save( school ) ).thenReturn( school );
 
@@ -150,29 +151,52 @@ class SchoolServiceTest {
                                 .userId( "A" )
                                 .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
                                 .build();
-
-  when( schoolDb.existsById( schoolDto.getNumber() ) ).thenReturn( true );
-  when( geoService.getCoordinatesFromAddress( schoolDto.getAddress() ) )
-          .thenReturn( Geo.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() );
-
-  // WHEN
-  Optional<School> actual = schoolService.addSchool( schoolDto );
-
-  // THEN
   School school = School.builder()
                           .number( schoolDto.getNumber() )
                           .name( schoolDto.getName() )
                           .address( schoolDto.getAddress() )
                           .contact( schoolDto.getContact() )
-                          .geo( Geo.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() )
+                          .geoObject( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() )
                           .updated( 1L )
                           .userId( schoolDto.getUserId() )
                           .markedOutdated( 0 )
                           .properties( schoolDto.getProperties() )
                           .build();
-  assertThat( actual.isEmpty(), is( true ) );
-  verify( schoolDb, never() ).save( school );
 
+  when( schoolDb.findById( schoolDto.getNumber() ) ).thenReturn( Optional.of( school ) );
+  when( geoService.getCoordinatesFromAddress( schoolDto.getAddress() ) )
+          .thenReturn( Optional.of( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() ) );
+
+  // WHEN
+  Optional<School> actual = schoolService.addSchool( schoolDto );
+
+  // THEN
+  assertThat( actual.get(), is( school.toBuilder().build() ) );
+  verify( schoolDb, never() ).save( school.toBuilder().build() );
+
+ }
+
+ @Test
+ @DisplayName ("Add a new school with an invalid address")
+ void addSchoolWithInvalidAddress () {
+  // GIVEN
+  SchoolDto schoolDto = SchoolDto.builder()
+                                .number( "1337" )
+                                .name( "Goetheschule" )
+                                .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
+                                .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
+                                .userId( "A" )
+                                .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
+                                .build();
+
+  when( schoolDb.findById( schoolDto.getNumber() ) ).thenReturn( Optional.empty() );
+  when( geoService.getCoordinatesFromAddress( schoolDto.getAddress() ) ).thenReturn( Optional.empty() );
+
+  // WHEN
+  Optional<School> actual = schoolService.addSchool( schoolDto );
+
+  // THEN
+  assertThat( actual.isEmpty(), is( true ) );
  }
 
  @Test
@@ -184,7 +208,7 @@ class SchoolServiceTest {
                           .name( "Goetheschule" )
                           .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                           .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
-                          .geo( Geo.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() )
+                          .geoObject( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() )
                           .updated( 1L )
                           .userId( "A" )
                           .markedOutdated( 0 )
