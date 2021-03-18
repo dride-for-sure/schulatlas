@@ -78,8 +78,7 @@ class GeoObjectServiceTest {
  }
 
  @Test
- @DisplayName ("Get coordinates should return an optional.empty if google geo api response throws" +
-                       " an exception")
+ @DisplayName ("Get coordinates should return optional.empty if google geo api throws exception")
  void getCoordinatesFromInvalidAddress () {
   // GIVEN
   Address address = Address.builder()
