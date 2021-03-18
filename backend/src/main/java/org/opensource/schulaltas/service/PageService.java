@@ -27,17 +27,18 @@ public class PageService {
   return pageDb.findById( name );
  }
 
- public Optional<Page> addPage (PageDto pageDto) {
-  if ( !pageDb.existsById( pageDto.getName() ) ) {
-   Page page = Page.builder()
-                       .name( pageDto.getName() )
-                       .updated( timeUtil.now() )
-                       .userId( pageDto.getUserId() )
-                       .components( pageDto.getComponents() )
-                       .build();
-   return Optional.of( pageDb.save( page ) );
+ public Page addPage (PageDto pageDto) {
+  Optional<Page> page = pageDb.findById( pageDto.getName() );
+  if ( page.isEmpty() ) {
+   Page newPage = Page.builder()
+                          .name( pageDto.getName() )
+                          .updated( timeUtil.now() )
+                          .userId( pageDto.getUserId() )
+                          .components( pageDto.getComponents() )
+                          .build();
+   return pageDb.save( newPage );
   }
-  return Optional.empty();
+  return page.get();
  }
 
  public Optional<Page> updatePage (PageDto pageDto) {

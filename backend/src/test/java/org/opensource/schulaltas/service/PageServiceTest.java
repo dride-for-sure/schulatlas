@@ -94,15 +94,15 @@ class PageServiceTest {
                       .userId( "B" )
                       .components( List.of() )
                       .build();
-  when( pageDb.existsById( "A" ) ).thenReturn( false );
+  when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
   when( pageDb.save( page ) ).thenReturn( page );
   when( timeUtil.now() ).thenReturn( 1L );
 
   // WHEN
-  Optional<Page> actual = pageService.addPage( pageDto );
+  Page actual = pageService.addPage( pageDto );
 
   // THEN
-  assertThat( actual.get(), is( page.toBuilder().build() ) );
+  assertThat( actual, is( page.toBuilder().build() ) );
   verify( pageDb ).save( page );
  }
 
@@ -121,15 +121,15 @@ class PageServiceTest {
                       .userId( "B" )
                       .components( List.of() )
                       .build();
-  when( pageDb.existsById( "A" ) ).thenReturn( true );
+  when( pageDb.findById( "A" ) ).thenReturn( Optional.of( page ) );
   when( pageDb.save( page ) ).thenReturn( page );
   when( timeUtil.now() ).thenReturn( 1L );
 
   // WHEN
-  Optional<Page> actual = pageService.addPage( pageDto );
+  Page actual = pageService.addPage( pageDto );
 
   // THEN
-  assertThat( actual.isEmpty(), is( true ) );
+  assertThat( actual, is( page.toBuilder().build() ) );
   verify( pageDb, never() ).save( page );
  }
 
