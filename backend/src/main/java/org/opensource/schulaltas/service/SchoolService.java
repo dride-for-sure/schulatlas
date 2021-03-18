@@ -1,6 +1,7 @@
 package org.opensource.schulaltas.service;
 
 import org.opensource.schulaltas.controller.model.SchoolDto;
+import org.opensource.schulaltas.model.school.GeoObject;
 import org.opensource.schulaltas.model.school.School;
 import org.opensource.schulaltas.repository.SchoolDb;
 import org.springframework.stereotype.Service;
@@ -27,20 +28,24 @@ public class SchoolService {
   return schoolDb.findById( number );
  }
 
- public School addSchool (SchoolDto schoolDto) {
-  School school = School.builder()
-                          .number( schoolDto.getNumber() )
-                          .name( schoolDto.getName() )
-                          .address( schoolDto.getAddress() )
-                          .contact( schoolDto.getContact() )
-                          .geo( geoService.getCoordinatesFromAddress( schoolDto.getAddress() ) )
-                          .updated( System.currentTimeMillis() )
-                          .userId( schoolDto.getUserId() )
-                          .markedOutdated( 0 )
-                          .properties( schoolDto.getProperties() )
-                          .build();
-  schoolDb.save( school );
-  return school;
+ public Optional<School> addSchool (SchoolDto schoolDto) {
+  Optional<GeoObject> geo = geoService.getCoordinatesFromAddress( schoolDto.getAddress() );
+  if ( geo.isPresent() ) {
+   School school = School.builder()
+                           .number( schoolDto.getNumber() )
+                           .name( schoolDto.getName() )
+                           .address( schoolDto.getAddress() )
+                           .contact( schoolDto.getContact() )
+                           .geoObject( geo.get() )
+                           .updated( System.currentTimeMillis() )
+                           .userId( schoolDto.getUserId() )
+                           .markedOutdated( 0 )
+                           .properties( schoolDto.getProperties() )
+                           .build();
+   schoolDb.save( school );
+   return Optional.of( school );
+  }
+  return Optional.empty();
  }
 
  public Optional<School> increaseOutdatedCount (String number) {
@@ -58,13 +63,14 @@ public class SchoolService {
 
  public Optional<School> updateSchool (SchoolDto schoolDto) {
   Optional<School> schoolToUpdate = schoolDb.findById( schoolDto.getNumber() );
-  if ( schoolToUpdate.isPresent() ) {
+  Optional<GeoObject> geo = geoService.getCoordinatesFromAddress( schoolDto.getAddress() );
+  if ( schoolToUpdate.isPresent() && geo.isPresent() ) {
    School updatedSchool = schoolToUpdate.get()
                                   .toBuilder()
                                   .name( schoolDto.getName() )
                                   .address( schoolDto.getAddress() )
                                   .contact( schoolDto.getContact() )
-                                  .geo( geoService.getCoordinatesFromAddress( schoolDto.getAddress() ) )
+                                  .geoObject( geo.get() )
                                   .userId( schoolDto.getUserId() )
                                   .updated( System.currentTimeMillis() )
                                   .properties( schoolDto.getProperties() )
