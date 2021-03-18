@@ -28,15 +28,12 @@ public class GeoService {
  public Optional<GeoObject> getCoordinatesFromAddress (Address address) {
   Optional<GeoResultsDto> geoResultsDto = convertAddressToCoordinates( address );
   if ( geoResultsDto.isPresent() ) {
-   GeoLocationDto geoLocationDto =
-           geoResultsDto.get().getResults().get( 0 ).getGeometry().getGeocodeLocation();
-   return Optional.of(
-           GeoObject.builder()
-                   .coordinates(
-                           Coordinates.builder()
-                                   .latitude( Double.parseDouble( geoLocationDto.getLatitude() ) )
-                                   .longitude( Double.parseDouble( geoLocationDto.getLongitude() ) )
-                                   .build() ).build() );
+   GeoLocationDto geoLocationDto = geoResultsDto.get().getResults().get( 0 ).getGeometry().getGeocodeLocation();
+   Coordinates coordinates = Coordinates.builder()
+                                     .latitude( Double.parseDouble( geoLocationDto.getLatitude() ) )
+                                     .longitude( Double.parseDouble( geoLocationDto.getLongitude() ) )
+                                     .build();
+   return Optional.of( GeoObject.builder().coordinates( coordinates ).build() );
   }
   return Optional.empty();
  }
