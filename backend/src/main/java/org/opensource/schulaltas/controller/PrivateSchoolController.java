@@ -34,9 +34,7 @@ public class PrivateSchoolController {
 
  @PostMapping
  public School addSchool (@RequestBody SchoolDto schoolDto) {
-  return schoolService.addSchool( schoolDto )
-                 .orElseThrow( () -> new ResponseStatusException(
-                         HttpStatus.BAD_REQUEST, "Could not add school: " + schoolDto.getNumber() ) );
+  return schoolService.addSchool( schoolDto );
  }
 
  @PutMapping ("/{number}")

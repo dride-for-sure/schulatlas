@@ -24,8 +24,11 @@ public class PropertyService {
   return propertyDb.findById( name );
  }
 
- public Property addProperty (Property property) {
-  return propertyDb.save( property );
+ public Optional<Property> addProperty (Property property) {
+  if ( !propertyDb.existsById( property.getName() ) ) {
+   return Optional.of( propertyDb.save( property ) );
+  }
+  return Optional.empty();
  }
 
  public Optional<Property> updateProperty (Property property) {
