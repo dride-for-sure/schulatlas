@@ -43,23 +43,26 @@ class GeoObjectServiceTest {
   String base_url = "https://maps.googleapis.com/maps/api/geocode/json?address=";
   String extension = street + "+" + number + ",+" + postcode + "+" + city + ",+" + country + "&key=" + key;
 
-  GeoResultsDto geoResultsDto =
-          GeoResultsDto.builder()
-                  .status( "OK" )
-                  .results( List.of( GeoObjectDto.builder()
-                                             .placeId( "1" )
-                                             .addressComponents( List.of( GeoAddressDto.builder()
-                                                                                  .longName( "AAA" )
-                                                                                  .shortName( "AAA" )
-                                                                                  .types( List.of( "A" ) )
-                                                                                  .build() ) )
-                                             .formattedAddress( "A" )
-                                             .geometry( GeoGeometryDto.builder()
-                                                                .geocodeLocation( GeoLocationDto.builder()
-                                                                                          .latitude( "1" )
-                                                                                          .longitude( "2" )
-                                                                                          .build() )
-                                                                .build() ).build() ) ).build();
+  GeoAddressDto geoAddressDto = GeoAddressDto.builder()
+                                        .longName( "AAA" )
+                                        .shortName( "AAA" )
+                                        .types( List.of( "A" ) )
+                                        .build();
+  GeoLocationDto geoLocationDto = GeoLocationDto.builder()
+                                          .latitude( "1" )
+                                          .longitude( "2" )
+                                          .build();
+  GeoGeometryDto geoGeometryDto = GeoGeometryDto.builder()
+                                          .geocodeLocation( geoLocationDto )
+                                          .build();
+  GeoObjectDto geoObjectDto = GeoObjectDto.builder()
+                                      .placeId( "1" )
+                                      .addressComponents( List.of( geoAddressDto ) )
+                                      .formattedAddress( "A" )
+                                      .geometry( geoGeometryDto ).build();
+  GeoResultsDto geoResultsDto = GeoResultsDto.builder()
+                                        .status( "OK" )
+                                        .results( List.of( geoObjectDto ) ).build();
 
   when( googleGeoConfig.getKey() ).thenReturn( key );
   when( restTemplate.getForEntity( base_url + extension, GeoResultsDto.class ) )

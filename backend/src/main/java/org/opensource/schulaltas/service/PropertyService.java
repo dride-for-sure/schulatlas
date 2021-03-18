@@ -22,11 +22,12 @@ public class PropertyService {
   return availablePropertyDb.findAll();
  }
 
- public Optional<AvailableProperty> addProperty (AvailableProperty availableProperty) {
-  if ( !availablePropertyDb.existsById( availableProperty.getName() ) ) {
-   return Optional.of( availablePropertyDb.save( availableProperty ) );
+ public AvailableProperty addProperty (AvailableProperty availableProperty) {
+  Optional<AvailableProperty> existing = availablePropertyDb.findById( availableProperty.getName() );
+  if ( existing.isEmpty() ) {
+   return availablePropertyDb.save( availableProperty );
   }
-  return Optional.empty();
+  return existing.get();
  }
 
  public Optional<AvailableProperty> updateProperty (AvailableProperty availableProperty) {

@@ -20,50 +20,39 @@ class PageServiceTest {
  private final TimeUtil timeUtil = mock( TimeUtil.class );
  private final PageService pageService = new PageService( pageDb, timeUtil );
 
+ private Page getPage (String name) {
+  return Page.builder()
+                 .name( name )
+                 .updated( 1L )
+                 .userId( "B" )
+                 .components( List.of() )
+                 .build();
+ }
+
  @Test
  @DisplayName ("List pages should return all pages in the db")
  void listPages () {
   // GIVEN
-  Page page1 = Page.builder()
-                       .name( "A" )
-                       .updated( 1L )
-                       .userId( "B" )
-                       .components( List.of() )
-                       .build();
-  Page page2 = Page.builder()
-                       .name( "B" )
-                       .updated( 1L )
-                       .userId( "B" )
-                       .components( List.of() )
-                       .build();
-  when( pageDb.findAll() ).thenReturn( List.of( page1, page2 ) );
+  when( pageDb.findAll() ).thenReturn( List.of( getPage( "A" ), getPage( "B" ) ) );
 
   // WHEN
   List<Page> actual = pageService.listPages();
 
   // THEN
-  assertThat( actual, containsInAnyOrder(
-          page1.toBuilder().build(),
-          page2.toBuilder().build() ) );
+  assertThat( actual, containsInAnyOrder( getPage( "A" ), getPage( "B" ) ) );
  }
 
  @Test
  @DisplayName ("Get pages should return a specific page")
  void getPage () {
   // GIVEN
-  Page page = Page.builder()
-                      .name( "A" )
-                      .updated( 1L )
-                      .userId( "B" )
-                      .components( List.of() )
-                      .build();
-  when( pageDb.findById( page.getName() ) ).thenReturn( Optional.of( page ) );
+  when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
 
   // WHEN
-  Optional<Page> actual = pageService.getPage( page.getName() );
+  Optional<Page> actual = pageService.getPage( "A" );
 
   // THEN
-  assertThat( actual.get(), is( page.toBuilder().build() ) );
+  assertThat( actual.get(), is( getPage( "A" ) ) );
  }
 
  @Test
@@ -88,26 +77,20 @@ class PageServiceTest {
                             .userId( "B" )
                             .components( List.of() )
                             .build();
-  Page page = Page.builder()
-                      .name( "A" )
-                      .updated( 1L )
-                      .userId( "B" )
-                      .components( List.of() )
-                      .build();
   when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
-  when( pageDb.save( page ) ).thenReturn( page );
+  when( pageDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
   when( timeUtil.now() ).thenReturn( 1L );
 
   // WHEN
   Page actual = pageService.addPage( pageDto );
 
   // THEN
-  assertThat( actual, is( page.toBuilder().build() ) );
-  verify( pageDb ).save( page );
+  assertThat( actual, is( getPage( "A" ) ) );
+  verify( pageDb ).save( getPage( "A" ) );
  }
 
  @Test
- @DisplayName ("Add page should return an optional.empty for an already existing page")
+ @DisplayName ("Add page should return the already existing page")
  void addExistingPage () {
   // GIVEN
   PageDto pageDto = PageDto.builder()
@@ -115,22 +98,16 @@ class PageServiceTest {
                             .userId( "B" )
                             .components( List.of() )
                             .build();
-  Page page = Page.builder()
-                      .name( "A" )
-                      .updated( 1L )
-                      .userId( "B" )
-                      .components( List.of() )
-                      .build();
-  when( pageDb.findById( "A" ) ).thenReturn( Optional.of( page ) );
-  when( pageDb.save( page ) ).thenReturn( page );
+  when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
+  when( pageDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
   when( timeUtil.now() ).thenReturn( 1L );
 
   // WHEN
   Page actual = pageService.addPage( pageDto );
 
   // THEN
-  assertThat( actual, is( page.toBuilder().build() ) );
-  verify( pageDb, never() ).save( page );
+  assertThat( actual, is( getPage( "A" ) ) );
+  verify( pageDb, never() ).save( getPage( "A" ) );
  }
 
  @Test
@@ -142,22 +119,16 @@ class PageServiceTest {
                             .userId( "B" )
                             .components( List.of() )
                             .build();
-  Page page = Page.builder()
-                      .name( "A" )
-                      .updated( 1L )
-                      .userId( "B" )
-                      .components( List.of() )
-                      .build();
-  when( pageDb.findById( "A" ) ).thenReturn( Optional.of( page ) );
-  when( pageDb.save( page ) ).thenReturn( page );
+  when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
+  when( pageDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
   when( timeUtil.now() ).thenReturn( 1L );
 
   // WHEN
   Optional<Page> actual = pageService.updatePage( pageDto );
 
   // THEN
-  assertThat( actual.get(), is( page.toBuilder().build() ) );
-  verify( pageDb ).save( page );
+  assertThat( actual.get(), is( getPage( "A" ) ) );
+  verify( pageDb ).save( getPage( "A" ) );
  }
 
  @Test
@@ -169,14 +140,8 @@ class PageServiceTest {
                             .userId( "B" )
                             .components( List.of() )
                             .build();
-  Page page = Page.builder()
-                      .name( "A" )
-                      .updated( 1L )
-                      .userId( "B" )
-                      .components( List.of() )
-                      .build();
   when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
-  when( pageDb.save( page ) ).thenReturn( page );
+  when( pageDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
   when( timeUtil.now() ).thenReturn( 1L );
 
   // WHEN
@@ -184,7 +149,7 @@ class PageServiceTest {
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
-  verify( pageDb, never() ).save( page );
+  verify( pageDb, never() ).save( getPage( "A" ) );
  }
 
  @Test

@@ -19,82 +19,82 @@ class PropertyServiceTest {
  private final AvailablePropertyDb availablePropertyDb = mock( AvailablePropertyDb.class );
  private final PropertyService propertyService = new PropertyService( availablePropertyDb );
 
+ private AvailableProperty getProperty (String name) {
+  return AvailableProperty.builder().name( name ).unit( "B" ).build();
+ }
+
  @Test
  @DisplayName ("List properties should return all properties within the db")
  void listProperties () {
   // GIVEN
-  AvailableProperty availableProperty1 = AvailableProperty.builder().name( "A" ).unit( "C" ).build();
-  AvailableProperty availableProperty2 = AvailableProperty.builder().name( "E" ).unit( "G" ).build();
-  when( availablePropertyDb.findAll() ).thenReturn( List.of( availableProperty1, availableProperty2 ) );
+  when( availablePropertyDb.findAll() ).thenReturn( List.of( getProperty( "A" ), getProperty( "B" ) ) );
 
   // WHEN
   List<AvailableProperty> actual = propertyService.listProperties();
 
   // THEN
   assertThat( actual, containsInAnyOrder(
-          availableProperty1.toBuilder().build(),
-          availableProperty2.toBuilder().build() ) );
+          getProperty( "A" ),
+          getProperty( "B" ) ) );
  }
 
  @Test
  @DisplayName ("Add property should add an non existing one to the db")
  void addProperty () {
   // GIVEN
-  AvailableProperty availableProperty = AvailableProperty.builder().name( "A" ).unit( "C" ).build();
-  when( availablePropertyDb.existsById( availableProperty.getName() ) ).thenReturn( false );
-  when( availablePropertyDb.save( availableProperty ) ).thenReturn( availableProperty );
+  when( availablePropertyDb.findById( "A" ) ).thenReturn( Optional.empty() );
+  when( availablePropertyDb.save( getProperty( "A" ) ) ).thenReturn( getProperty( "A" ) );
 
   // WHEN
-  Optional<AvailableProperty> actual = propertyService.addProperty( availableProperty );
+  AvailableProperty actual = propertyService.addProperty( getProperty( "A" ) );
 
   // THEN
-  assertThat( actual.get(), is( availableProperty.toBuilder().build() ) );
-  verify( availablePropertyDb ).save( availableProperty );
+  assertThat( actual, is( getProperty( "A" ) ) );
+  verify( availablePropertyDb ).save( getProperty( "A" ) );
  }
 
  @Test
- @DisplayName ("Add property should return an optional.empty, if it exists within db")
+ @DisplayName ("Add property should return the existing property")
  void addExistingProperty () {
+
   // GIVEN
-  AvailableProperty availableProperty = AvailableProperty.builder().name( "A" ).unit( "C" ).build();
-  when( availablePropertyDb.existsById( availableProperty.getName() ) ).thenReturn( true );
+  when( availablePropertyDb.findById( "A" ) ).thenReturn( Optional.of( getProperty( "A" ) ) );
+
   // WHEN
-  Optional<AvailableProperty> actual = propertyService.addProperty( availableProperty );
+  AvailableProperty actual = propertyService.addProperty( getProperty( "A" ) );
 
   // THEN
-  assertThat( actual.isEmpty(), is( true ) );
-  verify( availablePropertyDb, never() ).save( availableProperty );
+  assertThat( actual, is( getProperty( "A" ) ) );
+  verify( availablePropertyDb, never() ).save( getProperty( "A" ) );
  }
 
  @Test
  @DisplayName ("Update property should store the property in the db")
  void updateProperty () {
   // GIVEN
-  AvailableProperty availableProperty = AvailableProperty.builder().name( "A" ).unit( "C" ).build();
-  when( availablePropertyDb.existsById( availableProperty.getName() ) ).thenReturn( true );
-  when( availablePropertyDb.save( availableProperty ) ).thenReturn( availableProperty );
+  when( availablePropertyDb.existsById( "A" ) ).thenReturn( true );
+  when( availablePropertyDb.save( getProperty( "A" ) ) ).thenReturn( getProperty( "A" ) );
 
   // WHEN
-  Optional<AvailableProperty> actual = propertyService.updateProperty( availableProperty );
+  Optional<AvailableProperty> actual = propertyService.updateProperty( getProperty( "A" ) );
 
   // THEN
-  assertThat( actual.get(), is( availableProperty.toBuilder().build() ) );
-  verify( availablePropertyDb ).save( availableProperty );
+  assertThat( actual.get(), is( getProperty( "A" ) ) );
+  verify( availablePropertyDb ).save( getProperty( "A" ) );
  }
 
  @Test
  @DisplayName ("Update property should return optional.empty, if property doesnt exists")
  void updateNotExistingProperty () {
   // GIVEN
-  AvailableProperty availableProperty = AvailableProperty.builder().name( "A" ).unit( "C" ).build();
-  when( availablePropertyDb.existsById( availableProperty.getName() ) ).thenReturn( false );
+  when( availablePropertyDb.existsById( "A" ) ).thenReturn( false );
 
   // WHEN
-  Optional<AvailableProperty> actual = propertyService.updateProperty( availableProperty );
+  Optional<AvailableProperty> actual = propertyService.updateProperty( getProperty( "A" ) );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
-  verify( availablePropertyDb, never() ).save( availableProperty );
+  verify( availablePropertyDb, never() ).save( getProperty( "A" ) );
  }
 
  @Test
@@ -112,11 +112,8 @@ class PropertyServiceTest {
  @DisplayName ("Should return true if availableProperties does contain all given properties")
  void areAvailableProperties () {
   // GIVEN
-  Property property = Property.builder().name( "A" ).value( "B" ).unit( "C" ).build();
-
-  AvailableProperty availableProperty1 = AvailableProperty.builder().name( "A" ).unit( "C" ).build();
-  AvailableProperty availableProperty2 = AvailableProperty.builder().name( "B" ).unit( "C" ).build();
-  when( availablePropertyDb.findAll() ).thenReturn( List.of( availableProperty1, availableProperty2 ) );
+  Property property = Property.builder().name( "A" ).unit( "B" ).value( "C" ).build();
+  when( availablePropertyDb.findAll() ).thenReturn( List.of( getProperty( "A" ), getProperty( "B" ) ) );
 
   // WHEN
   Boolean actual = propertyService.areAvailableProperties( List.of( property ) );
@@ -130,10 +127,7 @@ class PropertyServiceTest {
  void containsNonExistingProperties () {
   // GIVEN
   Property property = Property.builder().name( "A" ).value( "B" ).unit( "XXXX" ).build();
-
-  AvailableProperty availableProperty1 = AvailableProperty.builder().name( "A" ).unit( "C" ).build();
-  AvailableProperty availableProperty2 = AvailableProperty.builder().name( "B" ).unit( "C" ).build();
-  when( availablePropertyDb.findAll() ).thenReturn( List.of( availableProperty1, availableProperty2 ) );
+  when( availablePropertyDb.findAll() ).thenReturn( List.of( getProperty( "A" ), getProperty( "B" ) ) );
 
   // WHEN
   Boolean actual = propertyService.areAvailableProperties( List.of( property ) );

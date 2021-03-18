@@ -26,9 +26,7 @@ public class PrivatePropertyController {
 
  @PostMapping
  public AvailableProperty addProperty (@RequestBody AvailableProperty availableProperty) {
-  return propertyService.addProperty( availableProperty )
-                 .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
-                         "Property: " + availableProperty.getName() + " exists already" ) );
+  return propertyService.addProperty( availableProperty );
  }
 
  @PutMapping ("/{name}")
