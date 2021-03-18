@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder (toBuilder = true)
-public class Geo {
+public class GeoObject {
 
  private final String type = "Point";
  private Coordinates coordinates;
