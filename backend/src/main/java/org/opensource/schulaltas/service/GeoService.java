@@ -26,7 +26,7 @@ public class GeoService {
  }
 
  public Optional<GeoObject> getCoordinatesFromAddress (Address address) {
-  Optional<GeoResultsDto> geoResultsDto = geocode( address );
+  Optional<GeoResultsDto> geoResultsDto = convertAddressToCoordinates( address );
   if ( geoResultsDto.isPresent() ) {
    GeoLocationDto geoLocationDto =
            geoResultsDto.get().getResults().get( 0 ).getGeometry().getGeocodeLocation();
@@ -41,7 +41,7 @@ public class GeoService {
   return Optional.empty();
  }
 
- private Optional<GeoResultsDto> geocode (Address address) {
+ private Optional<GeoResultsDto> convertAddressToCoordinates (Address address) {
   String key = googleGeoConfig.getKey();
   String street = address.getStreet();
   String number = address.getNumber();
