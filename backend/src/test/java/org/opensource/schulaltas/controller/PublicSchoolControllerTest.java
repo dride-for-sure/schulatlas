@@ -47,7 +47,7 @@ class PublicSchoolControllerTest {
                  .name( "Goetheschule" )
                  .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                  .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
-                 .geoObject( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() )
+                 .coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() )
                  .updated( 1L )
                  .userId( "A" )
                  .markedOutdated( 0 )

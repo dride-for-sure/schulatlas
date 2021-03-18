@@ -29,7 +29,7 @@ class SchoolServiceTest {
                  .name( "Goetheschule" )
                  .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                  .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
-                 .geoObject( GeoObject.builder().coordinates( Coordinates.builder().longitude( 1.1 ).latitude( 1.1 ).build() ).build() )
+                 .coordinates( Coordinates.builder().longitude( 1.1 ).latitude( 1.1 ).build() )
                  .updated( 1L )
                  .userId( "A" )
                  .markedOutdated( 0 )
@@ -92,7 +92,7 @@ class SchoolServiceTest {
   when( propertyService.areAvailableProperties( schoolDto.getProperties() ) ).thenReturn( true );
   when( schoolDb.findById( schoolDto.getNumber() ) ).thenReturn( Optional.empty() );
   when( geoService.getCoordinatesFromAddress( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() ) )
-          .thenReturn( Optional.of( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() ) );
+          .thenReturn( Optional.of( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ) );
   when( timeUtil.now() ).thenReturn( 1L );
   when( schoolDb.save( getSchool( "A" ) ) ).thenReturn( getSchool( "A" ) );
 
@@ -120,7 +120,7 @@ class SchoolServiceTest {
   when( propertyService.areAvailableProperties( schoolDto.getProperties() ) ).thenReturn( true );
   when( schoolDb.findById( schoolDto.getNumber() ) ).thenReturn( Optional.of( getSchool( "A" ) ) );
   when( geoService.getCoordinatesFromAddress( schoolDto.getAddress() ) )
-          .thenReturn( Optional.of( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() ) );
+          .thenReturn( Optional.of( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ) );
 
   // WHEN
   Optional<School> actual = schoolService.addSchool( schoolDto );
@@ -172,7 +172,7 @@ class SchoolServiceTest {
   when( propertyService.areAvailableProperties( schoolDto.getProperties() ) ).thenReturn( false );
   when( schoolDb.findById( schoolDto.getNumber() ) ).thenReturn( Optional.empty() );
   when( geoService.getCoordinatesFromAddress( schoolDto.getAddress() ) )
-          .thenReturn( Optional.of( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() ) );
+          .thenReturn( Optional.of( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ) );
 
   // WHEN
   Optional<School> actual = schoolService.addSchool( schoolDto );

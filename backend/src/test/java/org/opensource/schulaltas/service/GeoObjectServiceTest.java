@@ -6,7 +6,6 @@ import org.opensource.schulaltas.config.GoogleGeoConfig;
 import org.opensource.schulaltas.model.geo.*;
 import org.opensource.schulaltas.model.school.Address;
 import org.opensource.schulaltas.model.school.Coordinates;
-import org.opensource.schulaltas.model.school.GeoObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -69,13 +68,13 @@ class GeoObjectServiceTest {
           .thenReturn( ResponseEntity.ok( geoResultsDto ) );
 
   // WHEN
-  Optional<GeoObject> actual = geoService.getCoordinatesFromAddress( address );
+  Optional<Coordinates> actual = geoService.getCoordinatesFromAddress( address );
 
   // THEN
-  GeoObject expected = GeoObject.builder().coordinates( Coordinates.builder()
-                                                                .latitude( 1.0 )
-                                                                .longitude( 2.0 )
-                                                                .build() ).build();
+  Coordinates expected = Coordinates.builder()
+                                 .latitude( 1.0 )
+                                 .longitude( 2.0 )
+                                 .build();
   assertThat( actual.get(), is( expected ) );
   verify( restTemplate ).getForEntity( base_url + extension, GeoResultsDto.class );
  }
@@ -104,7 +103,7 @@ class GeoObjectServiceTest {
           .thenThrow( RestClientException.class );
 
   // WHEN
-  Optional<GeoObject> actual = geoService.getCoordinatesFromAddress( address );
+  Optional<Coordinates> actual = geoService.getCoordinatesFromAddress( address );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
