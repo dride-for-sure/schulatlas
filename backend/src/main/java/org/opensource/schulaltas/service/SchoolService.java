@@ -27,8 +27,7 @@ public class SchoolService {
  }
 
  public List<School> listSchools () {
-  List<School> schools = schoolDb.findAll();
-  return schools;
+  return schoolDb.findAll();
  }
 
  public Optional<School> getSchool (String number) {
