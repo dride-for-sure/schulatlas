@@ -4,13 +4,12 @@ import org.opensource.schulaltas.controller.model.PageDto;
 import org.opensource.schulaltas.model.page.Page;
 import org.opensource.schulaltas.service.PageService;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping ("/auth/page")
 public class PrivatePageController {
 
