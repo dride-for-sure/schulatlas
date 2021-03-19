@@ -19,81 +19,58 @@ class SchoolServiceTest {
  private final SchoolDb schoolDb = mock( SchoolDb.class );
  private final GeoService geoService = mock( GeoService.class );
  private final TimeUtil timeUtil = mock( TimeUtil.class );
- private final SchoolService schoolService = new SchoolService( schoolDb, geoService, timeUtil );
+ private final PropertyService propertyService = mock( PropertyService.class );
+ private final SchoolService schoolService = new SchoolService( schoolDb, geoService, timeUtil,
+         propertyService );
+
+ private School getSchool (String number) {
+  return School.builder()
+                 .number( number )
+                 .name( "Goetheschule" )
+                 .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
+                 .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
+                 .coordinates( Coordinates.builder().longitude( 1.1 ).latitude( 1.1 ).build() )
+                 .updated( 1L )
+                 .userId( "A" )
+                 .markedOutdated( 0 )
+                 .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
+                 .build();
+ }
 
  @Test
  @DisplayName ("Lists schools should return all schools within the db")
  void listSchools () {
   // GIVEN
-  School school1 = School.builder()
-                           .number( "1337" )
-                           .name( "Goetheschule" )
-                           .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
-                           .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
-                           .geoObject( GeoObject.builder().coordinates( Coordinates.builder().longitude( 1.1 ).latitude( 1.1 ).build() ).build() )
-                           .updated( 1L )
-                           .userId( "A" )
-                           .markedOutdated( 0 )
-                           .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
-                           .build();
-
-  School school2 = School.builder()
-                           .number( "7331" )
-                           .name( "Goetheschule" )
-                           .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
-                           .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
-                           .geoObject( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() )
-                           .updated( 1L )
-                           .userId( "A" )
-                           .markedOutdated( 0 )
-                           .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
-                           .build();
-  when( schoolDb.findAll() ).thenReturn( List.of( school1, school2 ) );
+  when( schoolDb.findAll() ).thenReturn( List.of( getSchool( "1" ), getSchool( "2" ) ) );
 
   // WHEN
   List<School> actual = schoolService.listSchools();
 
   // THEN
-  assertThat( actual, containsInAnyOrder(
-          school1.toBuilder().build(),
-          school2.toBuilder().build() ) );
+  assertThat( actual, containsInAnyOrder( getSchool( "1" ), getSchool( "2" ) ) );
  }
 
  @Test
  @DisplayName ("Get school should return an existing school from db")
  void getSchool () {
   // GIVEN
-  String number = "1337";
-  School school = School.builder()
-                          .number( "1337" )
-                          .name( "Goetheschule" )
-                          .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
-                          .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
-                          .geoObject( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() )
-                          .updated( 1L )
-                          .userId( "A" )
-                          .markedOutdated( 0 )
-                          .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
-                          .build();
-  when( schoolDb.findById( number ) ).thenReturn(
-          Optional.of( school ) );
+  when( schoolDb.findById( "A" ) ).thenReturn( Optional.of( getSchool( "A" ) ) );
 
   // WHEN
-  Optional<School> actual = schoolService.getSchool( number );
+  Optional<School> actual = schoolService.getSchool( "A" );
 
   // THEN
-  School expected = school.toBuilder().build();
-  assertThat( actual.get(), is( expected ) );
+  assertThat( actual.get(), is( getSchool( "A" ) ) );
  }
 
  @Test
  @DisplayName ("Get school should return an Optional.empty if school doesnt exists in db")
  void getNotExistingSchool () {
   // GIVEN
-  when( schoolDb.findById( "1337" ) ).thenReturn( Optional.empty() );
+  when( schoolDb.findById( "A" ) ).thenReturn( Optional.empty() );
 
   // WHEN
-  Optional<School> actual = schoolService.getSchool( "1337" );
+  Optional<School> actual = schoolService.getSchool( "A" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
@@ -104,7 +81,7 @@ class SchoolServiceTest {
  void addSchool () {
   // GIVEN
   SchoolDto schoolDto = SchoolDto.builder()
-                                .number( "1337" )
+                                .number( "A" )
                                 .name( "Goetheschule" )
                                 .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                                 .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
@@ -112,31 +89,19 @@ class SchoolServiceTest {
                                 .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
                                 .build();
 
-  School school = School.builder()
-                          .number( "1337" )
-                          .name( "Goetheschule" )
-                          .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
-                          .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
-                          .geoObject( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() )
-                          .updated( 1L )
-                          .userId( "A" )
-                          .markedOutdated( 0 )
-                          .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
-                          .build();
-
+  when( propertyService.areAvailableProperties( schoolDto.getProperties() ) ).thenReturn( true );
   when( schoolDb.findById( schoolDto.getNumber() ) ).thenReturn( Optional.empty() );
   when( geoService.getCoordinatesFromAddress( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() ) )
-          .thenReturn( Optional.of( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() ) );
+          .thenReturn( Optional.of( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ) );
   when( timeUtil.now() ).thenReturn( 1L );
-  when( schoolDb.save( school ) ).thenReturn( school );
+  when( schoolDb.save( getSchool( "A" ) ) ).thenReturn( getSchool( "A" ) );
 
   // WHEN
   Optional<School> actual = schoolService.addSchool( schoolDto );
 
   // THEN
-  School expected = school.toBuilder().build();
-  assertThat( actual.get(), is( expected ) );
-  verify( schoolDb ).save( school );
+  assertThat( actual.get(), is( getSchool( "A" ) ) );
+  verify( schoolDb ).save( getSchool( "A" ) );
  }
 
  @Test
@@ -144,35 +109,25 @@ class SchoolServiceTest {
  void addExistingSchool () {
   // GIVEN
   SchoolDto schoolDto = SchoolDto.builder()
-                                .number( "1337" )
+                                .number( "A" )
                                 .name( "Goetheschule" )
                                 .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                                 .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
                                 .userId( "A" )
                                 .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
                                 .build();
-  School school = School.builder()
-                          .number( schoolDto.getNumber() )
-                          .name( schoolDto.getName() )
-                          .address( schoolDto.getAddress() )
-                          .contact( schoolDto.getContact() )
-                          .geoObject( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() )
-                          .updated( 1L )
-                          .userId( schoolDto.getUserId() )
-                          .markedOutdated( 0 )
-                          .properties( schoolDto.getProperties() )
-                          .build();
 
-  when( schoolDb.findById( schoolDto.getNumber() ) ).thenReturn( Optional.of( school ) );
+  when( propertyService.areAvailableProperties( schoolDto.getProperties() ) ).thenReturn( true );
+  when( schoolDb.findById( schoolDto.getNumber() ) ).thenReturn( Optional.of( getSchool( "A" ) ) );
   when( geoService.getCoordinatesFromAddress( schoolDto.getAddress() ) )
-          .thenReturn( Optional.of( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() ) );
+          .thenReturn( Optional.of( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ) );
 
   // WHEN
   Optional<School> actual = schoolService.addSchool( schoolDto );
 
   // THEN
-  assertThat( actual.get(), is( school.toBuilder().build() ) );
-  verify( schoolDb, never() ).save( school.toBuilder().build() );
+  assertThat( actual.get(), is( getSchool( "A" ) ) );
+  verify( schoolDb, never() ).save( getSchool( "A" ) );
 
  }
 
@@ -181,7 +136,7 @@ class SchoolServiceTest {
  void addSchoolWithInvalidAddress () {
   // GIVEN
   SchoolDto schoolDto = SchoolDto.builder()
-                                .number( "1337" )
+                                .number( "A" )
                                 .name( "Goetheschule" )
                                 .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                                 .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
@@ -189,6 +144,7 @@ class SchoolServiceTest {
                                 .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
                                 .build();
 
+  when( propertyService.areAvailableProperties( schoolDto.getProperties() ) ).thenReturn( true );
   when( schoolDb.findById( schoolDto.getNumber() ) ).thenReturn( Optional.empty() );
   when( geoService.getCoordinatesFromAddress( schoolDto.getAddress() ) ).thenReturn( Optional.empty() );
 
@@ -197,43 +153,58 @@ class SchoolServiceTest {
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
+  verify( schoolDb, never() ).save( getSchool( "A" ) );
+ }
+
+ @Test
+ @DisplayName ("Add a new school with an invalid property")
+ void addSchoolWithInvalidProperty () {
+  // GIVEN
+  SchoolDto schoolDto = SchoolDto.builder()
+                                .number( "1337" )
+                                .name( "Goetheschule" )
+                                .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
+                                .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
+                                .userId( "A" )
+                                .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
+                                .build();
+
+  when( propertyService.areAvailableProperties( schoolDto.getProperties() ) ).thenReturn( false );
+  when( schoolDb.findById( schoolDto.getNumber() ) ).thenReturn( Optional.empty() );
+  when( geoService.getCoordinatesFromAddress( schoolDto.getAddress() ) )
+          .thenReturn( Optional.of( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ) );
+
+  // WHEN
+  Optional<School> actual = schoolService.addSchool( schoolDto );
+
+  // THEN
+  assertThat( actual.isEmpty(), is( true ) );
+  verify( schoolDb, never() ).save( getSchool( "A" ) );
  }
 
  @Test
  @DisplayName ("Increase outdated count should increase the markedOutdated Integer by one ")
  void increaseOutdatedCount () {
   // GIVEN
-  School school = School.builder()
-                          .number( "1337" )
-                          .name( "Goetheschule" )
-                          .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
-                          .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
-                          .geoObject( GeoObject.builder().coordinates( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ).build() )
-                          .updated( 1L )
-                          .userId( "A" )
-                          .markedOutdated( 0 )
-                          .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
-                          .build();
-
-  when( schoolDb.findById( school.getNumber() ) ).thenReturn( Optional.of( school ) );
+  when( schoolDb.findById( "A" ) ).thenReturn( Optional.of( getSchool( "A" ) ) );
 
   // WHEN
-  Optional<School> actual = schoolService.increaseOutdatedCount( school.getNumber() );
+  Optional<School> actual = schoolService.increaseOutdatedCount( "A" );
 
   // THEN
-  School expected = school.toBuilder().markedOutdated( school.getMarkedOutdated() + 1 ).build();
+  School expected = getSchool( "A" ).toBuilder().markedOutdated( getSchool( "A" ).getMarkedOutdated() + 1 ).build();
   assertThat( actual.get(), is( expected ) );
-  verify( schoolDb ).findById( school.getNumber() );
+  verify( schoolDb ).findById( "A" );
  }
 
  @Test
  @DisplayName ("Increase outdated count should return an optional.empty if school is not in db")
  void updateSchool () {
   // GIVEN
-  when( schoolDb.findById( "1337" ) ).thenReturn( Optional.empty() );
+  when( schoolDb.findById( "A" ) ).thenReturn( Optional.empty() );
 
   // WHEN
-  Optional<School> actual = schoolService.increaseOutdatedCount( "1337" );
+  Optional<School> actual = schoolService.increaseOutdatedCount( "A" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
@@ -243,9 +214,9 @@ class SchoolServiceTest {
  @DisplayName ("Delete School should delete school from db")
  void deleteSchool () {
   // WHEN
-  schoolService.deleteSchool( "1337" );
+  schoolService.deleteSchool( "A" );
 
   // THEN
-  verify( schoolDb ).deleteById( "1337" );
+  verify( schoolDb ).deleteById( "A" );
  }
 }

@@ -2,6 +2,7 @@ package org.opensource.schulaltas.controller;
 
 import org.opensource.schulaltas.model.page.Attachment;
 import org.opensource.schulaltas.service.AttachmentService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +18,7 @@ public class PublicAttachmentController {
   this.attachmentService = attachmentService;
  }
 
+ @GetMapping
  public List<Attachment> listAttachments () {
   return attachmentService.listAttachments();
  }

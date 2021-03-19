@@ -6,7 +6,6 @@ import org.opensource.schulaltas.config.GoogleGeoConfig;
 import org.opensource.schulaltas.model.geo.*;
 import org.opensource.schulaltas.model.school.Address;
 import org.opensource.schulaltas.model.school.Coordinates;
-import org.opensource.schulaltas.model.school.GeoObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -43,36 +42,39 @@ class GeoObjectServiceTest {
   String base_url = "https://maps.googleapis.com/maps/api/geocode/json?address=";
   String extension = street + "+" + number + ",+" + postcode + "+" + city + ",+" + country + "&key=" + key;
 
-  GeoResultsDto geoResultsDto =
-          GeoResultsDto.builder()
-                  .status( "OK" )
-                  .results( List.of( GeoObjectDto.builder()
-                                             .placeId( "1" )
-                                             .addressComponents( List.of( GeoAddressDto.builder()
-                                                                                  .longName( "AAA" )
-                                                                                  .shortName( "AAA" )
-                                                                                  .types( List.of( "A" ) )
-                                                                                  .build() ) )
-                                             .formattedAddress( "A" )
-                                             .geometry( GeoGeometryDto.builder()
-                                                                .geocodeLocation( GeoLocationDto.builder()
-                                                                                          .latitude( "1" )
-                                                                                          .longitude( "2" )
-                                                                                          .build() )
-                                                                .build() ).build() ) ).build();
+  GeoAddressDto geoAddressDto = GeoAddressDto.builder()
+                                        .longName( "AAA" )
+                                        .shortName( "AAA" )
+                                        .types( List.of( "A" ) )
+                                        .build();
+  GeoLocationDto geoLocationDto = GeoLocationDto.builder()
+                                          .latitude( "1" )
+                                          .longitude( "2" )
+                                          .build();
+  GeoGeometryDto geoGeometryDto = GeoGeometryDto.builder()
+                                          .geocodeLocation( geoLocationDto )
+                                          .build();
+  GeoObjectDto geoObjectDto = GeoObjectDto.builder()
+                                      .placeId( "1" )
+                                      .addressComponents( List.of( geoAddressDto ) )
+                                      .formattedAddress( "A" )
+                                      .geometry( geoGeometryDto ).build();
+  GeoResultsDto geoResultsDto = GeoResultsDto.builder()
+                                        .status( "OK" )
+                                        .results( List.of( geoObjectDto ) ).build();
 
   when( googleGeoConfig.getKey() ).thenReturn( key );
   when( restTemplate.getForEntity( base_url + extension, GeoResultsDto.class ) )
           .thenReturn( ResponseEntity.ok( geoResultsDto ) );
 
   // WHEN
-  Optional<GeoObject> actual = geoService.getCoordinatesFromAddress( address );
+  Optional<Coordinates> actual = geoService.getCoordinatesFromAddress( address );
 
   // THEN
-  GeoObject expected = GeoObject.builder().coordinates( Coordinates.builder()
-                                                                .latitude( 1.0 )
-                                                                .longitude( 2.0 )
-                                                                .build() ).build();
+  Coordinates expected = Coordinates.builder()
+                                 .latitude( 1.0 )
+                                 .longitude( 2.0 )
+                                 .build();
   assertThat( actual.get(), is( expected ) );
   verify( restTemplate ).getForEntity( base_url + extension, GeoResultsDto.class );
  }
@@ -101,7 +103,7 @@ class GeoObjectServiceTest {
           .thenThrow( RestClientException.class );
 
   // WHEN
-  Optional<GeoObject> actual = geoService.getCoordinatesFromAddress( address );
+  Optional<Coordinates> actual = geoService.getCoordinatesFromAddress( address );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );

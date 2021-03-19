@@ -1,6 +1,6 @@
 package org.opensource.schulaltas.controller;
 
-import org.opensource.schulaltas.model.school.Property;
+import org.opensource.schulaltas.model.school.AvailableProperty;
 import org.opensource.schulaltas.service.PropertyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -20,29 +20,20 @@ public class PrivatePropertyController {
  }
 
  @GetMapping
- public List<Property> listProperties () {
+ public List<AvailableProperty> listProperties () {
   return propertyService.listProperties();
  }
 
- @GetMapping ("/{name}")
- public Property getProperty (@PathVariable String name) {
-  return propertyService.getProperty( name )
-                 .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
-                         "Property: " + name + " is not available" ) );
- }
-
  @PostMapping
- public Property addProperty (@RequestBody Property property) {
-  return propertyService.addProperty( property )
-                 .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
-                         "Property: " + property.getName() + " exists already" ) );
+ public AvailableProperty addProperty (@RequestBody AvailableProperty availableProperty) {
+  return propertyService.addProperty( availableProperty );
  }
 
  @PutMapping ("/{name}")
- public Property updateProperty (@RequestBody Property property) {
-  return propertyService.updateProperty( property )
+ public AvailableProperty updateProperty (@RequestBody AvailableProperty availableProperty) {
+  return propertyService.updateProperty( availableProperty )
                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
-                         "Could not update property: " + property.getName() ) );
+                         "Could not update property: " + availableProperty.getName() ) );
  }
 
  @DeleteMapping ("/{name}")

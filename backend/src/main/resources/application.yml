@@ -2,6 +2,15 @@ spring:
   data:
     mongodb:
       database: schulatlas
+aws:
+  region: eu-central-1
+  access:
+    key:
+      id: top-secret
+      secret: top-secret
+  s3:
+    audio:
+      bucket: schulatlas
 google:
   api:
     geo: top-secret

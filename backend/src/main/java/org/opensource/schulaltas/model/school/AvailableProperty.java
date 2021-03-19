@@ -4,13 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder (toBuilder = true)
-public class GeoObject {
+@Document (collection = "AvailableProperties")
+public class AvailableProperty {
 
- private final String type = "Point";
- private Coordinates coordinates;
+ private String name;
+ private String unit;
 }

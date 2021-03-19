@@ -2,7 +2,7 @@ package org.opensource.schulaltas.service;
 
 
 import org.opensource.schulaltas.controller.model.SchoolDto;
-import org.opensource.schulaltas.model.school.GeoObject;
+import org.opensource.schulaltas.model.school.Coordinates;
 import org.opensource.schulaltas.model.school.School;
 import org.opensource.schulaltas.repository.SchoolDb;
 import org.springframework.stereotype.Service;
@@ -16,11 +16,14 @@ public class SchoolService {
  private final SchoolDb schoolDb;
  private final GeoService geoService;
  private final TimeUtil timeUtil;
+ private final PropertyService propertyService;
 
- public SchoolService (SchoolDb schoolDb, GeoService geoService, TimeUtil timeUtil) {
+ public SchoolService (SchoolDb schoolDb, GeoService geoService, TimeUtil timeUtil,
+                       PropertyService propertyService) {
   this.schoolDb = schoolDb;
   this.geoService = geoService;
   this.timeUtil = timeUtil;
+  this.propertyService = propertyService;
  }
 
  public List<School> listSchools () {
@@ -32,16 +35,17 @@ public class SchoolService {
  }
 
  public Optional<School> addSchool (SchoolDto schoolDto) {
-  Optional<GeoObject> geo = geoService.getCoordinatesFromAddress( schoolDto.getAddress() );
+  Optional<Coordinates> coordinates = geoService.getCoordinatesFromAddress( schoolDto.getAddress() );
   Optional<School> school = schoolDb.findById( schoolDto.getNumber() );
+  Boolean areAvailableProperties = propertyService.areAvailableProperties( schoolDto.getProperties() );
   if ( school.isEmpty() ) {
-   if ( geo.isPresent() ) {
+   if ( coordinates.isPresent() && areAvailableProperties ) {
     School newSchool = School.builder()
                                .number( schoolDto.getNumber() )
                                .name( schoolDto.getName() )
                                .address( schoolDto.getAddress() )
                                .contact( schoolDto.getContact() )
-                               .geoObject( geo.get() )
+                               .coordinates( coordinates.get() )
                                .updated( timeUtil.now() )
                                .userId( schoolDto.getUserId() )
                                .markedOutdated( 0 )
@@ -69,15 +73,16 @@ public class SchoolService {
  }
 
  public Optional<School> updateSchool (SchoolDto schoolDto) {
-  Optional<GeoObject> geo = geoService.getCoordinatesFromAddress( schoolDto.getAddress() );
+  Optional<Coordinates> coordinates = geoService.getCoordinatesFromAddress( schoolDto.getAddress() );
   Optional<School> schoolToUpdate = schoolDb.findById( schoolDto.getNumber() );
-  if ( schoolToUpdate.isPresent() && geo.isPresent() ) {
+  Boolean areAvailableProperties = propertyService.areAvailableProperties( schoolDto.getProperties() );
+  if ( schoolToUpdate.isPresent() && coordinates.isPresent() && areAvailableProperties ) {
    School updatedSchool = schoolToUpdate.get()
                                   .toBuilder()
                                   .name( schoolDto.getName() )
                                   .address( schoolDto.getAddress() )
                                   .contact( schoolDto.getContact() )
-                                  .geoObject( geo.get() )
+                                  .coordinates( coordinates.get() )
                                   .userId( schoolDto.getUserId() )
                                   .updated( System.currentTimeMillis() )
                                   .properties( schoolDto.getProperties() )

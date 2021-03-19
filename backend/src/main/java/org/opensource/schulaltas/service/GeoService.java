@@ -6,7 +6,6 @@ import org.opensource.schulaltas.model.geo.GeoLocationDto;
 import org.opensource.schulaltas.model.geo.GeoResultsDto;
 import org.opensource.schulaltas.model.school.Address;
 import org.opensource.schulaltas.model.school.Coordinates;
-import org.opensource.schulaltas.model.school.GeoObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -25,23 +24,20 @@ public class GeoService {
   this.restTemplate = restTemplate;
  }
 
- public Optional<GeoObject> getCoordinatesFromAddress (Address address) {
-  Optional<GeoResultsDto> geoResultsDto = geocode( address );
+ public Optional<Coordinates> getCoordinatesFromAddress (Address address) {
+  Optional<GeoResultsDto> geoResultsDto = convertAddressToCoordinates( address );
   if ( geoResultsDto.isPresent() ) {
-   GeoLocationDto geoLocationDto =
-           geoResultsDto.get().getResults().get( 0 ).getGeometry().getGeocodeLocation();
-   return Optional.of(
-           GeoObject.builder()
-                   .coordinates(
-                           Coordinates.builder()
-                                   .latitude( Double.parseDouble( geoLocationDto.getLatitude() ) )
-                                   .longitude( Double.parseDouble( geoLocationDto.getLongitude() ) )
-                                   .build() ).build() );
+   GeoLocationDto geoLocationDto = geoResultsDto.get().getResults().get( 0 ).getGeometry().getGeocodeLocation();
+   Coordinates coordinates = Coordinates.builder()
+                                     .latitude( Double.parseDouble( geoLocationDto.getLatitude() ) )
+                                     .longitude( Double.parseDouble( geoLocationDto.getLongitude() ) )
+                                     .build();
+   return Optional.of( coordinates );
   }
   return Optional.empty();
  }
 
- private Optional<GeoResultsDto> geocode (Address address) {
+ private Optional<GeoResultsDto> convertAddressToCoordinates (Address address) {
   String key = googleGeoConfig.getKey();
   String street = address.getStreet();
   String number = address.getNumber();
