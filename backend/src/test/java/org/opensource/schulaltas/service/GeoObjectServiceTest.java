@@ -3,7 +3,10 @@ package org.opensource.schulaltas.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.opensource.schulaltas.config.GoogleGeoConfig;
-import org.opensource.schulaltas.model.geo.*;
+import org.opensource.schulaltas.model.geo.GeoGeometryDto;
+import org.opensource.schulaltas.model.geo.GeoLocationDto;
+import org.opensource.schulaltas.model.geo.GeoObjectDto;
+import org.opensource.schulaltas.model.geo.GeoResultsDto;
 import org.opensource.schulaltas.model.school.Address;
 import org.opensource.schulaltas.model.school.Coordinates;
 import org.springframework.http.ResponseEntity;
@@ -42,22 +45,14 @@ class GeoObjectServiceTest {
   String base_url = "https://maps.googleapis.com/maps/api/geocode/json?address=";
   String extension = street + "+" + number + ",+" + postcode + "+" + city + ",+" + country + "&key=" + key;
 
-  GeoAddressDto geoAddressDto = GeoAddressDto.builder()
-                                        .longName( "AAA" )
-                                        .shortName( "AAA" )
-                                        .types( List.of( "A" ) )
-                                        .build();
   GeoLocationDto geoLocationDto = GeoLocationDto.builder()
-                                          .latitude( "1" )
-                                          .longitude( "2" )
+                                          .latitude( 1.0 )
+                                          .longitude( 2.0 )
                                           .build();
   GeoGeometryDto geoGeometryDto = GeoGeometryDto.builder()
                                           .geocodeLocation( geoLocationDto )
                                           .build();
   GeoObjectDto geoObjectDto = GeoObjectDto.builder()
-                                      .placeId( "1" )
-                                      .addressComponents( List.of( geoAddressDto ) )
-                                      .formattedAddress( "A" )
                                       .geometry( geoGeometryDto ).build();
   GeoResultsDto geoResultsDto = GeoResultsDto.builder()
                                         .status( "OK" )
