@@ -3,21 +3,22 @@ package org.opensource.schulaltas.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.Instant;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-class TimeUtilTest {
+class TimeInstantTest {
 
- private final TimeUtil timeUtil = new TimeUtil();
+ private final TimeInstant timeInstant = new TimeInstant();
 
  @Test
- @DisplayName ("Now should return unix timestamp for now")
+ @DisplayName ("Now should return instant for now")
  void now () {
-  // GIVEN
   // WHEN
-  Long actual = timeUtil.now();
+  Instant actual = timeInstant.now();
 
   // THEN
-  assertThat( actual, is( System.currentTimeMillis() ) );
+  assertThat( actual, is( Instant.now() ) );
  }
 }
