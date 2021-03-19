@@ -29,8 +29,8 @@ public class GeoService {
   if ( geoResultsDto.isPresent() ) {
    GeoLocationDto geoLocationDto = geoResultsDto.get().getResults().get( 0 ).getGeometry().getGeocodeLocation();
    Coordinates coordinates = Coordinates.builder()
-                                     .latitude( Double.parseDouble( geoLocationDto.getLatitude() ) )
-                                     .longitude( Double.parseDouble( geoLocationDto.getLongitude() ) )
+                                     .latitude( geoLocationDto.getLatitude() )
+                                     .longitude( geoLocationDto.getLongitude() )
                                      .build();
    return Optional.of( coordinates );
   }
