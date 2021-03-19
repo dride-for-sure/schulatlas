@@ -15,14 +15,14 @@ public class SchoolService {
 
  private final SchoolDb schoolDb;
  private final GeoService geoService;
- private final TimeUtil timeUtil;
+ private final TimeUTC timeUTC;
  private final PropertyService propertyService;
 
- public SchoolService (SchoolDb schoolDb, GeoService geoService, TimeUtil timeUtil,
+ public SchoolService (SchoolDb schoolDb, GeoService geoService, TimeUTC timeUTC,
                        PropertyService propertyService) {
   this.schoolDb = schoolDb;
   this.geoService = geoService;
-  this.timeUtil = timeUtil;
+  this.timeUTC = timeUTC;
   this.propertyService = propertyService;
  }
 
@@ -46,7 +46,7 @@ public class SchoolService {
                                .address( schoolDto.getAddress() )
                                .contact( schoolDto.getContact() )
                                .coordinates( coordinates.get() )
-                               .updated( timeUtil.now() )
+                               .updated( timeUTC.now() )
                                .userId( schoolDto.getUserId() )
                                .markedOutdated( 0 )
                                .properties( schoolDto.getProperties() )
@@ -84,7 +84,7 @@ public class SchoolService {
                                   .contact( schoolDto.getContact() )
                                   .coordinates( coordinates.get() )
                                   .userId( schoolDto.getUserId() )
-                                  .updated( System.currentTimeMillis() )
+                                  .updated( timeUTC.now() )
                                   .properties( schoolDto.getProperties() )
                                   .build();
    schoolDb.save( updatedSchool );

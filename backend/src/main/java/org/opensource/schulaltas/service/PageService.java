@@ -12,11 +12,11 @@ import java.util.Optional;
 public class PageService {
 
  private final PageDb pageDb;
- private final TimeUtil timeUtil;
+ private final TimeUTC timeUTC;
 
- public PageService (PageDb pageDb, TimeUtil timeUtil) {
+ public PageService (PageDb pageDb, TimeUTC timeUTC) {
   this.pageDb = pageDb;
-  this.timeUtil = timeUtil;
+  this.timeUTC = timeUTC;
  }
 
  public List<Page> listPages () {
@@ -32,7 +32,7 @@ public class PageService {
   if ( page.isEmpty() ) {
    Page newPage = Page.builder()
                           .name( pageDto.getName() )
-                          .updated( timeUtil.now() )
+                          .updated( timeUTC.now() )
                           .userId( pageDto.getUserId() )
                           .components( pageDto.getComponents() )
                           .build();
@@ -46,7 +46,7 @@ public class PageService {
   if ( pageToUpdate.isPresent() ) {
    Page updatedPage = pageToUpdate.get()
                               .toBuilder()
-                              .updated( timeUtil.now() )
+                              .updated( timeUTC.now() )
                               .userId( pageDto.getUserId() )
                               .components( pageDto.getComponents() )
                               .build();

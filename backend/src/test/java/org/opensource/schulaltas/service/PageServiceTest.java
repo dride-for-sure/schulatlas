@@ -17,8 +17,8 @@ import static org.mockito.Mockito.*;
 class PageServiceTest {
 
  private final PageDb pageDb = mock( PageDb.class );
- private final TimeUtil timeUtil = mock( TimeUtil.class );
- private final PageService pageService = new PageService( pageDb, timeUtil );
+ private final TimeUTC timeUTC = mock( TimeUTC.class );
+ private final PageService pageService = new PageService( pageDb, timeUTC );
 
  private Page getPage (String name) {
   return Page.builder()
@@ -79,7 +79,7 @@ class PageServiceTest {
                             .build();
   when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
   when( pageDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
-  when( timeUtil.now() ).thenReturn( 1L );
+  when( timeUTC.now() ).thenReturn( 1L );
 
   // WHEN
   Page actual = pageService.addPage( pageDto );
@@ -100,7 +100,7 @@ class PageServiceTest {
                             .build();
   when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
   when( pageDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
-  when( timeUtil.now() ).thenReturn( 1L );
+  when( timeUTC.now() ).thenReturn( 1L );
 
   // WHEN
   Page actual = pageService.addPage( pageDto );
@@ -121,7 +121,7 @@ class PageServiceTest {
                             .build();
   when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
   when( pageDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
-  when( timeUtil.now() ).thenReturn( 1L );
+  when( timeUTC.now() ).thenReturn( 1L );
 
   // WHEN
   Optional<Page> actual = pageService.updatePage( pageDto );
@@ -142,7 +142,7 @@ class PageServiceTest {
                             .build();
   when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
   when( pageDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
-  when( timeUtil.now() ).thenReturn( 1L );
+  when( timeUTC.now() ).thenReturn( 1L );
 
   // WHEN
   Optional<Page> actual = pageService.updatePage( pageDto );
