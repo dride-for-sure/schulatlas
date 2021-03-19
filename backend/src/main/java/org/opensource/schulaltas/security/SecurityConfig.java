@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
  protected void configure (HttpSecurity http) throws Exception {
   http.csrf().disable()
           .authorizeRequests()
-          .mvcMatchers( "/auth/**" ).hasRole( "ADMIN" )
+          .mvcMatchers( "/auth/**" ).hasAuthority( "ADMIN" )
           .mvcMatchers( "/**" ).permitAll()
           .and()
           .sessionManagement().sessionCreationPolicy( SessionCreationPolicy.STATELESS )

@@ -3,6 +3,7 @@ package org.opensource.schulaltas.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
+import org.opensource.schulaltas.service.TimeInstant;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,15 +21,15 @@ import java.util.Date;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
  private final JwtConfig jwtConfig;
- private final TimeUtils timeUtils;
+ private final TimeInstant timeInstant;
  private final SchoolUserDetailsService schoolUserDetailsService;
 
  public JwtRequestFilter (
          JwtConfig jwtConfig,
-         TimeUtils timeUtils,
+         TimeInstant timeInstant,
          SchoolUserDetailsService schoolUserDetailsService) {
   this.jwtConfig = jwtConfig;
-  this.timeUtils = timeUtils;
+  this.timeInstant = timeInstant;
   this.schoolUserDetailsService = schoolUserDetailsService;
  }
 
@@ -41,7 +42,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
    String authorizationHeader = request.getHeader( "Authorization" );
    if ( authorizationHeader != null ) {
     Jws<Claims> parsedToken = parseToken( authorizationHeader );
-    if ( parsedToken.getBody().getExpiration().after( Date.from( timeUtils.now() ) ) ) {
+    if ( parsedToken.getBody().getExpiration().after( Date.from( timeInstant.now() ) ) ) {
      setSecurityContext( parsedToken );
     }
    }
@@ -52,7 +53,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
  }
 
  private Jws<Claims> parseToken (String authorizationHeader) {
-  String token = authorizationHeader.replace( "Bearer:", "" ).trim();
+  String token = authorizationHeader.replace( "Bearer", "" ).trim();
   return Jwts.parser().setSigningKey( jwtConfig.getJwtSecret() ).parseClaimsJws( token );
  }
 
