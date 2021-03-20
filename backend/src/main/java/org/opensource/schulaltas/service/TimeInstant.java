@@ -1,11 +1,11 @@
-package org.opensource.schulaltas.security;
+package org.opensource.schulaltas.service;
 
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 
 @Service
-public class TimeUtils {
+public class TimeInstant {
 
  public Instant now () {
   return Instant.now();

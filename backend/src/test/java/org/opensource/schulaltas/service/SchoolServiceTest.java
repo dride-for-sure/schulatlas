@@ -18,9 +18,9 @@ class SchoolServiceTest {
 
  private final SchoolDb schoolDb = mock( SchoolDb.class );
  private final GeoService geoService = mock( GeoService.class );
- private final TimeUtil timeUtil = mock( TimeUtil.class );
+ private final TimeUTC timeUTC = mock( TimeUTC.class );
  private final PropertyService propertyService = mock( PropertyService.class );
- private final SchoolService schoolService = new SchoolService( schoolDb, geoService, timeUtil,
+ private final SchoolService schoolService = new SchoolService( schoolDb, geoService, timeUTC,
          propertyService );
 
  private School getSchool (String number) {
@@ -93,7 +93,7 @@ class SchoolServiceTest {
   when( schoolDb.findById( schoolDto.getNumber() ) ).thenReturn( Optional.empty() );
   when( geoService.getCoordinatesFromAddress( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() ) )
           .thenReturn( Optional.of( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ) );
-  when( timeUtil.now() ).thenReturn( 1L );
+  when( timeUTC.now() ).thenReturn( 1L );
   when( schoolDb.save( getSchool( "A" ) ) ).thenReturn( getSchool( "A" ) );
 
   // WHEN

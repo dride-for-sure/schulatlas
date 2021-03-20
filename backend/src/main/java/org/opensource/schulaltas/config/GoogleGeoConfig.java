@@ -9,6 +9,6 @@ import org.springframework.context.annotation.Configuration;
 public class GoogleGeoConfig {
 
  @Value ("${google.api.geo}")
- private final String key = "";
+ private String key;
 
 }

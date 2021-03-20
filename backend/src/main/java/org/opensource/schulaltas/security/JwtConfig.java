@@ -9,6 +9,6 @@ import org.springframework.context.annotation.Configuration;
 public class JwtConfig {
 
  @Value ("${security.jwt.secret}")
- private final String jwtSecret = "top-secret";
+ private String jwtSecret;
 }
 

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.opensource.schulaltas.security.model.enums.SchoolUserRoles;
+import org.opensource.schulaltas.security.model.enums.SchoolUserAuthorities;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,8 +18,7 @@ import java.util.List;
 public class SchoolUser {
 
  @Id
- private String id;
- private String name;
+ private String username;
  private String password;
- List<SchoolUserRoles> roles;
+ List<SchoolUserAuthorities> authorities;
 }

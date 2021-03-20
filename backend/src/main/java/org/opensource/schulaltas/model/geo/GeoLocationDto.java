@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 public class GeoLocationDto {
 
  @JsonProperty ("lat")
- private String latitude;
+ private Double latitude;
  @JsonProperty ("lng")
- private String longitude;
+ private Double longitude;
 
 }

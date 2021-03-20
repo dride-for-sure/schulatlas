@@ -3,13 +3,12 @@ package org.opensource.schulaltas.controller;
 import org.opensource.schulaltas.model.school.AvailableProperty;
 import org.opensource.schulaltas.service.PropertyService;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping ("/auth/property")
 public class PrivatePropertyController {
 

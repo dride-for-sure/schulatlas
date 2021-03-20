@@ -5,7 +5,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 
-public interface UserDb extends PagingAndSortingRepository<SchoolUser, String> {
+public interface SchoolUserDb extends PagingAndSortingRepository<SchoolUser, String> {
 
  @Override
  List<SchoolUser> findAll ();
