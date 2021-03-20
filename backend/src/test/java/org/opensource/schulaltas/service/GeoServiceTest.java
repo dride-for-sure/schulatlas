@@ -20,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 
-class GeoObjectServiceTest {
+class GeoServiceTest {
 
  private final GoogleGeoConfig googleGeoConfig = mock( GoogleGeoConfig.class );
  private final RestTemplate restTemplate = mock( RestTemplate.class );
