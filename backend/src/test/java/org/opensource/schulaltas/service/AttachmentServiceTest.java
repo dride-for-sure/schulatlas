@@ -132,9 +132,9 @@ class AttachmentServiceTest {
  @Test
  @DisplayName ("Is a valid attachment should return true for a image or pdf")
  void isValidAttachment () {
+  // WHEN
   MockMultipartFile mockMultipartFile = new MockMultipartFile( "file",
           "fileName.jpg", "image/jpeg", "some text".getBytes() );
-  // WHEN
   Boolean actual = attachmentService.isValidAttachment( mockMultipartFile );
 
   // THEN
@@ -144,9 +144,9 @@ class AttachmentServiceTest {
  @Test
  @DisplayName ("Is not a valid attachment should return false for everything except image or pdf")
  void isNotValidAttachment () {
+  // WHEN
   MockMultipartFile mockMultipartFile = new MockMultipartFile( "file",
           "fileName.jpg", "UNKOWNFILETYPE", "some text".getBytes() );
-  // WHEN
   Boolean actual = attachmentService.isValidAttachment( mockMultipartFile );
 
   // THEN
