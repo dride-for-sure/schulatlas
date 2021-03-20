@@ -25,7 +25,7 @@ public class PrivatePageController {
  }
 
  @GetMapping ("/{name}")
- public Page getPage (String name) {
+ public Page getPage (@PathVariable String name) {
   return pageService.getPage( name )
                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
                          "Page: " + name + " is not available" ) );
