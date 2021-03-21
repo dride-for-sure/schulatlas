@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 class AssemblyServiceTest {
 
  private final AssemblyDb assemblyDb = mock( AssemblyDb.class );
- private final ComponentService componentService = new ComponentService( assemblyDb );
+ private final AssemblyService assemblyService = new AssemblyService( assemblyDb );
 
  @Test
  @DisplayName ("List components should return all components form the db")
@@ -32,7 +32,7 @@ class AssemblyServiceTest {
   when( assemblyDb.findAll() ).thenReturn( List.of( assembly1, assembly2 ) );
 
   // WHEN
-  List<Assembly> actual = componentService.listComponents();
+  List<Assembly> actual = assemblyService.listComponents();
 
   // THEN
   assertThat( actual, containsInAnyOrder(
