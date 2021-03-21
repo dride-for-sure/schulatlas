@@ -10,11 +10,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping ("/auth/component")
-public class PrivateComponentController {
+public class PrivateAssemblyController {
 
  private final AssemblyService assemblyService;
 
- public PrivateComponentController (AssemblyService assemblyService) {
+ public PrivateAssemblyController (AssemblyService assemblyService) {
   this.assemblyService = assemblyService;
  }
 
