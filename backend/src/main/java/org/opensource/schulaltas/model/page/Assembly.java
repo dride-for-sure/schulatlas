@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder (toBuilder = true)
-@Document (collection = "components")
+@Document (collection = "assemblies")
 public class Assembly {
 
  @Id
