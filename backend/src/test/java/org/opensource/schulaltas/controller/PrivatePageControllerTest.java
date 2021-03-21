@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.opensource.schulaltas.controller.model.PageDto;
 import org.opensource.schulaltas.model.page.Assembly;
 import org.opensource.schulaltas.model.page.Page;
+import org.opensource.schulaltas.repository.AssemblyDb;
 import org.opensource.schulaltas.repository.PageDb;
 import org.opensource.schulaltas.repository.SchoolUserDb;
 import org.opensource.schulaltas.security.model.AuthenticationRequest;
@@ -38,6 +39,9 @@ class PrivatePageControllerTest {
  @MockBean
  private TimeUTC timeUTC;
 
+ @MockBean
+ private AssemblyDb assemblyDb;
+
  @Autowired
  private TestRestTemplate testRestTemplate;
 
@@ -68,7 +72,7 @@ class PrivatePageControllerTest {
                  .userId( "1" )
                  .assemblies( List.of(
                          Assembly.builder()
-                                 .type( "Header" )
+                                 .type( "A" )
                                  .components( List.of() )
                                  .build() ) ).build();
  }
@@ -79,9 +83,13 @@ class PrivatePageControllerTest {
                  .userId( "1" )
                  .assemblies( List.of(
                          Assembly.builder()
-                                 .type( "Header" )
+                                 .type( "A" )
                                  .components( List.of() )
                                  .build() ) ).build();
+ }
+
+ private Assembly getAssembly (String name) {
+  return Assembly.builder().type( name ).components( List.of() ).build();
  }
 
  private String getJWTToken () {
@@ -150,6 +158,7 @@ class PrivatePageControllerTest {
  void addPage () {
   // GIVEN
   when( timeUTC.now() ).thenReturn( 1L );
+  when( assemblyDb.findAll() ).thenReturn( List.of( getAssembly( "A" ), getAssembly( "B" ) ) );
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
@@ -185,6 +194,8 @@ class PrivatePageControllerTest {
  void updatePage () {
   // GIVEN
   when( timeUTC.now() ).thenReturn( 1L );
+  when( assemblyDb.findAll() ).thenReturn( List.of( getAssembly( "A" ), getAssembly( "B" ) ) );
+  
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
