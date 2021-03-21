@@ -13,10 +13,12 @@ public class PageService {
 
  private final PageDb pageDb;
  private final TimeUTC timeUTC;
+ private final AssemblyService assemblyService;
 
- public PageService (PageDb pageDb, TimeUTC timeUTC) {
+ public PageService (PageDb pageDb, TimeUTC timeUTC, AssemblyService assemblyService) {
   this.pageDb = pageDb;
   this.timeUTC = timeUTC;
+  this.assemblyService = assemblyService;
  }
 
  public List<Page> listPages () {
@@ -27,23 +29,26 @@ public class PageService {
   return pageDb.findById( name );
  }
 
- public Page addPage (PageDto pageDto) {
+ public Optional<Page> addPage (PageDto pageDto) {
   Optional<Page> page = pageDb.findById( pageDto.getName() );
   if ( page.isEmpty() ) {
-   Page newPage = Page.builder()
-                          .name( pageDto.getName() )
-                          .updated( timeUTC.now() )
-                          .userId( pageDto.getUserId() )
-                          .assemblies( pageDto.getAssemblies() )
-                          .build();
-   return pageDb.save( newPage );
+   if ( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ) {
+    Page newPage = Page.builder()
+                           .name( pageDto.getName() )
+                           .updated( timeUTC.now() )
+                           .userId( pageDto.getUserId() )
+                           .assemblies( pageDto.getAssemblies() )
+                           .build();
+    return Optional.of( pageDb.save( newPage ) );
+   }
+   return Optional.empty();
   }
-  return page.get();
+  return page;
  }
 
  public Optional<Page> updatePage (PageDto pageDto) {
   Optional<Page> pageToUpdate = pageDb.findById( pageDto.getName() );
-  if ( pageToUpdate.isPresent() ) {
+  if ( pageToUpdate.isPresent() && assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ) {
    Page updatedPage = pageToUpdate.get()
                               .toBuilder()
                               .updated( timeUTC.now() )

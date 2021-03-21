@@ -1,7 +1,7 @@
 package org.opensource.schulaltas.controller;
 
 import org.opensource.schulaltas.model.page.Assembly;
-import org.opensource.schulaltas.service.ComponentService;
+import org.opensource.schulaltas.service.AssemblyService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,14 +12,14 @@ import java.util.List;
 @RequestMapping ("/auth/component")
 public class PrivateComponentController {
 
- private final ComponentService componentService;
+ private final AssemblyService assemblyService;
 
- public PrivateComponentController (ComponentService componentService) {
-  this.componentService = componentService;
+ public PrivateComponentController (AssemblyService assemblyService) {
+  this.assemblyService = assemblyService;
  }
 
  @GetMapping
  public List<Assembly> listComponents () {
-  return componentService.listComponents();
+  return assemblyService.listComponents();
  }
 }
