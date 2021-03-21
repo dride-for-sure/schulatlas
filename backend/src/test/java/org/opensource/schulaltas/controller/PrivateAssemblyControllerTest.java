@@ -82,7 +82,7 @@ class PrivateAssemblyControllerTest {
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
-  ResponseEntity<Assembly[]> response = testRestTemplate.exchange( getUrl() + "/auth/component",
+  ResponseEntity<Assembly[]> response = testRestTemplate.exchange( getUrl() + "/auth/assembly",
           HttpMethod.GET, entity, Assembly[].class );
 
   // THEN
