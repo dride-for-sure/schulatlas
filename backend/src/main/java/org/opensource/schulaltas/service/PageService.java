@@ -34,7 +34,7 @@ public class PageService {
                           .name( pageDto.getName() )
                           .updated( timeUTC.now() )
                           .userId( pageDto.getUserId() )
-                          .components( pageDto.getComponents() )
+                          .assemblies( pageDto.getAssemblies() )
                           .build();
    return pageDb.save( newPage );
   }
@@ -48,7 +48,7 @@ public class PageService {
                               .toBuilder()
                               .updated( timeUTC.now() )
                               .userId( pageDto.getUserId() )
-                              .components( pageDto.getComponents() )
+                              .assemblies( pageDto.getAssemblies() )
                               .build();
    return Optional.of( pageDb.save( updatedPage ) );
   }

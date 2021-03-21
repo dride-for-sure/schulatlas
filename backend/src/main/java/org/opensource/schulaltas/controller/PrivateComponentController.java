@@ -1,6 +1,6 @@
 package org.opensource.schulaltas.controller;
 
-import org.opensource.schulaltas.model.page.Component;
+import org.opensource.schulaltas.model.page.Assembly;
 import org.opensource.schulaltas.service.ComponentService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +19,7 @@ public class PrivateComponentController {
  }
 
  @GetMapping
- public List<Component> listComponents () {
+ public List<Assembly> listComponents () {
   return componentService.listComponents();
  }
 }

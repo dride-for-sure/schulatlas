@@ -3,8 +3,8 @@ package org.opensource.schulaltas.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.opensource.schulaltas.model.page.Component;
-import org.opensource.schulaltas.repository.ComponentDb;
+import org.opensource.schulaltas.model.page.Assembly;
+import org.opensource.schulaltas.repository.AssemblyDb;
 import org.opensource.schulaltas.repository.SchoolUserDb;
 import org.opensource.schulaltas.security.model.AuthenticationRequest;
 import org.opensource.schulaltas.security.model.SchoolUser;
@@ -16,7 +16,6 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.HashMap;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -24,13 +23,13 @@ import static org.hamcrest.Matchers.arrayContainingInAnyOrder;
 import static org.hamcrest.Matchers.is;
 
 @SpringBootTest (webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class PrivateComponentControllerTest {
+class PrivateAssemblyControllerTest {
 
  @LocalServerPort
  private int port;
 
  @Autowired
- private ComponentDb componentDb;
+ private AssemblyDb assemblyDb;
 
  @Autowired
  private PasswordEncoder encoder;
@@ -43,19 +42,19 @@ class PrivateComponentControllerTest {
 
  @BeforeEach
  public void Setup () {
-  componentDb.deleteAll();
-  componentDb.save( getComponent( "A" ) );
-  componentDb.save( getComponent( "B" ) );
+  assemblyDb.deleteAll();
+  assemblyDb.save( getComponent( "A" ) );
+  assemblyDb.save( getComponent( "B" ) );
  }
 
  private String getUrl () {
   return "http://localhost:" + port;
  }
 
- private Component getComponent (String name) {
-  return Component.builder()
+ private Assembly getComponent (String name) {
+  return Assembly.builder()
                  .type( name )
-                 .components( new HashMap<>() )
+                 .components( List.of() )
                  .build();
  }
 
@@ -83,8 +82,8 @@ class PrivateComponentControllerTest {
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
-  ResponseEntity<Component[]> response = testRestTemplate.exchange( getUrl() + "/auth/component",
-          HttpMethod.GET, entity, Component[].class );
+  ResponseEntity<Assembly[]> response = testRestTemplate.exchange( getUrl() + "/auth/component",
+          HttpMethod.GET, entity, Assembly[].class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );

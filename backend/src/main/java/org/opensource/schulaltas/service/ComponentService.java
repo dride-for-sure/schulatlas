@@ -1,7 +1,7 @@
 package org.opensource.schulaltas.service;
 
-import org.opensource.schulaltas.model.page.Component;
-import org.opensource.schulaltas.repository.ComponentDb;
+import org.opensource.schulaltas.model.page.Assembly;
+import org.opensource.schulaltas.repository.AssemblyDb;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,13 +9,13 @@ import java.util.List;
 @Service
 public class ComponentService {
 
- private final ComponentDb componentDb;
+ private final AssemblyDb assemblyDb;
 
- public ComponentService (ComponentDb componentDb) {
-  this.componentDb = componentDb;
+ public ComponentService (AssemblyDb assemblyDb) {
+  this.assemblyDb = assemblyDb;
  }
 
- public List<Component> listComponents () {
-  return componentDb.findAll();
+ public List<Assembly> listComponents () {
+  return assemblyDb.findAll();
  }
 }

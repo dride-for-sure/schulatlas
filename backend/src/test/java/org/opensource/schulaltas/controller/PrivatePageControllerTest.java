@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.opensource.schulaltas.controller.model.PageDto;
-import org.opensource.schulaltas.model.page.Component;
+import org.opensource.schulaltas.model.page.Assembly;
 import org.opensource.schulaltas.model.page.Page;
 import org.opensource.schulaltas.repository.PageDb;
 import org.opensource.schulaltas.repository.SchoolUserDb;
@@ -20,9 +20,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.arrayContainingInAnyOrder;
@@ -64,29 +62,25 @@ class PrivatePageControllerTest {
  }
 
  private Page getPage (String name) {
-  Map<String, List<Object>> components = new HashMap<>();
-  components.put( "Header", List.of() );
   return Page.builder()
                  .name( name )
                  .updated( 1L )
                  .userId( "1" )
-                 .components( List.of(
-                         Component.builder()
+                 .assemblies( List.of(
+                         Assembly.builder()
                                  .type( "Header" )
-                                 .components( components )
+                                 .components( List.of() )
                                  .build() ) ).build();
  }
 
  private PageDto getPageDto (String name) {
-  Map<String, List<Object>> components = new HashMap<>();
-  components.put( "Header", List.of() );
   return PageDto.builder()
                  .name( name )
                  .userId( "1" )
-                 .components( List.of(
-                         Component.builder()
+                 .assemblies( List.of(
+                         Assembly.builder()
                                  .type( "Header" )
-                                 .components( components )
+                                 .components( List.of() )
                                  .build() ) ).build();
  }
 

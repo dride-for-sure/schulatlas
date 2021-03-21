@@ -3,7 +3,7 @@ package org.opensource.schulaltas.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.opensource.schulaltas.model.page.Component;
+import org.opensource.schulaltas.model.page.Assembly;
 import org.opensource.schulaltas.model.page.Page;
 import org.opensource.schulaltas.repository.PageDb;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,10 +51,10 @@ class PublicPageControllerTest {
                  .name( name )
                  .updated( 1L )
                  .userId( "1" )
-                 .components( List.of(
-                         Component.builder()
+                 .assemblies( List.of(
+                         Assembly.builder()
                                  .type( "Header" )
-                                 .components( components )
+                                 .components( List.of() )
                                  .build() ) ).build();
  }
 

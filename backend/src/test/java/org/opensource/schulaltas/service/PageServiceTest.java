@@ -25,7 +25,7 @@ class PageServiceTest {
                  .name( name )
                  .updated( 1L )
                  .userId( "B" )
-                 .components( List.of() )
+                 .assemblies( List.of() )
                  .build();
  }
 
@@ -75,7 +75,7 @@ class PageServiceTest {
   PageDto pageDto = PageDto.builder()
                             .name( "A" )
                             .userId( "B" )
-                            .components( List.of() )
+                            .assemblies( List.of() )
                             .build();
   when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
   when( pageDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
@@ -96,7 +96,7 @@ class PageServiceTest {
   PageDto pageDto = PageDto.builder()
                             .name( "A" )
                             .userId( "B" )
-                            .components( List.of() )
+                            .assemblies( List.of() )
                             .build();
   when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
   when( pageDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
@@ -117,7 +117,7 @@ class PageServiceTest {
   PageDto pageDto = PageDto.builder()
                             .name( "A" )
                             .userId( "B" )
-                            .components( List.of() )
+                            .assemblies( List.of() )
                             .build();
   when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
   when( pageDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
@@ -138,7 +138,7 @@ class PageServiceTest {
   PageDto pageDto = PageDto.builder()
                             .name( "A" )
                             .userId( "B" )
-                            .components( List.of() )
+                            .assemblies( List.of() )
                             .build();
   when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
   when( pageDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );

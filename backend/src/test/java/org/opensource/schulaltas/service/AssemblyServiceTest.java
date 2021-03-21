@@ -2,8 +2,8 @@ package org.opensource.schulaltas.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.opensource.schulaltas.model.page.Component;
-import org.opensource.schulaltas.repository.ComponentDb;
+import org.opensource.schulaltas.model.page.Assembly;
+import org.opensource.schulaltas.repository.AssemblyDb;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,10 +14,10 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class ComponentServiceTest {
+class AssemblyServiceTest {
 
- private final ComponentDb componentDb = mock( ComponentDb.class );
- private final ComponentService componentService = new ComponentService( componentDb );
+ private final AssemblyDb assemblyDb = mock( AssemblyDb.class );
+ private final ComponentService componentService = new ComponentService( assemblyDb );
 
  @Test
  @DisplayName ("List components should return all components form the db")
@@ -27,16 +27,16 @@ class ComponentServiceTest {
   components1.put( "A", List.of() );
   Map<String, List<Object>> components2 = new HashMap<>();
   components2.put( "B", List.of() );
-  Component component1 = Component.builder().components( components1 ).build();
-  Component component2 = Component.builder().components( components2 ).build();
-  when( componentDb.findAll() ).thenReturn( List.of( component1, component2 ) );
+  Assembly assembly1 = Assembly.builder().components( List.of() ).build();
+  Assembly assembly2 = Assembly.builder().components( List.of() ).build();
+  when( assemblyDb.findAll() ).thenReturn( List.of( assembly1, assembly2 ) );
 
   // WHEN
-  List<Component> actual = componentService.listComponents();
+  List<Assembly> actual = componentService.listComponents();
 
   // THEN
   assertThat( actual, containsInAnyOrder(
-          component1.toBuilder().build(),
-          component2.toBuilder().build() ) );
+          assembly1.toBuilder().build(),
+          assembly2.toBuilder().build() ) );
  }
 }
