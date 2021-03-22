@@ -1,11 +1,10 @@
 package org.opensource.schulaltas.controller.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.opensource.schulaltas.model.page.Component;
+import org.opensource.schulaltas.model.page.Assembly;
 
 import java.util.List;
 
@@ -16,8 +15,6 @@ import java.util.List;
 public class PageDto {
 
  private String name;
-
- @JsonProperty ("author")
  private String userId;
- private List<Component> components;
+ private List<Assembly> assemblies;
 }

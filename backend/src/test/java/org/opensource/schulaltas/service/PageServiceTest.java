@@ -18,14 +18,15 @@ class PageServiceTest {
 
  private final PageDb pageDb = mock( PageDb.class );
  private final TimeUTC timeUTC = mock( TimeUTC.class );
- private final PageService pageService = new PageService( pageDb, timeUTC );
+ private final AssemblyService assemblyService = mock( AssemblyService.class );
+ private final PageService pageService = new PageService( pageDb, timeUTC, assemblyService );
 
  private Page getPage (String name) {
   return Page.builder()
                  .name( name )
                  .updated( 1L )
                  .userId( "B" )
-                 .components( List.of() )
+                 .assemblies( List.of() )
                  .build();
  }
 
@@ -69,59 +70,82 @@ class PageServiceTest {
  }
 
  @Test
- @DisplayName ("Add page should add the page to the db")
+ @DisplayName ("Add page should add the page to the db and return optional of page")
  void addPage () {
   // GIVEN
   PageDto pageDto = PageDto.builder()
                             .name( "A" )
                             .userId( "B" )
-                            .components( List.of() )
+                            .assemblies( List.of() )
                             .build();
   when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
   when( pageDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
   when( timeUTC.now() ).thenReturn( 1L );
+  when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( true );
 
   // WHEN
-  Page actual = pageService.addPage( pageDto );
+  Optional<Page> actual = pageService.addPage( pageDto );
 
   // THEN
-  assertThat( actual, is( getPage( "A" ) ) );
+  assertThat( actual.get(), is( getPage( "A" ) ) );
   verify( pageDb ).save( getPage( "A" ) );
  }
 
  @Test
- @DisplayName ("Add page should return the already existing page")
+ @DisplayName ("Add page should return optional empty if assembly is invalid")
+ void addPageWithInvalidAssembly () {
+  // GIVEN
+  PageDto pageDto = PageDto.builder()
+                            .name( "A" )
+                            .userId( "B" )
+                            .assemblies( List.of() )
+                            .build();
+  when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
+  when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( false );
+
+  // WHEN
+  Optional<Page> actual = pageService.addPage( pageDto );
+
+  // THEN
+  assertThat( actual.isEmpty(), is( true ) );
+  verify( pageDb, never() ).save( getPage( "A" ) );
+ }
+
+ @Test
+ @DisplayName ("Add existing page should return the already existing page as optional")
  void addExistingPage () {
   // GIVEN
   PageDto pageDto = PageDto.builder()
                             .name( "A" )
                             .userId( "B" )
-                            .components( List.of() )
+                            .assemblies( List.of() )
                             .build();
   when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
   when( pageDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
   when( timeUTC.now() ).thenReturn( 1L );
+  when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( true );
 
   // WHEN
-  Page actual = pageService.addPage( pageDto );
+  Optional<Page> actual = pageService.addPage( pageDto );
 
   // THEN
-  assertThat( actual, is( getPage( "A" ) ) );
+  assertThat( actual.get(), is( getPage( "A" ) ) );
   verify( pageDb, never() ).save( getPage( "A" ) );
  }
 
  @Test
- @DisplayName ("Update page should update the page in the db")
+ @DisplayName ("Update existing page should update the page in the db")
  void updatePage () {
   // GIVEN
   PageDto pageDto = PageDto.builder()
                             .name( "A" )
                             .userId( "B" )
-                            .components( List.of() )
+                            .assemblies( List.of() )
                             .build();
   when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
   when( pageDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
   when( timeUTC.now() ).thenReturn( 1L );
+  when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( true );
 
   // WHEN
   Optional<Page> actual = pageService.updatePage( pageDto );
@@ -132,13 +156,33 @@ class PageServiceTest {
  }
 
  @Test
+ @DisplayName ("Update existing page should return optional empty if assemblies are invalid")
+ void updatePageWithInvalidAssembly () {
+  // GIVEN
+  PageDto pageDto = PageDto.builder()
+                            .name( "A" )
+                            .userId( "B" )
+                            .assemblies( List.of() )
+                            .build();
+  when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
+  when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( false );
+
+  // WHEN
+  Optional<Page> actual = pageService.updatePage( pageDto );
+
+  // THEN
+  assertThat( actual.isEmpty(), is( true ) );
+  verify( pageDb, never() ).save( getPage( "A" ) );
+ }
+
+ @Test
  @DisplayName ("Update page should return an optional.empty if page doesnt exist")
  void updateNotExistingPage () {
   // GIVEN
   PageDto pageDto = PageDto.builder()
                             .name( "A" )
                             .userId( "B" )
-                            .components( List.of() )
+                            .assemblies( List.of() )
                             .build();
   when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
   when( pageDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );

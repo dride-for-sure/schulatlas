@@ -20,6 +20,6 @@ public class Page {
  private String name;
  private Long updated;
  private String userId;
- private List<Component> components;
+ private List<Assembly> assemblies;
 
 }

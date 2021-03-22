@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.opensource.schulaltas.model.page.enums.AttachmentType;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,5 +17,5 @@ public class Attachment {
  @Id
  private String fileName;
  private String url;
- private AttachmentType type;
+ private String type;
 }

@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder (toBuilder = true)
-@Document (collection = "AvailableProperties")
+@Document (collection = "availableproperties")
 public class AvailableProperty {
 
  @Id
