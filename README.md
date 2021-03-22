@@ -17,7 +17,7 @@ Among other things germany is known worldwide for its sustained success in the e
 
 **SCHULATLAS** addresses this problem, aggregates data from the provinces' quality management, processes it and outputs it both as overlays on maps and in a statistics module within the context of Open Data / Open Government. Data can be maintained via public API and accessed by anyone.
 
-In this way, **SCHULATLAS** can hopefully contribute to the transition to a 21st century education for future generations to come.
+In this way, **SCHULATLAS** contributes to the transition to a 21st century education for future generations to come.
 
 ### Features
 - Website written in React with TypeScript to communicate the vision in a visually engaging way
