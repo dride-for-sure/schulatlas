@@ -32,14 +32,16 @@ public class PrivateAttachmentController {
  }
 
  @PostMapping
- public boolean addAttachment (@RequestParam ("file") MultipartFile file) {
+ public Attachment addAttachment (@RequestParam ("file") MultipartFile file) {
   if ( file.isEmpty() ) {
-   throw new ResponseStatusException( HttpStatus.NOT_ACCEPTABLE, "This is not a valid file" );
+   throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "File is empty" );
   }
   if ( attachmentService.isValidAttachment( file ) ) {
-   attachmentService.addAttachment( file );
+   return attachmentService.addAttachment( file )
+                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
+                          "Could not save the file" ) );
   }
-  return true;
+  throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "This file has no valid fileType" );
  }
 
  @DeleteMapping ("/{id}")

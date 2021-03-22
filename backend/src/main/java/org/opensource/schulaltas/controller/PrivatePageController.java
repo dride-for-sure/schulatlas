@@ -25,7 +25,7 @@ public class PrivatePageController {
  }
 
  @GetMapping ("/{name}")
- public Page getPage (String name) {
+ public Page getPage (@PathVariable String name) {
   return pageService.getPage( name )
                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
                          "Page: " + name + " is not available" ) );
@@ -33,7 +33,9 @@ public class PrivatePageController {
 
  @PostMapping
  public Page addPage (@RequestBody PageDto pageDto) {
-  return pageService.addPage( pageDto );
+  return pageService.addPage( pageDto )
+                 .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
+                         "Page: " + pageDto.getName() + " could not be added" ) );
  }
 
  @PutMapping ("/{name}")
