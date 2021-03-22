@@ -375,7 +375,7 @@
 			"name": "Attachments",
 			"item": [
 				{
-					"name": "List attachments Copy",
+					"name": "List attachments",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -526,8 +526,8 @@
 					"        ",
 					"    }",
 					"}, function (err, res) {",
-					"    pm.environment.set(\"jwt\",  console.log(res.body));",
-					"});"
+					"    pm.environment.set(\"jwt\", res.text());",
+					"\t});"
 				]
 			}
 		},
