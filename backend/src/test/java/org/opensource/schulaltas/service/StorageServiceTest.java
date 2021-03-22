@@ -25,15 +25,15 @@ class StorageServiceTest {
   MockMultipartFile mockMultipartFile = new MockMultipartFile( "file",
           "fileName.jpg", "image/jpeg", "some text".getBytes() );
   when( awsService.uploadFileToS3( mockMultipartFile, true ) )
-          .thenReturn( Optional.of( mockMultipartFile ) );
+          .thenReturn( Optional.of( "1234/fileName.jpg" ) );
 
   // WHEN
   Optional<Attachment> actual = storageService.save( mockMultipartFile );
 
   // THEN
   Attachment expected = Attachment.builder()
-                                .fileName( "fileName.jpg" )
-                                .url( "https://" + awsConfig.getAWSS3AudioBucket() + ".s3.amazonaws.com/fileName.jpg" )
+                                .fileName( "1234/fileName.jpg" )
+                                .url( "https://" + awsConfig.getAWSS3AudioBucket() + ".s3.amazonaws.com/1234/fileName.jpg" )
                                 .type( "image/jpeg" )
                                 .build();
   assertThat( actual.get(), is( expected ) );

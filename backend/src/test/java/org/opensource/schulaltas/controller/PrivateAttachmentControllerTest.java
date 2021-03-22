@@ -147,7 +147,7 @@ class PrivateAttachmentControllerTest {
  void addAttachment () throws Exception {
   // GIVEN
   when( awsService.uploadFileToS3( any(), eq( true ) ) )
-          .thenAnswer( invocationOnMock -> Optional.of( invocationOnMock.getArguments()[ 0 ] ) );
+          .thenReturn( Optional.of( "file.jpg" ) );
 
   // WHEN
   Path tempFile = Files.createTempFile( "file", ".jpg" );
@@ -169,7 +169,7 @@ class PrivateAttachmentControllerTest {
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
-  assertThat( actual.getBody(), is( getAttachment( testFile.getFilename() ) ) );
+  assertThat( actual.getBody(), is( getAttachment( "file.jpg" ) ) );
  }
 
  @Test

@@ -19,12 +19,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AWSService {
 
- private String awsS3AudioBucket;
- private AmazonS3 amazonS3;
+ private final String awsS3AudioBucket;
+ private final AmazonS3 amazonS3;
  private static final Logger logger = LoggerFactory.getLogger( AWSService.class );
 
  @Autowired
@@ -38,16 +39,17 @@ public class AWSService {
  }
 
  @Async
- public Optional<MultipartFile> uploadFileToS3 (MultipartFile multipartFile,
-                                                boolean enablePublicReadAccess) {
+ public Optional<String> uploadFileToS3 (MultipartFile multipartFile,
+                                         boolean enablePublicReadAccess) {
   String fileName = multipartFile.getOriginalFilename();
+  String pathOnS3 = UUID.randomUUID().toString() + "/" + fileName;
   try {
    File file = new File( fileName );
    FileOutputStream fileOutputStream = new FileOutputStream( file );
    fileOutputStream.write( multipartFile.getBytes() );
    fileOutputStream.close();
 
-   PutObjectRequest putObjectRequest = new PutObjectRequest( awsS3AudioBucket, fileName, file );
+   PutObjectRequest putObjectRequest = new PutObjectRequest( awsS3AudioBucket, pathOnS3, file );
 
    if ( enablePublicReadAccess ) {
     putObjectRequest.withCannedAcl( CannedAccessControlList.PublicRead );
@@ -55,7 +57,7 @@ public class AWSService {
 
    amazonS3.putObject( putObjectRequest );
    file.delete();
-   return Optional.of( multipartFile );
+   return Optional.of( pathOnS3 );
 
   } catch ( IOException | AmazonServiceException error ) {
    logger.error( error.getMessage() );
