@@ -4,9 +4,8 @@
     "es2021": true
   },
   "extends": [
-    "plugin:react/recommended",
     "airbnb",
-    "prettier"
+    "plugin:react/recommended"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -20,7 +19,6 @@
     "prettier"
   ],
   "rules": {
-    "prettier/prettier": "error",
     "react/jsx-filename-extension": [
       1,
       {
@@ -31,7 +29,7 @@
       }
     ],
     "object-curly-newline": "off",
-    "react/react-in-jsx-scop": "off",
+    "react/react-in-jsx-scope": "off",
     "react/jsx-closing-bracket-location": "off",
     "jsx-a11y/label-has-associated-control": "off",
     "implicit-arrow-linebreak": "off"
