@@ -51,6 +51,39 @@ class SchoolServiceTest {
  }
 
  @Test
+ @DisplayName ("List types should filter all schools for unique types")
+ void listTypes () {
+  // GIVEN
+  when( schoolDb.findAll() ).thenReturn( List.of(
+          getSchool( "A" ).toBuilder().type( "A" ).build(),
+          getSchool( "B" ).toBuilder().type( "B" ).build(),
+          getSchool( "C" ).toBuilder().type( "A" ).build() ) );
+
+  // WHEN
+  List<String> actual = schoolService.listTypes();
+
+  // THEN
+  assertThat( actual, is( List.of( "A", "B" ) ) );
+ }
+
+ @Test
+ @DisplayName ("List schools return a list with schools of this specific type")
+ void listSchoolsByType () {
+  // GIVEN
+  when( schoolDb.findAllByType( "A" ) ).thenReturn( List.of(
+          getSchool( "A" ).toBuilder().type( "A" ).build(),
+          getSchool( "C" ).toBuilder().type( "A" ).build() ) );
+
+  // WHEN
+  List<School> actual = schoolService.listSchoolsByType( "A" );
+
+  // THEN
+  assertThat( actual, is( List.of(
+          getSchool( "A" ).toBuilder().type( "A" ).build(),
+          getSchool( "C" ).toBuilder().type( "A" ).build() ) ) );
+ }
+
+ @Test
  @DisplayName ("Get school should return an existing school from db")
  void getSchoolByNumber () {
   // GIVEN

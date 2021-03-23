@@ -25,8 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.arrayContainingInAnyOrder;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
@@ -73,6 +72,7 @@ class PrivateSchoolControllerTest {
                  .name( "Goetheschule" )
                  .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                  .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
+                 .type( number )
                  .coordinates( Coordinates.builder().longitude( 1.1 ).latitude( 1.1 ).build() )
                  .updated( 1L )
                  .userId( "A" )
@@ -117,6 +117,52 @@ class PrivateSchoolControllerTest {
  }
 
  @Test
+ @DisplayName ("List types should return all types existing within the schoolDb")
+ void listTypes () {
+  // WHEN
+  HttpHeaders headers = new HttpHeaders();
+  headers.setBearerAuth( getJWTToken() );
+  HttpEntity<Void> entity = new HttpEntity<>( headers );
+  ResponseEntity<String[]> response = testRestTemplate.exchange(
+          getUrl() + "/auth/v1/school/type", HttpMethod.GET, entity, String[].class );
+
+  // THEN
+  assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
+  assertThat( response.getBody(), arrayContainingInAnyOrder( "1", "2" ) );
+ }
+
+ @Test
+ @DisplayName ("List schools by type should return all schools for a specific type")
+ void listSchoolsByType () {
+  // WHEN
+  HttpHeaders headers = new HttpHeaders();
+  headers.setBearerAuth( getJWTToken() );
+  HttpEntity<Void> entity = new HttpEntity<>( headers );
+  ResponseEntity<School[]> response = testRestTemplate.exchange(
+          getUrl() + "/auth/v1/school/type/1", HttpMethod.GET, entity, School[].class );
+
+  // THEN
+  assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
+  assertThat( response.getBody(), arrayContainingInAnyOrder( getSchool( "1" ) ) );
+ }
+
+ @Test
+ @DisplayName ("List schools by type should return an empty list no school with this type exists")
+ void listSchoolsByTypeAndFoundNone () {
+  // WHEN
+  HttpHeaders headers = new HttpHeaders();
+  headers.setBearerAuth( getJWTToken() );
+  HttpEntity<Void> entity = new HttpEntity<>( headers );
+  ResponseEntity<School[]> response = testRestTemplate.exchange(
+          getUrl() + "/auth/v1/school/type/UNKNOWN", HttpMethod.GET, entity, School[].class );
+
+  // THEN
+  assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
+  assertThat( response.getBody(), is( emptyArray() ) );
+ }
+
+
+ @Test
  @DisplayName ("Get school should return the specific school")
  void getSchoolByNumber () {
   // WHEN
@@ -155,6 +201,7 @@ class PrivateSchoolControllerTest {
                                 .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                                 .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
                                 .userId( "A" )
+                                .type( "100" )
                                 .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
                                 .build();
   when( timeUTC.now() ).thenReturn( 1L );
@@ -183,6 +230,7 @@ class PrivateSchoolControllerTest {
                                 .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                                 .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
                                 .userId( "A" )
+                                .type( "1" )
                                 .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
                                 .build();
   when( timeUTC.now() ).thenReturn( 1L );
@@ -210,6 +258,7 @@ class PrivateSchoolControllerTest {
                                 .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                                 .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
                                 .userId( "A" )
+                                .type( "A" )
                                 .properties( List.of( Property.builder().name( "INVALID PROPERTY" ).value( "B" ).unit( "C" ).build() ) )
                                 .build();
   when( timeUTC.now() ).thenReturn( 1L );
@@ -236,6 +285,7 @@ class PrivateSchoolControllerTest {
                                 .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                                 .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
                                 .userId( "A" )
+                                .type( "1" )
                                 .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
                                 .build();
   when( timeUTC.now() ).thenReturn( 1L );
@@ -264,6 +314,7 @@ class PrivateSchoolControllerTest {
                                 .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                                 .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
                                 .userId( "A" )
+                                .type( "1" )
                                 .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
                                 .build();
   when( timeUTC.now() ).thenReturn( 1L );
@@ -291,6 +342,7 @@ class PrivateSchoolControllerTest {
                                 .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                                 .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
                                 .userId( "A" )
+                                .type( "1" )
                                 .properties( List.of( Property.builder().name( "INVALID PROPERTY" ).value(
                                         "B" ).unit( "C" ).build() ) )
                                 .build();
@@ -319,6 +371,7 @@ class PrivateSchoolControllerTest {
                                 .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                                 .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
                                 .userId( "A" )
+                                .type( "1" )
                                 .properties( List.of( Property.builder().name( "A" ).value(
                                         "B" ).unit( "C" ).build() ) )
                                 .build();
@@ -342,24 +395,11 @@ class PrivateSchoolControllerTest {
  @DisplayName ("Delete existing school should delete it from db")
  void deleteSchoolByNumber () {
   // WHEN
-  SchoolDto schoolDto = SchoolDto.builder()
-                                .number( "1" )
-                                .name( "Goetheschule" )
-                                .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
-                                .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
-                                .userId( "A" )
-                                .properties( List.of( Property.builder().name( "INVALID PROPERTY" ).value(
-                                        "B" ).unit( "C" ).build() ) )
-                                .build();
-  when( timeUTC.now() ).thenReturn( 1L );
-  when( geoService.getCoordinatesFromAddress( schoolDto.getAddress() ) )
-          .thenReturn( Optional.of( Coordinates.builder().latitude( 1.1 ).longitude( 1.1 ).build() ) );
-
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
-  HttpEntity<SchoolDto> entity = new HttpEntity<>( schoolDto, headers );
+  HttpEntity<Void> entity = new HttpEntity<>( headers );
   ResponseEntity<School> response =
-          testRestTemplate.exchange( getUrl() + "/auth/v1/school/number/" + schoolDto.getNumber(),
+          testRestTemplate.exchange( getUrl() + "/auth/v1/school/number/1",
                   HttpMethod.DELETE, entity, School.class );
 
   // THEN
