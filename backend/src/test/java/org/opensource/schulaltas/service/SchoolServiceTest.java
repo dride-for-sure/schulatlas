@@ -3,6 +3,7 @@ package org.opensource.schulaltas.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.opensource.schulaltas.controller.model.SchoolDto;
+import org.opensource.schulaltas.controller.model.TypeDto;
 import org.opensource.schulaltas.model.school.*;
 import org.opensource.schulaltas.repository.SchoolDb;
 
@@ -60,10 +61,13 @@ class SchoolServiceTest {
           getSchool( "C" ).toBuilder().type( "A" ).build() ) );
 
   // WHEN
-  List<String> actual = schoolService.listTypes();
+  List<TypeDto> actual = schoolService.listTypes();
 
   // THEN
-  assertThat( actual, is( List.of( "A", "B" ) ) );
+  assertThat( actual, is( List.of(
+          TypeDto.builder().type( "A" ).count( 2 ).build(),
+          TypeDto.builder().type( "B" ).count( 1 ).build()
+  ) ) );
  }
 
  @Test

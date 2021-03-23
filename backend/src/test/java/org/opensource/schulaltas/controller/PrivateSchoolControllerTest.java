@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.opensource.schulaltas.controller.model.SchoolDto;
+import org.opensource.schulaltas.controller.model.TypeDto;
 import org.opensource.schulaltas.model.school.*;
 import org.opensource.schulaltas.repository.AvailablePropertyDb;
 import org.opensource.schulaltas.repository.SchoolDb;
@@ -123,12 +124,15 @@ class PrivateSchoolControllerTest {
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
-  ResponseEntity<String[]> response = testRestTemplate.exchange(
-          getUrl() + "/auth/v1/school/type", HttpMethod.GET, entity, String[].class );
+  ResponseEntity<TypeDto[]> response = testRestTemplate.exchange(
+          getUrl() + "/auth/v1/school/type", HttpMethod.GET, entity, TypeDto[].class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
-  assertThat( response.getBody(), arrayContainingInAnyOrder( "1", "2" ) );
+  assertThat( response.getBody(), arrayContainingInAnyOrder(
+          TypeDto.builder().type( "1" ).count( 1 ).build(),
+          TypeDto.builder().type( "2" ).count( 1 ).build()
+  ) );
  }
 
  @Test
