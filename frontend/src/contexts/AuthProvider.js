@@ -11,10 +11,7 @@ export const AuthProvider = ({ children }) => {
   const isTokenExpired = (tokenToTest) => {
     try {
       const decodedToken = decode(tokenToTest);
-      if (decodedToken.exp < Date.now() / 1000) {
-        return true;
-      }
-      return false;
+      return decodedToken.exp < Date.now() / 1000;
     } catch (error) {
       return false;
     }
