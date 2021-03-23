@@ -40,6 +40,15 @@ export const updatePage = (page) => axiosConfig.instance
 export const deletePage = (name) => axiosConfig.instance
   .delete(`/auth/page/${name}`);
 
+/* LANDING ENDPOINTS */
+export const getLandingPage = () => axiosConfig.instance
+  .get('/auth/landingpage/')
+  .then((response) => response.data);
+
+export const markPageAsLandingPage = (name) => axiosConfig.instance
+  .put(`/auth/landingpage/${name}`)
+  .then((response) => response.data);
+
 /* PROPERTY ENDPOINTS */
 export const listPropertes = () => axiosConfig.instance
   .get('/auth/property')
