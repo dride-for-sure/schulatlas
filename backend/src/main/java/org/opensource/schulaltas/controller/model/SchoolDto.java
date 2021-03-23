@@ -21,6 +21,7 @@ public class SchoolDto {
  private String name;
  private Address address;
  private Contact contact;
+ private String type;
 
  @JsonProperty ("author")
  private String userId;
