@@ -10,19 +10,30 @@ export default function Header() {
     <Container background={Background}>
       <Center>
         <MaxWidth>
-          <Logo />
-          <Navigation />
+          <AlignSelf>
+            <Logo />
+            <Navigation />
+          </AlignSelf>
         </MaxWidth>
       </Center>
     </Container>
   );
 }
 
-const Container = styled.div`
+const Container = styled.header`
   background-image: url(${(props) => props.background});
   background-repeat: no-repeat;
   background-position: center;
   background-position:50% 50%;
   background-size:cover;
   padding: var(--container-padding);
+`;
+
+const AlignSelf = styled.div`
+  display:flex;
+  justify-content: space-between;
+  
+  > * {
+    align-self:center;
+  }
 `;
