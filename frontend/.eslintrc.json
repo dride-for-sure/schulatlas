@@ -32,6 +32,8 @@
     "react/react-in-jsx-scope": "off",
     "react/jsx-closing-bracket-location": "off",
     "jsx-a11y/label-has-associated-control": "off",
-    "implicit-arrow-linebreak": "off"
+    "implicit-arrow-linebreak": "off",
+    "react/forbid-prop-types": "off",
+    "react/require-default-props": "off"
   }
 }
