@@ -22,5 +22,9 @@ const Headline = styled.h1`
 
 H1.propTypes = {
   children: node.isRequired,
-  size: string.isRequired,
+  size: string,
+};
+
+H1.defaultProps = {
+  size: '',
 };
