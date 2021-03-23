@@ -2,15 +2,13 @@ package org.opensource.schulaltas.service;
 
 
 import org.opensource.schulaltas.controller.model.SchoolDto;
+import org.opensource.schulaltas.controller.model.TypeDto;
 import org.opensource.schulaltas.model.school.Coordinates;
 import org.opensource.schulaltas.model.school.School;
 import org.opensource.schulaltas.repository.SchoolDb;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,11 +31,14 @@ public class SchoolService {
   return schoolDb.findAll();
  }
 
- public List<String> listTypes () {
+ public List<TypeDto> listTypes () {
   List<String> types = schoolDb.findAll().stream()
                                .map( school -> school.getType() )
                                .collect( Collectors.toList() );
-  return new ArrayList<>( new HashSet<>( types ) );
+  List<String> uniqueTypes = new ArrayList<>( new HashSet<>( types ) );
+  return uniqueTypes.stream()
+                 .map( type -> TypeDto.builder().type( type ).count( Collections.frequency( types, type ) ).build() )
+                 .collect( Collectors.toList() );
  }
 
  public List<School> listSchoolsByType (String type) {

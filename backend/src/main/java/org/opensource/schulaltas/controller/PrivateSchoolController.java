@@ -1,6 +1,7 @@
 package org.opensource.schulaltas.controller;
 
 import org.opensource.schulaltas.controller.model.SchoolDto;
+import org.opensource.schulaltas.controller.model.TypeDto;
 import org.opensource.schulaltas.model.school.School;
 import org.opensource.schulaltas.service.SchoolService;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class PrivateSchoolController {
  }
 
  @GetMapping ("/type")
- public List<String> listTypes () {
+ public List<TypeDto> listTypes () {
   return schoolService.listTypes();
  }
 
