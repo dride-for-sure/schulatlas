@@ -12,7 +12,6 @@ import java.util.Optional;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.Mockito.*;
 
 class PageServiceTest {
@@ -207,55 +206,5 @@ class PageServiceTest {
 
   // THEN
   verify( pageDb ).deleteById( "A" );
- }
-
- @Test
- @DisplayName ("Set landing page should set landingPage to true, remove all other landingPages " +
-                       "and return it as an optional")
- void setLandingPage () {
-  // GIVEN
-  when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
-  when( pageDb.findByLandingPageIs( true ) )
-          .thenReturn( List.of( getPage( "B" ).toBuilder().landingPage( true ).build() ) );
-  when( pageDb.save( getPage( "A" ).toBuilder().landingPage( true ).build() ) ).then( returnsFirstArg() );
-  when( pageDb.save( getPage( "B" ).toBuilder().landingPage( false ).build() ) ).then( returnsFirstArg() );
-
-  // WHEN
-  Optional<Page> actual = pageService.setLandingPage( "A" );
-
-  // THEN
-  assertThat( actual.get(), is( getPage( "A" ).toBuilder().landingPage( true ).build() ) );
-  verify( pageDb ).save( getPage( "A" ).toBuilder().landingPage( true ).build() );
- }
-
- @Test
- @DisplayName ("Set landing page as landing page again should return it as optional")
- void setLandingPageAgainAsLandingPage () {
-  // GIVEN
-  when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ).toBuilder().landingPage( true ).build() ) );
-  when( pageDb.findByLandingPageIs( true ) )
-          .thenReturn( List.of( getPage( "B" ).toBuilder().landingPage( false ).build() ) );
-  when( pageDb.save( getPage( "A" ).toBuilder().landingPage( true ).build() ) ).then( returnsFirstArg() );
-
-  // WHEN
-  Optional<Page> actual = pageService.setLandingPage( "A" );
-
-  // THEN
-  assertThat( actual.get(), is( getPage( "A" ).toBuilder().landingPage( true ).build() ) );
-  verify( pageDb ).save( getPage( "A" ).toBuilder().landingPage( true ).build() );
- }
-
- @Test
- @DisplayName ("Set a non existing landing page should return optional empty")
- void setNotExistingPageAsLandingPage () {
-  // GIVEN
-  when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
-
-  // WHEN
-  Optional<Page> actual = pageService.setLandingPage( "NOTEXISTING" );
-
-  // THEN
-  assertThat( actual.isEmpty(), is( true ) );
-  verify( pageDb, never() ).save( any() );
  }
 }

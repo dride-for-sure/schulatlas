@@ -24,7 +24,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.arrayContainingInAnyOrder;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
@@ -241,61 +242,5 @@ class PrivatePageControllerTest {
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
   assertFalse( pageDb.existsById( "A" ) );
- }
-
- @Test
- @DisplayName ("Set landing page should change landingPage to true and save it within the db")
- void setLandingPage () {
-  // GIVEN
-  pageDb.save( getPage( "B" ).toBuilder().landingPage( true ).build() );
-
-  // WHEN
-  HttpHeaders headers = new HttpHeaders();
-  headers.setBearerAuth( getJWTToken() );
-  HttpEntity<Page> entity = new HttpEntity<>( headers );
-  ResponseEntity<Page> actual = testRestTemplate.exchange( getUrl() + "/auth/page/A/landingpage",
-          HttpMethod.PUT, entity, Page.class );
-
-  // THEN
-  assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
-  assertThat( pageDb.findByLandingPageIs( true ),
-          containsInAnyOrder( getPage( "A" ).toBuilder().landingPage( true ).build() ) );
-  assertThat( pageDb.findByLandingPageIs( false ), containsInAnyOrder( getPage( "B" ) ) );
- }
-
- @Test
- @DisplayName ("Set landing page again should return it again")
- void setLandingPageAgainAsLandingPage () {
-  // GIVEN
-  pageDb.save( getPage( "A" ).toBuilder().landingPage( true ).build() );
-
-  // WHEN
-  HttpHeaders headers = new HttpHeaders();
-  headers.setBearerAuth( getJWTToken() );
-  HttpEntity<Page> entity = new HttpEntity<>( headers );
-  ResponseEntity<Page> actual = testRestTemplate.exchange( getUrl() + "/auth/page/A/landingpage",
-          HttpMethod.PUT, entity, Page.class );
-
-  // THEN
-  assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
-  assertThat( pageDb.findByLandingPageIs( true ),
-          containsInAnyOrder( getPage( "A" ).toBuilder().landingPage( true ).build() ) );
-  assertThat( pageDb.findByLandingPageIs( false ), containsInAnyOrder( getPage( "B" ) ) );
- }
-
- @Test
- @DisplayName ("Set not existing landing page should throw an exception")
- void setNotExistingPageAsLandingPage () {
-  // WHEN
-  HttpHeaders headers = new HttpHeaders();
-  headers.setBearerAuth( getJWTToken() );
-  HttpEntity<Page> entity = new HttpEntity<>( headers );
-  ResponseEntity<Page> actual =
-          testRestTemplate.exchange( getUrl() + "/auth/page/NOTEXISTING/landingpage",
-                  HttpMethod.PUT, entity, Page.class );
-
-  // THEN
-  assertThat( actual.getStatusCode(), is( HttpStatus.BAD_REQUEST ) );
-  assertFalse( pageDb.existsById( "NOTEXISTING" ) );
  }
 }
