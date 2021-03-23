@@ -1,9 +1,9 @@
 import { node, string } from 'prop-types';
 import styled, { css } from 'styled-components/macro';
 
-export default function Center({ children, variant }) {
+export default function Center({ children, bg }) {
   return (
-    <Container variant={variant}>
+    <Container variant={bg}>
       {children}
     </Container>
   );
@@ -25,5 +25,9 @@ const Container = styled.div`
 
 Center.propTypes = {
   children: node.isRequired,
-  variant: string.isRequired,
+  bg: string,
+};
+
+Center.defaultProps = {
+  bg: '',
 };

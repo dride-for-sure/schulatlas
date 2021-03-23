@@ -50,5 +50,9 @@ const Container = styled.button`
 
 Button.propTypes = {
   children: string.isRequired,
-  variant: string.isRequired,
+  variant: string,
+};
+
+Button.defaultProps = {
+  variant: '',
 };
