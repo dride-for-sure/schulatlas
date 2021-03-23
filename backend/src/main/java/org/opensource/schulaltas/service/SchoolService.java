@@ -7,8 +7,11 @@ import org.opensource.schulaltas.model.school.School;
 import org.opensource.schulaltas.repository.SchoolDb;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SchoolService {
@@ -30,6 +33,17 @@ public class SchoolService {
   return schoolDb.findAll();
  }
 
+ public List<String> listTypes () {
+  List<String> types = schoolDb.findAll().stream()
+                               .map( school -> school.getType() )
+                               .collect( Collectors.toList() );
+  return new ArrayList<>( new HashSet<>( types ) );
+ }
+
+ public List<School> listSchoolsByType (String type) {
+  return schoolDb.findAllByType( type );
+ }
+
  public Optional<School> getSchoolByNumber (String number) {
   return schoolDb.findById( number );
  }
@@ -45,6 +59,7 @@ public class SchoolService {
                                .name( schoolDto.getName() )
                                .address( schoolDto.getAddress() )
                                .contact( schoolDto.getContact() )
+                               .type( schoolDto.getType() )
                                .coordinates( coordinates.get() )
                                .updated( timeUTC.now() )
                                .userId( schoolDto.getUserId() )
@@ -82,6 +97,7 @@ public class SchoolService {
                                   .name( schoolDto.getName() )
                                   .address( schoolDto.getAddress() )
                                   .contact( schoolDto.getContact() )
+                                  .type( schoolDto.getType() )
                                   .coordinates( coordinates.get() )
                                   .userId( schoolDto.getUserId() )
                                   .updated( timeUTC.now() )
