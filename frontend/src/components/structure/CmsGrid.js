@@ -1,5 +1,5 @@
 import { node } from 'prop-types';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 export default function CmsGrid({ children }) {
   return (
@@ -15,7 +15,7 @@ const Container = styled.main`
   grid-template-rows: 1fr;
   gap: 0px 0px;
   grid-template-areas: "SideBar Main";
-  padding: calc(var(--container-padding) * 3) 0;
+  padding: calc(var(--container-padding) * 2) 0;
 
   > div:first-of-type {
     grid-area: SideBar; 

@@ -26,7 +26,7 @@ const Container = styled.header`
   background-position: center;
   background-position:50% 50%;
   background-size:cover;
-  padding: var(--container-padding);
+  padding: var(--container-padding) 0;
 `;
 
 const AlignSelf = styled.div`

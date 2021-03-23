@@ -12,6 +12,7 @@ export default function MaxWidth({ children }) {
 const Container = styled.div`
   max-width: var(--container-max-width);
   width: 100%;
+  padding: 0 var(--container-padding);
 `;
 
 MaxWidth.propTypes = {
