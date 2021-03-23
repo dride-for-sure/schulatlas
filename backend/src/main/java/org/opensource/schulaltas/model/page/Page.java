@@ -20,6 +20,7 @@ public class Page {
  private String name;
  private Long updated;
  private String userId;
+ private boolean landingPage;
  private List<Assembly> assemblies;
 
 }

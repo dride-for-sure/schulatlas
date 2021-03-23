@@ -26,6 +26,7 @@ class PageServiceTest {
                  .name( name )
                  .updated( 1L )
                  .userId( "B" )
+                 .landingPage( false )
                  .assemblies( List.of() )
                  .build();
  }
