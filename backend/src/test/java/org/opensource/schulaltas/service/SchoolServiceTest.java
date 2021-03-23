@@ -65,8 +65,8 @@ class SchoolServiceTest {
 
   // THEN
   assertThat( actual, is( List.of(
-          TypeDto.builder().type( "A" ).count( 2 ).build(),
-          TypeDto.builder().type( "B" ).count( 1 ).build()
+          TypeDto.builder().name( "A" ).count( 2 ).build(),
+          TypeDto.builder().name( "B" ).count( 1 ).build()
   ) ) );
  }
 

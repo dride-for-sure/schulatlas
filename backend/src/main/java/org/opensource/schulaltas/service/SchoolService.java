@@ -37,7 +37,7 @@ public class SchoolService {
                                .collect( Collectors.toList() );
   List<String> uniqueTypes = new ArrayList<>( new HashSet<>( types ) );
   return uniqueTypes.stream()
-                 .map( type -> TypeDto.builder().type( type ).count( Collections.frequency( types, type ) ).build() )
+                 .map( type -> TypeDto.builder().name( type ).count( Collections.frequency( types, type ) ).build() )
                  .collect( Collectors.toList() );
  }
 

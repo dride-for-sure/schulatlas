@@ -130,8 +130,8 @@ class PrivateSchoolControllerTest {
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
   assertThat( response.getBody(), arrayContainingInAnyOrder(
-          TypeDto.builder().type( "1" ).count( 1 ).build(),
-          TypeDto.builder().type( "2" ).count( 1 ).build()
+          TypeDto.builder().name( "1" ).count( 1 ).build(),
+          TypeDto.builder().name( "2" ).count( 1 ).build()
   ) );
  }
 

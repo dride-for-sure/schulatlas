@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder (toBuilder = true)
 public class TypeDto {
 
- private String type;
+ private String name;
  private int count;
 }
