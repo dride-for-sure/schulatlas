@@ -24,6 +24,16 @@ public class PrivateSchoolController {
   return schoolService.listSchools();
  }
 
+ @GetMapping ("/type")
+ public List<String> listTypes () {
+  return schoolService.listTypes();
+ }
+
+ @GetMapping ("/type/{type}")
+ public List<School> listSchoolsByType (@PathVariable String type) {
+  return schoolService.listSchoolsByType( type );
+ }
+
  @GetMapping ("/number/{number}")
  public School getSchoolByNumber (@PathVariable String number) {
   return schoolService.getSchoolByNumber( number )
