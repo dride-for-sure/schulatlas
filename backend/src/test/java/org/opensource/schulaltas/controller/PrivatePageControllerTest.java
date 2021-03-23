@@ -70,6 +70,7 @@ class PrivatePageControllerTest {
                  .name( name )
                  .updated( 1L )
                  .userId( "1" )
+                 .landingPage( false )
                  .assemblies( List.of(
                          Assembly.builder()
                                  .type( "A" )
@@ -195,7 +196,7 @@ class PrivatePageControllerTest {
   // GIVEN
   when( timeUTC.now() ).thenReturn( 1L );
   when( assemblyDb.findAll() ).thenReturn( List.of( getAssembly( "A" ), getAssembly( "B" ) ) );
-  
+
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
