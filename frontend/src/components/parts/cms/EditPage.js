@@ -15,7 +15,3 @@ const Container = styled.div``;
 EditPage.propTypes = {
   page: object,
 };
-
-EditPage.defaultProps = {
-  page: undefined,
-};

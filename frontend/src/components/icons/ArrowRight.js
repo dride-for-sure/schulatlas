@@ -18,7 +18,3 @@ const Arrow = styled.img`
 ArrowRight.propTypes = {
   dark: bool,
 };
-
-ArrowRight.defaultProps = {
-  dark: false,
-};

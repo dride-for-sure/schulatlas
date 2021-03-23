@@ -24,7 +24,3 @@ H1.propTypes = {
   children: node.isRequired,
   size: string,
 };
-
-H1.defaultProps = {
-  size: '',
-};

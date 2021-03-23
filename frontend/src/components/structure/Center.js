@@ -27,7 +27,3 @@ Center.propTypes = {
   children: node.isRequired,
   bg: string,
 };
-
-Center.defaultProps = {
-  bg: '',
-};

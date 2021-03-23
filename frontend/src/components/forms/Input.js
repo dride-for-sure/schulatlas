@@ -30,7 +30,3 @@ Input.propTypes = {
   value: string.isRequired,
   onChange: func.isRequired,
 };
-
-Input.defaultProps = {
-  center: false,
-};
