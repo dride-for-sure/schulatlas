@@ -63,19 +63,4 @@ public class PageService {
  public void deletePage (String name) {
   pageDb.deleteById( name );
  }
-
- public Optional<Page> setLandingPage (String name) {
-  Optional<Page> pageToSetLandingPage = pageDb.findById( name );
-  if ( pageToSetLandingPage.isPresent() ) {
-   List<Page> landingPages = pageDb.findByLandingPageIs( true );
-   landingPages.forEach( page -> pageDb.save( page.toBuilder().landingPage( false ).build() ) );
-   Page newLandingPage = pageToSetLandingPage.get()
-                                 .toBuilder()
-                                 .landingPage( true )
-                                 .build();
-   pageDb.save( newLandingPage );
-   return Optional.of( newLandingPage );
-  }
-  return Optional.empty();
- }
 }

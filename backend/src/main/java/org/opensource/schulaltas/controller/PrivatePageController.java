@@ -38,13 +38,6 @@ public class PrivatePageController {
                          "Page: " + pageDto.getName() + " could not be added" ) );
  }
 
- @PutMapping ("/{name}/landingpage")
- public Page setLandingPage (@PathVariable String name) {
-  return pageService.setLandingPage( name )
-                 .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
-                         "Could not set landing page: " + name ) );
- }
-
  @PutMapping ("/{name}")
  public Page updatePage (@RequestBody PageDto pageDto) {
   return pageService.updatePage( pageDto )
