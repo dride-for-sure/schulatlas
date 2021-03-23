@@ -91,7 +91,7 @@ class PrivateAttachmentControllerTest {
                                                         .username( "testUser" )
                                                         .password( "testPassword" )
                                                         .build();
-  ResponseEntity<String> response = testRestTemplate.postForEntity( getUrl() + "/authenticate",
+  ResponseEntity<String> response = testRestTemplate.postForEntity( getUrl() + "/api/v1/login",
           authenticationRequest, String.class );
   return response.getBody();
  }
@@ -103,7 +103,7 @@ class PrivateAttachmentControllerTest {
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
-  ResponseEntity<Attachment[]> actual = testRestTemplate.exchange( getUrl() + "/auth/attachment",
+  ResponseEntity<Attachment[]> actual = testRestTemplate.exchange( getUrl() + "/auth/v1/attachment",
           HttpMethod.GET, entity, Attachment[].class );
 
   // THEN
@@ -115,13 +115,14 @@ class PrivateAttachmentControllerTest {
 
  @Test
  @DisplayName ("Get attachment should return the specific attachment from the db")
- void getAttachment () {
+ void getAttachmentByFilename () {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
-  ResponseEntity<Attachment> actual = testRestTemplate.exchange( getUrl() + "/auth/attachment/" + "A",
-          HttpMethod.GET, entity, Attachment.class );
+  ResponseEntity<Attachment> actual =
+          testRestTemplate.exchange( getUrl() + "/auth/v1/attachment/filename/A",
+                  HttpMethod.GET, entity, Attachment.class );
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
@@ -130,13 +131,14 @@ class PrivateAttachmentControllerTest {
 
  @Test
  @DisplayName ("Get a not existing attachment should throw an exception")
- void getNotExistingAttachment () {
+ void getNotExistingAttachmentByFilename () {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
   ResponseEntity<Attachment> actual = testRestTemplate.exchange(
-          getUrl() + "/auth/attachment/" + "NOTEXISTING", HttpMethod.GET, entity, Attachment.class );
+          getUrl() + "/auth/v1/attachment/filename/NOTEXISTING", HttpMethod.GET, entity,
+          Attachment.class );
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.BAD_REQUEST ) );
@@ -164,7 +166,7 @@ class PrivateAttachmentControllerTest {
   requestMap.add( "file", testFile );
   HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<>( requestMap, headers );
 
-  ResponseEntity<Attachment> actual = testRestTemplate.exchange( getUrl() + "/auth/attachment",
+  ResponseEntity<Attachment> actual = testRestTemplate.exchange( getUrl() + "/auth/v1/attachment",
           HttpMethod.POST, entity, Attachment.class );
 
   // THEN
@@ -190,7 +192,7 @@ class PrivateAttachmentControllerTest {
   requestMap.add( "file", testFile );
   HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<>( requestMap, headers );
 
-  ResponseEntity<Attachment> actual = testRestTemplate.exchange( getUrl() + "/auth/attachment",
+  ResponseEntity<Attachment> actual = testRestTemplate.exchange( getUrl() + "/auth/v1/attachment",
           HttpMethod.POST, entity, Attachment.class );
 
   // THEN
@@ -215,7 +217,7 @@ class PrivateAttachmentControllerTest {
   requestMap.add( "file", testFile );
   HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<>( requestMap, headers );
 
-  ResponseEntity<Attachment> actual = testRestTemplate.exchange( getUrl() + "/auth/attachment",
+  ResponseEntity<Attachment> actual = testRestTemplate.exchange( getUrl() + "/auth/v1/attachment",
           HttpMethod.POST, entity, Attachment.class );
 
   // THEN
@@ -223,14 +225,14 @@ class PrivateAttachmentControllerTest {
  }
 
  @Test
- void deleteAttachment () {
+ void deleteAttachmentByFilename () {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
 
-  ResponseEntity<Void> actual = testRestTemplate.exchange( getUrl() + "/auth/attachment/A",
-          HttpMethod.DELETE, entity, Void.class );
+  ResponseEntity<Void> actual = testRestTemplate.exchange(
+          getUrl() + "/auth/v1/attachment/filename/A", HttpMethod.DELETE, entity, Void.class );
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );

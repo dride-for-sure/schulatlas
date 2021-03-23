@@ -38,7 +38,7 @@ class PublicSchoolControllerTest {
  }
 
  private String getUrl () {
-  return "http://localhost:" + port + "api/school";
+  return "http://localhost:" + port + "/api/v1/school";
  }
 
  private School getSchool (String id) {
@@ -72,7 +72,8 @@ class PublicSchoolControllerTest {
  @DisplayName ("Get school should return the a school")
  void getSchool () {
   // WHEN
-  ResponseEntity<School> response = testRestTemplate.getForEntity( getUrl() + "/1", School.class );
+  ResponseEntity<School> response = testRestTemplate.getForEntity(
+          getUrl() + "/number/1", School.class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
@@ -83,7 +84,8 @@ class PublicSchoolControllerTest {
  @DisplayName ("Get invalid school should throw a responseStatusException")
  void getInvalidSchool () {
   // WHEN
-  ResponseEntity<School> response = testRestTemplate.getForEntity( getUrl() + "/3", School.class );
+  ResponseEntity<School> response = testRestTemplate.getForEntity(
+          getUrl() + "/number/3", School.class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.BAD_REQUEST ) );
@@ -94,7 +96,8 @@ class PublicSchoolControllerTest {
  @DisplayName ("Increase outdated count should return the school object with increased outdated count")
  void increaseOutdatedCount () {
   // WHEN
-  ResponseEntity<School> response = testRestTemplate.postForEntity( getUrl() + "/1/outdated", "", School.class );
+  ResponseEntity<School> response = testRestTemplate.postForEntity(
+          getUrl() + "/number/1/outdated", "", School.class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
@@ -106,7 +109,8 @@ class PublicSchoolControllerTest {
  @DisplayName ("Increase outdated count should throw a responseStatusException for an invalid school")
  void increaseOutdatedCountForInvalidSchool () {
   // WHEN
-  ResponseEntity<School> response = testRestTemplate.postForEntity( getUrl() + "/3/outdated", "", School.class );
+  ResponseEntity<School> response = testRestTemplate.postForEntity(
+          getUrl() + "/number/3/outdated", "", School.class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.BAD_REQUEST ) );

@@ -30,7 +30,7 @@ public class SchoolService {
   return schoolDb.findAll();
  }
 
- public Optional<School> getSchool (String number) {
+ public Optional<School> getSchoolByNumber (String number) {
   return schoolDb.findById( number );
  }
 
@@ -59,7 +59,7 @@ public class SchoolService {
   return school;
  }
 
- public Optional<School> increaseOutdatedCount (String number) {
+ public Optional<School> markOutdatedByNumber (String number) {
   Optional<School> school = schoolDb.findById( number );
   if ( school.isPresent() ) {
    School updatedSchool = school.get()
@@ -93,7 +93,7 @@ public class SchoolService {
   return Optional.empty();
  }
 
- public void deleteSchool (String number) {
+ public void deleteSchoolByNumber (String number) {
   schoolDb.deleteById( number );
  }
 }

@@ -59,7 +59,7 @@ class AuthenticateControllerTest {
  }
 
  private String getUrl () {
-  return "http://localhost:" + port + "authenticate";
+  return "http://localhost:" + port + "/api/v1/login";
  }
 
  @Test

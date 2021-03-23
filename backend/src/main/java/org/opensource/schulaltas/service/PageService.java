@@ -25,7 +25,7 @@ public class PageService {
   return pageDb.findAll();
  }
 
- public Optional<Page> getPage (String name) {
+ public Optional<Page> getPageByName (String name) {
   return pageDb.findById( name );
  }
 
@@ -60,7 +60,21 @@ public class PageService {
   return Optional.empty();
  }
 
- public void deletePage (String name) {
+ public Optional<Page> setLandingPageByName (String name) {
+  Optional<Page> pageToSetLandingPage = pageDb.findById( name );
+  if ( pageToSetLandingPage.isPresent() ) {
+   List<Page> landingPages = pageDb.findByLandingPageIs( true );
+   landingPages.forEach( page -> pageDb.save( page.toBuilder().landingPage( false ).build() ) );
+   Page newLandingPage = pageToSetLandingPage.get()
+                                 .toBuilder()
+                                 .landingPage( true )
+                                 .build();
+   return Optional.of( pageDb.save( newLandingPage ) );
+  }
+  return Optional.empty();
+ }
+
+ public void deletePageByName (String name) {
   pageDb.deleteById( name );
  }
 }

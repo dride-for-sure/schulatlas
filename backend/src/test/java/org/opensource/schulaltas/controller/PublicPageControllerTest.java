@@ -41,7 +41,7 @@ class PublicPageControllerTest {
  }
 
  private String getUrl () {
-  return "http://localhost:" + port + "api/page";
+  return "http://localhost:" + port + "/api/v1/page";
  }
 
  private Page getPage (String name) {
@@ -73,7 +73,8 @@ class PublicPageControllerTest {
  @DisplayName ("Get page should return an specific existing page from the db")
  void getPage () {
   // WHEN
-  ResponseEntity<Page> response = testRestTemplate.getForEntity( getUrl() + "/page1", Page.class );
+  ResponseEntity<Page> response = testRestTemplate.getForEntity(
+          getUrl() + "/name/page1", Page.class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
@@ -84,7 +85,8 @@ class PublicPageControllerTest {
  @DisplayName ("Get page should throw an exception for a not existing page")
  void getNotExistingPage () {
   // WHEN
-  ResponseEntity<Page> response = testRestTemplate.getForEntity( getUrl() + "/XXX", Page.class );
+  ResponseEntity<Page> response = testRestTemplate.getForEntity(
+          getUrl() + "/name/XXX", Page.class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.BAD_REQUEST ) );

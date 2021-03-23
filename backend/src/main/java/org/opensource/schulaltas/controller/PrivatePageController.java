@@ -10,7 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping ("/auth/page")
+@RequestMapping ("/auth/v1/page")
 public class PrivatePageController {
 
  private final PageService pageService;
@@ -24,9 +24,9 @@ public class PrivatePageController {
   return pageService.listPages();
  }
 
- @GetMapping ("/{name}")
- public Page getPage (@PathVariable String name) {
-  return pageService.getPage( name )
+ @GetMapping ("/name/{name}")
+ public Page getPageByName (@PathVariable String name) {
+  return pageService.getPageByName( name )
                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
                          "Page: " + name + " is not available" ) );
  }
@@ -38,15 +38,22 @@ public class PrivatePageController {
                          "Page: " + pageDto.getName() + " could not be added" ) );
  }
 
- @PutMapping ("/{name}")
+ @PutMapping ("/name/{name}/landingpage")
+ public Page setLandingPageByName (@PathVariable String name) {
+  return pageService.setLandingPageByName( name )
+                 .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
+                         "Could not set landing page: " + name ) );
+ }
+
+ @PutMapping ("/name/{name}")
  public Page updatePage (@RequestBody PageDto pageDto) {
   return pageService.updatePage( pageDto )
                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
                          "Could not update page: " + pageDto.getName() ) );
  }
 
- @DeleteMapping ("/{name}")
- public void deletePage (@PathVariable String name) {
-  pageService.deletePage( name );
+ @DeleteMapping ("/name/{name}")
+ public void deletePageByName (@PathVariable String name) {
+  pageService.deletePageByName( name );
  }
 }

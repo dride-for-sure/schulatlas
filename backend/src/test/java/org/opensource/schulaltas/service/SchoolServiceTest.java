@@ -52,12 +52,12 @@ class SchoolServiceTest {
 
  @Test
  @DisplayName ("Get school should return an existing school from db")
- void getSchool () {
+ void getSchoolByNumber () {
   // GIVEN
   when( schoolDb.findById( "A" ) ).thenReturn( Optional.of( getSchool( "A" ) ) );
 
   // WHEN
-  Optional<School> actual = schoolService.getSchool( "A" );
+  Optional<School> actual = schoolService.getSchoolByNumber( "A" );
 
   // THEN
   assertThat( actual.get(), is( getSchool( "A" ) ) );
@@ -65,12 +65,12 @@ class SchoolServiceTest {
 
  @Test
  @DisplayName ("Get school should return an Optional.empty if school doesnt exists in db")
- void getNotExistingSchool () {
+ void getNotExistingSchoolByNumber () {
   // GIVEN
   when( schoolDb.findById( "A" ) ).thenReturn( Optional.empty() );
 
   // WHEN
-  Optional<School> actual = schoolService.getSchool( "A" );
+  Optional<School> actual = schoolService.getSchoolByNumber( "A" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
@@ -184,12 +184,12 @@ class SchoolServiceTest {
 
  @Test
  @DisplayName ("Increase outdated count should increase the markedOutdated Integer by one ")
- void increaseOutdatedCount () {
+ void markOutdatedByNumber () {
   // GIVEN
   when( schoolDb.findById( "A" ) ).thenReturn( Optional.of( getSchool( "A" ) ) );
 
   // WHEN
-  Optional<School> actual = schoolService.increaseOutdatedCount( "A" );
+  Optional<School> actual = schoolService.markOutdatedByNumber( "A" );
 
   // THEN
   School expected = getSchool( "A" ).toBuilder().markedOutdated( getSchool( "A" ).getMarkedOutdated() + 1 ).build();
@@ -204,7 +204,7 @@ class SchoolServiceTest {
   when( schoolDb.findById( "A" ) ).thenReturn( Optional.empty() );
 
   // WHEN
-  Optional<School> actual = schoolService.increaseOutdatedCount( "A" );
+  Optional<School> actual = schoolService.markOutdatedByNumber( "A" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
@@ -212,9 +212,9 @@ class SchoolServiceTest {
 
  @Test
  @DisplayName ("Delete School should delete school from db")
- void deleteSchool () {
+ void deleteSchoolByNumber () {
   // WHEN
-  schoolService.deleteSchool( "A" );
+  schoolService.deleteSchoolByNumber( "A" );
 
   // THEN
   verify( schoolDb ).deleteById( "A" );

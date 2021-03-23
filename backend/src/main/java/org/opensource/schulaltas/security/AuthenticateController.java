@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping ("/authenticate")
+@RequestMapping ("/api/v1/login")
 public class AuthenticateController {
 
  private final AuthenticationManager authenticationManager;

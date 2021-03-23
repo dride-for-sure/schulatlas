@@ -23,7 +23,7 @@ public class AttachmentService {
   return attachmentDb.findAll();
  }
 
- public Optional<Attachment> getAttachment (String fileName) {
+ public Optional<Attachment> getAttachmentByFilename (String fileName) {
   return attachmentDb.findById( fileName );
  }
 
@@ -36,7 +36,7 @@ public class AttachmentService {
   return Optional.empty();
  }
 
- public void deleteAttachment (String fileName) {
+ public void deleteAttachmentByFilename (String fileName) {
   Optional<Attachment> attachment = attachmentDb.findById( fileName );
   if ( attachment.isPresent() ) {
    storageService.deleteFileById( fileName );

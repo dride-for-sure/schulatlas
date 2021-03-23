@@ -10,7 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping ("/auth/attachment")
+@RequestMapping ("/auth/v1/attachment")
 public class PrivateAttachmentController {
 
  private final AttachmentService attachmentService;
@@ -24,11 +24,11 @@ public class PrivateAttachmentController {
   return attachmentService.listAttachments();
  }
 
- @GetMapping ("/{id}")
- public Attachment getAttachment (@PathVariable String id) {
-  return attachmentService.getAttachment( id )
+ @GetMapping ("/filename/{filename}")
+ public Attachment getAttachmentByFilename (@PathVariable String filename) {
+  return attachmentService.getAttachmentByFilename( filename )
                  .orElseThrow( () -> new ResponseStatusException(
-                         HttpStatus.BAD_REQUEST, "Attachment: " + id + " not available" ) );
+                         HttpStatus.BAD_REQUEST, "Attachment: " + filename + " not available" ) );
  }
 
  @PostMapping
@@ -44,8 +44,8 @@ public class PrivateAttachmentController {
   throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "This file has no valid fileType" );
  }
 
- @DeleteMapping ("/{id}")
- public void deleteAttachment (@PathVariable String id) {
-  attachmentService.deleteAttachment( id );
+ @DeleteMapping ("/filename/{filename}")
+ public void deleteAttachmentByFilename (@PathVariable String filename) {
+  attachmentService.deleteAttachmentByFilename( filename );
  }
 }

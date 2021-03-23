@@ -37,7 +37,7 @@ public class PropertyService {
   return Optional.empty();
  }
 
- public void deleteProperty (String name) {
+ public void deletePropertyByName (String name) {
   availablePropertyDb.deleteById( name );
  }
 

@@ -10,7 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping ("/auth/school")
+@RequestMapping ("/auth/v1/school")
 public class PrivateSchoolController {
 
  private final SchoolService schoolService;
@@ -24,9 +24,9 @@ public class PrivateSchoolController {
   return schoolService.listSchools();
  }
 
- @GetMapping ("/{number}")
- public School getSchool (@PathVariable String number) {
-  return schoolService.getSchool( number )
+ @GetMapping ("/number/{number}")
+ public School getSchoolByNumber (@PathVariable String number) {
+  return schoolService.getSchoolByNumber( number )
                  .orElseThrow( () -> new ResponseStatusException(
                          HttpStatus.BAD_REQUEST, "School with number: " + number + " is not available" ) );
  }
@@ -38,15 +38,15 @@ public class PrivateSchoolController {
                          HttpStatus.BAD_REQUEST, "Could not add school with number: " + schoolDto.getNumber() ) );
  }
 
- @PutMapping ("/{number}")
+ @PutMapping ("/number/{number}")
  public School updateSchool (@RequestBody SchoolDto schoolDto) {
   return schoolService.updateSchool( schoolDto )
                  .orElseThrow( () -> new ResponseStatusException(
                          HttpStatus.BAD_REQUEST, "Could not update school: " + schoolDto.getNumber() ) );
  }
 
- @DeleteMapping ("/{number}")
- public void deleteSchool (@PathVariable String number) {
-  schoolService.deleteSchool( number );
+ @DeleteMapping ("/number/{number}")
+ public void deleteSchoolByNumber (@PathVariable String number) {
+  schoolService.deleteSchoolByNumber( number );
  }
 }

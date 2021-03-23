@@ -96,7 +96,7 @@ class PrivateSchoolControllerTest {
                                                         .username( "testUser" )
                                                         .password( "testPassword" )
                                                         .build();
-  ResponseEntity<String> response = testRestTemplate.postForEntity( getUrl() + "/authenticate",
+  ResponseEntity<String> response = testRestTemplate.postForEntity( getUrl() + "/api/v1/login",
           authenticationRequest, String.class );
   return response.getBody();
  }
@@ -108,7 +108,7 @@ class PrivateSchoolControllerTest {
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
-  ResponseEntity<School[]> response = testRestTemplate.exchange( getUrl() + "/auth/school",
+  ResponseEntity<School[]> response = testRestTemplate.exchange( getUrl() + "/auth/v1/school",
           HttpMethod.GET, entity, School[].class );
 
   // THEN
@@ -118,13 +118,13 @@ class PrivateSchoolControllerTest {
 
  @Test
  @DisplayName ("Get school should return the specific school")
- void getSchool () {
+ void getSchoolByNumber () {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
-  ResponseEntity<School> response = testRestTemplate.exchange( getUrl() + "/auth/school/1",
-          HttpMethod.GET, entity, School.class );
+  ResponseEntity<School> response = testRestTemplate.exchange(
+          getUrl() + "/auth/v1/school/number/1", HttpMethod.GET, entity, School.class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
@@ -133,13 +133,13 @@ class PrivateSchoolControllerTest {
 
  @Test
  @DisplayName ("Get invalid school should throw an exception")
- void getInvalidSchool () {
+ void getInvalidSchoolByNumber () {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
-  ResponseEntity<School> response = testRestTemplate.exchange( getUrl() + "/auth/school/3",
-          HttpMethod.GET, entity, School.class );
+  ResponseEntity<School> response = testRestTemplate.exchange(
+          getUrl() + "/auth/v1/school/number/3", HttpMethod.GET, entity, School.class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.BAD_REQUEST ) );
@@ -164,8 +164,8 @@ class PrivateSchoolControllerTest {
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<SchoolDto> entity = new HttpEntity<>( schoolDto, headers );
-  ResponseEntity<School> response = testRestTemplate.exchange( getUrl() + "/auth/school",
-          HttpMethod.POST, entity, School.class );
+  ResponseEntity<School> response = testRestTemplate.exchange(
+          getUrl() + "/auth/v1/school", HttpMethod.POST, entity, School.class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
@@ -192,8 +192,8 @@ class PrivateSchoolControllerTest {
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<SchoolDto> entity = new HttpEntity<>( schoolDto, headers );
-  ResponseEntity<School> response = testRestTemplate.exchange( getUrl() + "/auth/school",
-          HttpMethod.POST, entity, School.class );
+  ResponseEntity<School> response = testRestTemplate.exchange(
+          getUrl() + "/auth/v1/school", HttpMethod.POST, entity, School.class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
@@ -219,8 +219,8 @@ class PrivateSchoolControllerTest {
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<SchoolDto> entity = new HttpEntity<>( schoolDto, headers );
-  ResponseEntity<School> response = testRestTemplate.exchange( getUrl() + "/auth/school",
-          HttpMethod.POST, entity, School.class );
+  ResponseEntity<School> response = testRestTemplate.exchange(
+          getUrl() + "/auth/v1/school", HttpMethod.POST, entity, School.class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.BAD_REQUEST ) );
@@ -246,7 +246,7 @@ class PrivateSchoolControllerTest {
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<SchoolDto> entity = new HttpEntity<>( schoolDto, headers );
   ResponseEntity<School> response =
-          testRestTemplate.exchange( getUrl() + "/auth/school/" + schoolDto.getNumber(),
+          testRestTemplate.exchange( getUrl() + "/auth/v1/school/number/" + schoolDto.getNumber(),
                   HttpMethod.PUT, entity, School.class );
 
   // THEN
@@ -274,7 +274,7 @@ class PrivateSchoolControllerTest {
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<SchoolDto> entity = new HttpEntity<>( schoolDto, headers );
   ResponseEntity<School> response =
-          testRestTemplate.exchange( getUrl() + "/auth/school/" + schoolDto.getNumber(),
+          testRestTemplate.exchange( getUrl() + "/auth/v1/school/number/" + schoolDto.getNumber(),
                   HttpMethod.PUT, entity, School.class );
 
   // THEN
@@ -302,7 +302,7 @@ class PrivateSchoolControllerTest {
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<SchoolDto> entity = new HttpEntity<>( schoolDto, headers );
   ResponseEntity<School> response =
-          testRestTemplate.exchange( getUrl() + "/auth/school/" + schoolDto.getNumber(),
+          testRestTemplate.exchange( getUrl() + "/auth/v1/school/number/" + schoolDto.getNumber(),
                   HttpMethod.PUT, entity, School.class );
 
   // THEN
@@ -330,7 +330,7 @@ class PrivateSchoolControllerTest {
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<SchoolDto> entity = new HttpEntity<>( schoolDto, headers );
   ResponseEntity<School> response =
-          testRestTemplate.exchange( getUrl() + "/auth/school/" + schoolDto.getNumber(),
+          testRestTemplate.exchange( getUrl() + "/auth/v1/school/number/" + schoolDto.getNumber(),
                   HttpMethod.PUT, entity, School.class );
 
   // THEN
@@ -340,7 +340,7 @@ class PrivateSchoolControllerTest {
 
  @Test
  @DisplayName ("Delete existing school should delete it from db")
- void deleteSchool () {
+ void deleteSchoolByNumber () {
   // WHEN
   SchoolDto schoolDto = SchoolDto.builder()
                                 .number( "1" )
@@ -359,7 +359,7 @@ class PrivateSchoolControllerTest {
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<SchoolDto> entity = new HttpEntity<>( schoolDto, headers );
   ResponseEntity<School> response =
-          testRestTemplate.exchange( getUrl() + "/auth/school/" + schoolDto.getNumber(),
+          testRestTemplate.exchange( getUrl() + "/auth/v1/school/number/" + schoolDto.getNumber(),
                   HttpMethod.DELETE, entity, School.class );
 
   // THEN

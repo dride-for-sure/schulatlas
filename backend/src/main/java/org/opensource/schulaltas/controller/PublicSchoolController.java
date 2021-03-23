@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping ("/api/school")
+@RequestMapping ("/api/v1/school")
 public class PublicSchoolController {
 
  private final SchoolService schoolService;
@@ -23,16 +23,16 @@ public class PublicSchoolController {
   return schoolService.listSchools();
  }
 
- @GetMapping ("/{number}")
- public School getSchool (@PathVariable String number) {
-  return schoolService.getSchool( number )
+ @GetMapping ("/number/{number}")
+ public School getSchoolByNumber (@PathVariable String number) {
+  return schoolService.getSchoolByNumber( number )
                  .orElseThrow( () -> new ResponseStatusException(
                          HttpStatus.BAD_REQUEST, "School with number: " + number + " is not available" ) );
  }
 
- @PostMapping ("/{number}/outdated")
- public School increaseOutdatedCount (@PathVariable String number) {
-  return schoolService.increaseOutdatedCount( number )
+ @PostMapping ("/number/{number}/outdated")
+ public School markOutdatedByNumber (@PathVariable String number) {
+  return schoolService.markOutdatedByNumber( number )
                  .orElseThrow( () -> new ResponseStatusException(
                          HttpStatus.BAD_REQUEST,
                          "Could not increase counter for school: " + number ) );
