@@ -24,7 +24,7 @@ function App() {
           <ProtectedRoute path="/cms/schools/search/:search" exact>
             <Schools />
           </ProtectedRoute>
-          <ProtectedRoute path="/cms/schools/:category" exact>
+          <ProtectedRoute path="/cms/schools/:type" exact>
             <Schools />
           </ProtectedRoute>
           <ProtectedRoute path="/cms/schools" exact>

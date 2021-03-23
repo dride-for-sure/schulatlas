@@ -13,7 +13,7 @@ export default function SchoolsOverview() {
   const [types, setTypes] = useState();
   const [schools, setSchools] = useState();
   const [school, setSchool] = useState();
-  const { category, number } = useParams();
+  const { type, number } = useParams();
 
   const clearStates = () => {
     setSchools();
@@ -22,8 +22,8 @@ export default function SchoolsOverview() {
 
   const handleParamUpdates = () => {
     clearStates();
-    if (category) {
-      getSchoolByType(category)
+    if (type) {
+      getSchoolByType(type)
         .then(setSchools)
         .catch((error) => console.log(error));
     } else if (number) {
@@ -45,7 +45,7 @@ export default function SchoolsOverview() {
 
   useEffect(() => {
     handleParamUpdates();
-  }, [category, number]);
+  }, [type, number]);
 
   useEffect(() => {
     getTypeList();

@@ -3,14 +3,14 @@ import styled from 'styled-components/macro';
 import H1 from '../../headlines/H1';
 import SideBarListItem from './SideBarListItem';
 
-export default function SideBar({ pages, categories }) {
+export default function SideBar({ pages, types }) {
   return (
     <Container>
       <H1>{pages ? 'Pages' : 'Schools'}</H1>
       {pages && pages.map((page) =>
         <SideBarListItem key={page.name} page={page} />)}
-      {categories && categories.map((category) =>
-        <SideBarListItem key={category.name} category={category} />)}
+      {types && types.map((type) =>
+        <SideBarListItem key={type.name} type={type} />)}
     </Container>
   );
 }
@@ -19,5 +19,5 @@ const Container = styled.div``;
 
 SideBar.propTypes = {
   pages: array,
-  categories: array,
+  types: array,
 };
