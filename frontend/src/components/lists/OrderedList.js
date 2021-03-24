@@ -1,6 +1,6 @@
-const { css } = require('styled-components/macro');
+import styled from 'styled-components/macro';
 
-const OrderedList = css`
+const OrderedList = styled.ol`
   list-style: none;
 `;
 
