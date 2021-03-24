@@ -1,5 +1,6 @@
 import { bool, string } from 'prop-types';
 import styled, { css } from 'styled-components/macro';
+import FlexRowCenter from '../flex/FlexRowCenter';
 import ArrowRight from '../icons/ArrowRight';
 
 export default function ButtonWithArrow({ children, variant, disabled }) {
@@ -12,9 +13,7 @@ export default function ButtonWithArrow({ children, variant, disabled }) {
 }
 
 const Button = styled.button`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+  ${FlexRowCenter}
   width: 170px;
   padding: 4px 5px 6px;
   border: 0;
