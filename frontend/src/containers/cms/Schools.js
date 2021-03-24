@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import FlexRowCenter from '../../components/flex/FlexRowCenter';
-import Footer from '../../components/footer/cms/Footer';
 import Grid from '../../components/grid/cms/Grid';
 import Header from '../../components/header/cms/Header';
 import SchoolList from '../../components/lists/cms/school/SchoolList';
-import SideBar from '../../components/lists/cms/sidebar/SideBarList';
 import EditSchool from '../../components/parts/cms/EditSchool';
+import SideBar from '../../components/parts/cms/SideBar';
+import FlexRowCenter from '../../components/structure/FlexRowCenter';
 import { getSchoolByNumber, getSchoolByType, listSchools, listTypes } from '../../services/private/schoolApiService';
 
 export default function SchoolsOverview() {
@@ -64,7 +63,6 @@ export default function SchoolsOverview() {
           {school && <EditSchool school={school} />}
         </Grid>
       </Container>
-      <Footer />
     </>
   );
 }

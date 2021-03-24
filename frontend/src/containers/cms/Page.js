@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import FlexRowCenter from '../../components/flex/FlexRowCenter';
-import Footer from '../../components/footer/cms/Footer';
 import Grid from '../../components/grid/cms/Grid';
 import Header from '../../components/header/cms/Header';
-import SideBar from '../../components/lists/cms/sidebar/SideBarList';
 import EditPage from '../../components/parts/cms/EditPage';
+import SideBar from '../../components/parts/cms/SideBar';
+import FlexRowCenter from '../../components/structure/FlexRowCenter';
 import { getPageByName, listPages } from '../../services/private/pageApiService';
 
 export default function PageDetails() {
@@ -49,7 +48,6 @@ export default function PageDetails() {
           {page && <EditPage page={page} />}
         </Grid>
       </Container>
-      <Footer />
     </>
   );
 }

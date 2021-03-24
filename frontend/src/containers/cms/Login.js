@@ -3,8 +3,10 @@ import { Redirect } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import Button from '../../components/buttons/ButtonWithArrow';
 import Input from '../../components/form/Input';
-import H1 from '../../components/headlines/H1';
+import Headline from '../../components/headlines/Headline';
 import Logo from '../../components/logo/Logo';
+import FlexColumnCenter from '../../components/structure/FlexColumnCenter';
+import FlexRowCenter from '../../components/structure/FlexRowCenter';
 import { useAuth } from '../../contexts/AuthProvider';
 import login from '../../services/private/loginApiService';
 
@@ -33,7 +35,7 @@ export default function Login() {
     <Wrapper>
       <Container>
         <Logo />
-        <H1 size="l">Please login:</H1>
+        <Headline size="l">Please login:</Headline>
         <Form onSubmit={handleSubmit}>
           <Input
             placeholder="username..."
@@ -56,15 +58,11 @@ const Wrapper = styled.div`
   position: absolute;
   width: 100%;
   height: 100vh;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+  ${FlexRowCenter}
 `;
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  ${FlexColumnCenter}
   align-self: center;
   height: fit-content;
   margin-bottom: 20vh;
@@ -80,9 +78,7 @@ const Container = styled.div`
 `;
 
 const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  ${FlexColumnCenter}
 
   > * {
     align-self: center;
