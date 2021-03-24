@@ -1,11 +1,14 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "jest/globals": true
   },
   "extends": [
     "airbnb",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:testing-library/recommended",
+    "plugin:testing-library/react"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -16,7 +19,9 @@
   },
   "plugins": [
     "react",
-    "prettier"
+    "prettier",
+    "testing-library",
+    "jest"
   ],
   "rules": {
     "react/jsx-filename-extension": [
@@ -34,6 +39,14 @@
     "jsx-a11y/label-has-associated-control": "off",
     "implicit-arrow-linebreak": "off",
     "react/forbid-prop-types": "off",
-    "react/require-default-props": "off"
+    "react/require-default-props": "off",
+    "testing-library/await-async-query": "error",
+    "testing-library/no-await-sync-query": "error",
+    "testing-library/no-debug": "warn",
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error"
   }
 }
