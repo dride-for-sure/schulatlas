@@ -17,7 +17,7 @@ const GlobalStyle = createGlobalStyle`
 
   /* Titles */
   --font-family-title: 'DM Serif Display', serif;
-  --font-weight-title: 400;
+  --font-weight-title: 600;
   --font-size-title-m: 1.5rem;
   --font-size-title-l: 2rem;
   --margin-title: 0 0 1rem;
@@ -25,16 +25,20 @@ const GlobalStyle = createGlobalStyle`
   /* Subtitles */
   --font-family-subtitle: 'Source Serif Pro', serif;
   --font-style-subtitle: italic;
-  --font-size-subtitle-m: 1.25rem;
+  --font-size-subtitle-m: .8rem;
   --font-size-subtitle-l: 1.5rem;
+  --margin-subtitle: 0 0 1.5rem;
 
   /* Navigation */
   --font-family-navigation: 'DM Serif Display', serif;
-  --font-size-navigation: 1rem;
+  --font-size-navigation: 1.1rem;
   
-  /* Regular text */
+  /* Regular size text */
   --font-family-content: 'Source Serif Pro', serif;
   --font-size-content: .9rem;
+
+  /* Medium size text */
+  --font-size-medium-content: .8rem;
 
   /* Colors */
   --color-light-silver: #c5c5c5;
@@ -80,6 +84,9 @@ const GlobalStyle = createGlobalStyle`
   /* Max Width */
   --max-width: 1000px;
   
+  /* Defaults */
+  --default-margin: 2rem;
+
   /* For All Settings */
   font-family: var(--font-family-content);
   font-size: .9rem;
