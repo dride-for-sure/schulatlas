@@ -24,10 +24,10 @@ function App() {
           <ProtectedRoute path="/cms/schools/search/:search" exact>
             <Schools />
           </ProtectedRoute>
-          <ProtectedRoute path="/cms/schools/:type" exact>
+          <ProtectedRoute path="/cms/schools" exact>
             <Schools />
           </ProtectedRoute>
-          <ProtectedRoute path="/cms/schools" exact>
+          <ProtectedRoute path="/cms/type/:type" exact>
             <Schools />
           </ProtectedRoute>
           <ProtectedRoute path="/cms/page/:name" exact>
