@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components/macro';
 
 const GlobalStyle = createGlobalStyle`
- html, body, #root, ol, li, p, h1, h2, h3, h4, h5 {
+ html, body, #root, ol, ul, li, p, h1, h2, h3, h4, h5 {
    margin: 0;
    padding: 0;
  }
