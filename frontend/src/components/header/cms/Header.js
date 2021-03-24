@@ -21,13 +21,14 @@ const Wrapper = styled.header`
   background-position: center;
   background-position: 50% 50%;
   background-size: cover;
-  padding: var(--container-padding) 0;
   ${FlexRowCenter};
 `;
 
 const Container = styled.div`
   display:flex;
   justify-content: space-between;
+  padding: var(--container-padding);
+  width: 100%;
   
   > * {
     align-self:center;
