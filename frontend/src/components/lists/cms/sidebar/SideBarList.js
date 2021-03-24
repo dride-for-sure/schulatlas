@@ -1,27 +1,21 @@
 import { array } from 'prop-types';
-import styled from 'styled-components/macro';
 import H1 from '../../../headlines/H1';
+import OrderedList from '../../OrderedList';
 import SideBarListItem from './SideBarListItem';
 
 export default function SideBar({ pages, types }) {
   return (
-    <Container>
+    <>
       <H1>{pages ? 'Pages' : 'Schools'}</H1>
-      <List>
+      <OrderedList>
         {pages && pages.map((page) =>
           <SideBarListItem key={page.name} page={page} />)}
         {types && types.map((type) =>
           <SideBarListItem key={type.name} type={type} />)}
-      </List>
-    </Container>
+      </OrderedList>
+    </>
   );
 }
-
-const Container = styled.div``;
-
-const List = styled.ol`
-  list-style: none;
-`;
 
 SideBar.propTypes = {
   pages: array,
