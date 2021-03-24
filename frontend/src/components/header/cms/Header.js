@@ -1,10 +1,10 @@
 import styled from 'styled-components/macro';
 import Image from '../../../resources/images/HeaderBackgroundSmall.jpg';
-import MaxWidth from '../../container/MaxWidth';
-import FlexRowCenter from '../../flex/FlexRowCenter';
-import FlexRowSpaceBetween from '../../flex/FlexRowSpaceBetween';
 import Logo from '../../logo/Logo';
 import Navigation from '../../navigation/cms/Navigation';
+import FlexRowCenter from '../../structure/FlexRowCenter';
+import FlexRowSpaceBetween from '../../structure/FlexRowSpaceBetween';
+import MaxWidth from '../../structure/MaxWidth';
 
 export default function Header() {
   return (
@@ -29,7 +29,7 @@ const Wrapper = styled.header`
 const Container = styled.div`
   ${FlexRowSpaceBetween};
   ${MaxWidth};
-  padding: var(--container-padding);
+  padding: var(--container-padding) calc(var(--container-padding) * 2);
   
   > * {
     align-self:center;
