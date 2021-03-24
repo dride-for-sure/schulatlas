@@ -70,7 +70,7 @@ const Container = styled.div`
   margin-bottom: 20vh;
 
   // Logo
-  > span:first-of-type {
+  > a:first-of-type {
     margin: 30px;
   }
 
