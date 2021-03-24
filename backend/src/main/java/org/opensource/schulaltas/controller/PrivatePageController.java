@@ -50,5 +50,4 @@ public class PrivatePageController {
   pageService.deletePage( name );
  }
 
- /** TESTCOMMIT TO CHECK SIGNING **/
 }
