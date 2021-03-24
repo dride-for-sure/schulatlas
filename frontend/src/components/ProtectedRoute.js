@@ -15,7 +15,3 @@ export default function ProtectedRoute(props) {
 ProtectedRoute.propTypes = {
   props: object,
 };
-
-ProtectedRoute.defaultProps = {
-  props: {},
-};

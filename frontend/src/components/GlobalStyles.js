@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components/macro';
 
 const GlobalStyle = createGlobalStyle`
  html, body, #root, ol, li, p, h1, h2, h3, h4, h5 {
@@ -71,8 +71,14 @@ const GlobalStyle = createGlobalStyle`
   /* Hovers */
   --opacity-hover: 0.8;
 
+  /* Disblaed */
+  --opacity-disabled: 0.5;
+
   /* Border */
   --border-radius: 7px;
+
+  /* Max Width */
+  --max-width: 1000px;
   
   /* For All Settings */
   font-family: var(--font-family-content);

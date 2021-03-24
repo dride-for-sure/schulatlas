@@ -1,16 +1,7 @@
-import { string } from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
-export default function NavigationLink({ to, children }) {
-  return (
-    <Container>
-      <NavLink to={to}>{children}</NavLink>
-    </Container>
-  );
-}
-
-const Container = styled.span`
+const NavigationLink = styled(NavLink)`
   > a {
     outline: none;
     text-decoration: none;
@@ -23,7 +14,4 @@ const Container = styled.span`
   }
 `;
 
-NavigationLink.propTypes = {
-  to: string.isRequired,
-  children: string.isRequired,
-};
+export default NavigationLink;

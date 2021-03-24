@@ -1,5 +1,5 @@
 import { bool } from 'prop-types';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import ArrowRightDark from '../../resources/images/ArrowRightDark.png';
 import ArrowRightLight from '../../resources/images/ArrowRightLight.png';
 
@@ -17,8 +17,4 @@ const Arrow = styled.img`
 
 ArrowRight.propTypes = {
   dark: bool,
-};
-
-ArrowRight.defaultProps = {
-  dark: false,
 };
