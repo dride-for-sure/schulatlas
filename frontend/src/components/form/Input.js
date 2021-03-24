@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
 
 const Input = styled.input`
-  padding: 0.56rem 0.95rem 0.5rem;
+  padding: 0.45rem 0.95rem 0.4rem;
   outline: 0;
   border: 1px solid var(--color-light-silver);
   border-radius: var(--border-radius);
