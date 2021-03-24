@@ -49,4 +49,6 @@ public class PrivatePageController {
  public void deletePage (@PathVariable String name) {
   pageService.deletePage( name );
  }
+
+ /** TESTCOMMIT TO CHECK SIGNING **/
 }
