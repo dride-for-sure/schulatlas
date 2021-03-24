@@ -11,14 +11,14 @@ import EditSchool from '../../components/parts/cms/EditSchool';
 import { getSchoolByNumber, getSchoolByType, listSchools, listTypes } from '../../services/private/schoolApiService';
 
 export default function SchoolsOverview() {
-  const [types, setTypes] = useState();
-  const [schools, setSchools] = useState();
-  const [school, setSchool] = useState();
+  const [types, setTypes] = useState('');
+  const [schools, setSchools] = useState('');
+  const [school, setSchool] = useState('');
   const { type, number } = useParams();
 
   const clearStates = () => {
-    setSchools();
-    setSchool();
+    setSchools('');
+    setSchool('');
   };
 
   const handleParamUpdates = () => {

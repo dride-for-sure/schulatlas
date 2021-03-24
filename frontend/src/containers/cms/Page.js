@@ -10,8 +10,8 @@ import EditPage from '../../components/parts/cms/EditPage';
 import { getPageByName, listPages } from '../../services/private/pageApiService';
 
 export default function PageDetails() {
-  const [page, setPage] = useState();
-  const [pages, setPages] = useState();
+  const [page, setPage] = useState('');
+  const [pages, setPages] = useState('');
   const { name } = useParams();
 
   const getPageList = () => {
@@ -26,7 +26,7 @@ export default function PageDetails() {
         .then(setPage)
         .catch((error) => console.log(error));
     } else {
-      setPage();
+      setPage('');
     }
   };
 
