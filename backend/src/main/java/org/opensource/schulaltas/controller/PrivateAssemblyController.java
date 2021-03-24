@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping ("/auth/assembly")
+@RequestMapping ("/auth/v1/assembly")
 public class PrivateAssemblyController {
 
  private final AssemblyService assemblyService;

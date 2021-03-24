@@ -12,6 +12,7 @@ import java.util.Optional;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.Mockito.*;
 
 class PageServiceTest {
@@ -46,12 +47,12 @@ class PageServiceTest {
 
  @Test
  @DisplayName ("Get pages should return a specific page")
- void getPage () {
+ void getPageByName () {
   // GIVEN
   when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
 
   // WHEN
-  Optional<Page> actual = pageService.getPage( "A" );
+  Optional<Page> actual = pageService.getPageByName( "A" );
 
   // THEN
   assertThat( actual.get(), is( getPage( "A" ) ) );
@@ -59,12 +60,12 @@ class PageServiceTest {
 
  @Test
  @DisplayName ("Get pages should return an optional.empty for a non existing page")
- void getNotExistingPage () {
+ void getNotExistingPageByName () {
   // GIVEN
   when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
 
   // WHEN
-  Optional<Page> actual = pageService.getPage( "A" );
+  Optional<Page> actual = pageService.getPageByName( "A" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
@@ -198,11 +199,61 @@ class PageServiceTest {
  }
 
  @Test
+ @DisplayName ("Set landing page should set landingPage to true, remove all other landingPages " +
+                       "and return it as an optional")
+ void setLandingPageByName () {
+  // GIVEN
+  when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
+  when( pageDb.findByLandingPageIs( true ) )
+          .thenReturn( List.of( getPage( "B" ).toBuilder().landingPage( true ).build() ) );
+  when( pageDb.save( getPage( "A" ).toBuilder().landingPage( true ).build() ) ).then( returnsFirstArg() );
+  when( pageDb.save( getPage( "B" ).toBuilder().landingPage( false ).build() ) ).then( returnsFirstArg() );
+
+  // WHEN
+  Optional<Page> actual = pageService.setLandingPageByName( "A" );
+
+  // THEN
+  assertThat( actual.get(), is( getPage( "A" ).toBuilder().landingPage( true ).build() ) );
+  verify( pageDb ).save( getPage( "A" ).toBuilder().landingPage( true ).build() );
+ }
+
+ @Test
+ @DisplayName ("Set landing page as landing page again should return it as optional")
+ void setLandingPageAgainAsLandingPageByName () {
+  // GIVEN
+  when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ).toBuilder().landingPage( true ).build() ) );
+  when( pageDb.findByLandingPageIs( true ) )
+          .thenReturn( List.of( getPage( "B" ).toBuilder().landingPage( false ).build() ) );
+  when( pageDb.save( getPage( "A" ).toBuilder().landingPage( true ).build() ) ).then( returnsFirstArg() );
+
+  // WHEN
+  Optional<Page> actual = pageService.setLandingPageByName( "A" );
+
+  // THEN
+  assertThat( actual.get(), is( getPage( "A" ).toBuilder().landingPage( true ).build() ) );
+  verify( pageDb ).save( getPage( "A" ).toBuilder().landingPage( true ).build() );
+ }
+
+ @Test
+ @DisplayName ("Set a non existing landing page should return optional empty")
+ void setNotExistingPageAsLandingPageByName () {
+  // GIVEN
+  when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
+
+  // WHEN
+  Optional<Page> actual = pageService.setLandingPageByName( "NOTEXISTING" );
+
+  // THEN
+  assertThat( actual.isEmpty(), is( true ) );
+  verify( pageDb, never() ).save( any() );
+ }
+
+ @Test
  @DisplayName ("Delete page should call deleteById on the db")
- void deletePage () {
+ void deletePageByName () {
   // GIVEN
   // WHEN
-  pageService.deletePage( "A" );
+  pageService.deletePageByName( "A" );
 
   // THEN
   verify( pageDb ).deleteById( "A" );

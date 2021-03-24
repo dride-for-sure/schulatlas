@@ -11,4 +11,6 @@ public interface SchoolDb extends PagingAndSortingRepository<School, String> {
 
  @Override
  List<School> findAll ();
+
+ List<School> findAllByType (String type);
 }

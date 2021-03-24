@@ -3,6 +3,7 @@ package org.opensource.schulaltas.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.opensource.schulaltas.controller.model.SchoolDto;
+import org.opensource.schulaltas.controller.model.TypeDto;
 import org.opensource.schulaltas.model.school.*;
 import org.opensource.schulaltas.repository.SchoolDb;
 
@@ -51,13 +52,49 @@ class SchoolServiceTest {
  }
 
  @Test
+ @DisplayName ("List types should filter all schools for unique types")
+ void listTypes () {
+  // GIVEN
+  when( schoolDb.findAll() ).thenReturn( List.of(
+          getSchool( "A" ).toBuilder().type( "A" ).build(),
+          getSchool( "B" ).toBuilder().type( "B" ).build(),
+          getSchool( "C" ).toBuilder().type( "A" ).build() ) );
+
+  // WHEN
+  List<TypeDto> actual = schoolService.listTypes();
+
+  // THEN
+  assertThat( actual, is( List.of(
+          TypeDto.builder().name( "A" ).count( 2 ).build(),
+          TypeDto.builder().name( "B" ).count( 1 ).build()
+  ) ) );
+ }
+
+ @Test
+ @DisplayName ("List schools return a list with schools of this specific type")
+ void listSchoolsByType () {
+  // GIVEN
+  when( schoolDb.findAllByType( "A" ) ).thenReturn( List.of(
+          getSchool( "A" ).toBuilder().type( "A" ).build(),
+          getSchool( "C" ).toBuilder().type( "A" ).build() ) );
+
+  // WHEN
+  List<School> actual = schoolService.listSchoolsByType( "A" );
+
+  // THEN
+  assertThat( actual, is( List.of(
+          getSchool( "A" ).toBuilder().type( "A" ).build(),
+          getSchool( "C" ).toBuilder().type( "A" ).build() ) ) );
+ }
+
+ @Test
  @DisplayName ("Get school should return an existing school from db")
- void getSchool () {
+ void getSchoolByNumber () {
   // GIVEN
   when( schoolDb.findById( "A" ) ).thenReturn( Optional.of( getSchool( "A" ) ) );
 
   // WHEN
-  Optional<School> actual = schoolService.getSchool( "A" );
+  Optional<School> actual = schoolService.getSchoolByNumber( "A" );
 
   // THEN
   assertThat( actual.get(), is( getSchool( "A" ) ) );
@@ -65,12 +102,12 @@ class SchoolServiceTest {
 
  @Test
  @DisplayName ("Get school should return an Optional.empty if school doesnt exists in db")
- void getNotExistingSchool () {
+ void getNotExistingSchoolByNumber () {
   // GIVEN
   when( schoolDb.findById( "A" ) ).thenReturn( Optional.empty() );
 
   // WHEN
-  Optional<School> actual = schoolService.getSchool( "A" );
+  Optional<School> actual = schoolService.getSchoolByNumber( "A" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
@@ -184,12 +221,12 @@ class SchoolServiceTest {
 
  @Test
  @DisplayName ("Increase outdated count should increase the markedOutdated Integer by one ")
- void increaseOutdatedCount () {
+ void markOutdatedByNumber () {
   // GIVEN
   when( schoolDb.findById( "A" ) ).thenReturn( Optional.of( getSchool( "A" ) ) );
 
   // WHEN
-  Optional<School> actual = schoolService.increaseOutdatedCount( "A" );
+  Optional<School> actual = schoolService.markOutdatedByNumber( "A" );
 
   // THEN
   School expected = getSchool( "A" ).toBuilder().markedOutdated( getSchool( "A" ).getMarkedOutdated() + 1 ).build();
@@ -204,7 +241,7 @@ class SchoolServiceTest {
   when( schoolDb.findById( "A" ) ).thenReturn( Optional.empty() );
 
   // WHEN
-  Optional<School> actual = schoolService.increaseOutdatedCount( "A" );
+  Optional<School> actual = schoolService.markOutdatedByNumber( "A" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
@@ -212,9 +249,9 @@ class SchoolServiceTest {
 
  @Test
  @DisplayName ("Delete School should delete school from db")
- void deleteSchool () {
+ void deleteSchoolByNumber () {
   // WHEN
-  schoolService.deleteSchool( "A" );
+  schoolService.deleteSchoolByNumber( "A" );
 
   // THEN
   verify( schoolDb ).deleteById( "A" );

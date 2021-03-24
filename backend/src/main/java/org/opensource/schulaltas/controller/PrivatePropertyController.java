@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping ("/auth/property")
+@RequestMapping ("/auth/v1/property")
 public class PrivatePropertyController {
 
  private final PropertyService propertyService;
@@ -28,15 +28,15 @@ public class PrivatePropertyController {
   return propertyService.addProperty( availableProperty );
  }
 
- @PutMapping ("/{name}")
+ @PutMapping ("/name/{name}")
  public AvailableProperty updateProperty (@RequestBody AvailableProperty availableProperty) {
   return propertyService.updateProperty( availableProperty )
                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
                          "Could not update property: " + availableProperty.getName() ) );
  }
 
- @DeleteMapping ("/{name}")
- public void deleteProperty (@PathVariable String name) {
-  propertyService.deleteProperty( name );
+ @DeleteMapping ("/name/{name}")
+ public void deletePropertyByName (@PathVariable String name) {
+  propertyService.deletePropertyByName( name );
  }
 }

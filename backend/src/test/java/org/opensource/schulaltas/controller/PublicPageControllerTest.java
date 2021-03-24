@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.arrayContainingInAnyOrder;
 import static org.hamcrest.Matchers.is;
 
 @SpringBootTest (webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -41,7 +40,7 @@ class PublicPageControllerTest {
  }
 
  private String getUrl () {
-  return "http://localhost:" + port + "api/page";
+  return "http://localhost:" + port + "/api/v1/page";
  }
 
  private Page getPage (String name) {
@@ -59,21 +58,11 @@ class PublicPageControllerTest {
  }
 
  @Test
- @DisplayName ("List pages should return all pages within the db")
- void listPages () {
-  // WHEN
-  ResponseEntity<Page[]> response = testRestTemplate.getForEntity( getUrl(), Page[].class );
-
-  // THEN
-  assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
-  assertThat( response.getBody(), arrayContainingInAnyOrder( getPage( "page1" ), getPage( "page2" ) ) );
- }
-
- @Test
  @DisplayName ("Get page should return an specific existing page from the db")
  void getPage () {
   // WHEN
-  ResponseEntity<Page> response = testRestTemplate.getForEntity( getUrl() + "/page1", Page.class );
+  ResponseEntity<Page> response = testRestTemplate.getForEntity(
+          getUrl() + "/name/page1", Page.class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
@@ -84,7 +73,8 @@ class PublicPageControllerTest {
  @DisplayName ("Get page should throw an exception for a not existing page")
  void getNotExistingPage () {
   // WHEN
-  ResponseEntity<Page> response = testRestTemplate.getForEntity( getUrl() + "/XXX", Page.class );
+  ResponseEntity<Page> response = testRestTemplate.getForEntity(
+          getUrl() + "/name/XXX", Page.class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.BAD_REQUEST ) );

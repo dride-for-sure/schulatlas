@@ -2,13 +2,14 @@ package org.opensource.schulaltas.service;
 
 
 import org.opensource.schulaltas.controller.model.SchoolDto;
+import org.opensource.schulaltas.controller.model.TypeDto;
 import org.opensource.schulaltas.model.school.Coordinates;
 import org.opensource.schulaltas.model.school.School;
 import org.opensource.schulaltas.repository.SchoolDb;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class SchoolService {
@@ -30,7 +31,21 @@ public class SchoolService {
   return schoolDb.findAll();
  }
 
- public Optional<School> getSchool (String number) {
+ public List<TypeDto> listTypes () {
+  List<String> types = schoolDb.findAll().stream()
+                               .map( school -> school.getType() )
+                               .collect( Collectors.toList() );
+  List<String> uniqueTypes = new ArrayList<>( new HashSet<>( types ) );
+  return uniqueTypes.stream()
+                 .map( type -> TypeDto.builder().name( type ).count( Collections.frequency( types, type ) ).build() )
+                 .collect( Collectors.toList() );
+ }
+
+ public List<School> listSchoolsByType (String type) {
+  return schoolDb.findAllByType( type );
+ }
+
+ public Optional<School> getSchoolByNumber (String number) {
   return schoolDb.findById( number );
  }
 
@@ -45,6 +60,7 @@ public class SchoolService {
                                .name( schoolDto.getName() )
                                .address( schoolDto.getAddress() )
                                .contact( schoolDto.getContact() )
+                               .type( schoolDto.getType() )
                                .coordinates( coordinates.get() )
                                .updated( timeUTC.now() )
                                .userId( schoolDto.getUserId() )
@@ -59,7 +75,7 @@ public class SchoolService {
   return school;
  }
 
- public Optional<School> increaseOutdatedCount (String number) {
+ public Optional<School> markOutdatedByNumber (String number) {
   Optional<School> school = schoolDb.findById( number );
   if ( school.isPresent() ) {
    School updatedSchool = school.get()
@@ -82,6 +98,7 @@ public class SchoolService {
                                   .name( schoolDto.getName() )
                                   .address( schoolDto.getAddress() )
                                   .contact( schoolDto.getContact() )
+                                  .type( schoolDto.getType() )
                                   .coordinates( coordinates.get() )
                                   .userId( schoolDto.getUserId() )
                                   .updated( timeUTC.now() )
@@ -93,7 +110,7 @@ public class SchoolService {
   return Optional.empty();
  }
 
- public void deleteSchool (String number) {
+ public void deleteSchoolByNumber (String number) {
   schoolDb.deleteById( number );
  }
 }

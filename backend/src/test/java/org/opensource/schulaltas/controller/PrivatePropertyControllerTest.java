@@ -68,7 +68,7 @@ class PrivatePropertyControllerTest {
                                                         .username( "testUser" )
                                                         .password( "testPassword" )
                                                         .build();
-  ResponseEntity<String> response = testRestTemplate.postForEntity( getUrl() + "/authenticate",
+  ResponseEntity<String> response = testRestTemplate.postForEntity( getUrl() + "/api/v1/login",
           authenticationRequest, String.class );
   return response.getBody();
  }
@@ -81,7 +81,7 @@ class PrivatePropertyControllerTest {
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
   ResponseEntity<AvailableProperty[]> response = testRestTemplate.exchange(
-          getUrl() + "/auth/property", HttpMethod.GET, entity, AvailableProperty[].class );
+          getUrl() + "/auth/v1/property", HttpMethod.GET, entity, AvailableProperty[].class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
@@ -98,7 +98,7 @@ class PrivatePropertyControllerTest {
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<AvailableProperty> entity = new HttpEntity<>( getAvailableProperty( "NEW" ), headers );
   ResponseEntity<AvailableProperty> response = testRestTemplate.exchange(
-          getUrl() + "/auth/property", HttpMethod.POST, entity, AvailableProperty.class );
+          getUrl() + "/auth/v1/property", HttpMethod.POST, entity, AvailableProperty.class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
@@ -114,7 +114,7 @@ class PrivatePropertyControllerTest {
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<AvailableProperty> entity = new HttpEntity<>( getAvailableProperty( "A" ), headers );
   ResponseEntity<AvailableProperty> response = testRestTemplate.exchange(
-          getUrl() + "/auth/property", HttpMethod.POST, entity, AvailableProperty.class );
+          getUrl() + "/auth/v1/property", HttpMethod.POST, entity, AvailableProperty.class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
@@ -131,7 +131,7 @@ class PrivatePropertyControllerTest {
           getAvailableProperty( "A" ).toBuilder().unit( "UPDATED" ).build();
   HttpEntity<AvailableProperty> entity = new HttpEntity<>( updatedProperty, headers );
   ResponseEntity<AvailableProperty> response = testRestTemplate.exchange(
-          getUrl() + "/auth/property/" + updatedProperty.getName(), HttpMethod.PUT, entity,
+          getUrl() + "/auth/v1/property/name/" + updatedProperty.getName(), HttpMethod.PUT, entity,
           AvailableProperty.class );
 
   // THEN
@@ -148,7 +148,7 @@ class PrivatePropertyControllerTest {
   HttpEntity<AvailableProperty> entity = new HttpEntity<>( getAvailableProperty( "NOTEXISTING" ),
           headers );
   ResponseEntity<AvailableProperty> response = testRestTemplate.exchange(
-          getUrl() + "/auth/property/" + "NOTEXISTING", HttpMethod.PUT, entity,
+          getUrl() + "/auth/v1/property/name/NOTEXISTING", HttpMethod.PUT, entity,
           AvailableProperty.class );
 
   // THEN
@@ -163,7 +163,7 @@ class PrivatePropertyControllerTest {
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
   ResponseEntity<Void> response = testRestTemplate.exchange(
-          getUrl() + "/auth/property/" + "1", HttpMethod.DELETE, entity, Void.class );
+          getUrl() + "/auth/v1/property/name/1", HttpMethod.DELETE, entity, Void.class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );

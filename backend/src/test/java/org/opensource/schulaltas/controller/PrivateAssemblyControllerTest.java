@@ -70,7 +70,7 @@ class PrivateAssemblyControllerTest {
                                                         .password( "testPassword" )
                                                         .build();
   ResponseEntity<String> response =
-          testRestTemplate.postForEntity( getUrl() + "/authenticate", authenticationRequest,
+          testRestTemplate.postForEntity( getUrl() + "/api/v1/login", authenticationRequest,
                   String.class );
   return response.getBody();
  }
@@ -82,7 +82,7 @@ class PrivateAssemblyControllerTest {
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
-  ResponseEntity<Assembly[]> response = testRestTemplate.exchange( getUrl() + "/auth/assembly",
+  ResponseEntity<Assembly[]> response = testRestTemplate.exchange( getUrl() + "/auth/v1/assembly",
           HttpMethod.GET, entity, Assembly[].class );
 
   // THEN

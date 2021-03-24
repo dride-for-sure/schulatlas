@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-
 @RestController
-@RequestMapping ("/api/page")
+@RequestMapping ("/api/v1/page")
 public class PublicPageController {
 
  private final PageService pageService;
@@ -21,14 +19,9 @@ public class PublicPageController {
   this.pageService = pageService;
  }
 
- @GetMapping
- public List<Page> listPages () {
-  return pageService.listPages();
- }
-
- @GetMapping ("/{name}")
- public Page getPage (@PathVariable String name) {
-  return pageService.getPage( name )
+ @GetMapping ("/name/{name}")
+ public Page getPageByName (@PathVariable String name) {
+  return pageService.getPageByName( name )
                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
                          "Page: " + name + " is not available" ) );
  }

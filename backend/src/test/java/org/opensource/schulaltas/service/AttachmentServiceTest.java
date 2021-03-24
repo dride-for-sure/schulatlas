@@ -47,12 +47,12 @@ class AttachmentServiceTest {
 
  @Test
  @DisplayName ("Get attachment should return an existing attachment")
- void getAttachment () {
+ void getAttachmentByFilename () {
   // GIVEN
   when( attachmentDb.findById( "file1" ) ).thenReturn( Optional.of( getAttachment( "file1" ) ) );
 
   // WHEN
-  Optional<Attachment> actual = attachmentService.getAttachment( "file1" );
+  Optional<Attachment> actual = attachmentService.getAttachmentByFilename( "file1" );
 
   // THEN
   assertThat( actual.get(), is( getAttachment( "file1" ) ) );
@@ -60,12 +60,12 @@ class AttachmentServiceTest {
 
  @Test
  @DisplayName ("Get not existing attachment should return an optional empty")
- void getNotExistingAttachment () {
+ void getNotExistingAttachmentByFilename () {
   // GIVEN
   when( attachmentDb.findById( "file1" ) ).thenReturn( Optional.empty() );
 
   // WHEN
-  Optional<Attachment> actual = attachmentService.getAttachment( "file1" );
+  Optional<Attachment> actual = attachmentService.getAttachmentByFilename( "file1" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
@@ -103,12 +103,12 @@ class AttachmentServiceTest {
 
  @Test
  @DisplayName ("Delete an existing attachment should delete this from the db")
- void deleteAttachment () {
+ void deleteAttachmentByFilename () {
   // GIVEN
   when( attachmentDb.findById( "A" ) ).thenReturn( Optional.of( getAttachment( "A" ) ) );
 
   // WHEN
-  attachmentService.deleteAttachment( "A" );
+  attachmentService.deleteAttachmentByFilename( "A" );
 
   // THEN
   verify( storageService ).deleteFileById( "A" );
@@ -117,12 +117,12 @@ class AttachmentServiceTest {
 
  @Test
  @DisplayName ("Delete not existing attachment should not try to delete from storage and db")
- void deleteInvalidAttachment () {
+ void deleteInvalidAttachmentByFilename () {
   // GIVEN
   when( attachmentDb.findById( "A" ) ).thenReturn( Optional.empty() );
 
   // WHEN
-  attachmentService.deleteAttachment( "A" );
+  attachmentService.deleteAttachmentByFilename( "A" );
 
   // THEN
   verify( storageService, never() ).deleteFileById( "A" );

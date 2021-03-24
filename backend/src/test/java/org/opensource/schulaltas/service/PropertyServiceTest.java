@@ -99,10 +99,10 @@ class PropertyServiceTest {
 
  @Test
  @DisplayName ("Delete property should call deleteById on db")
- void deleteProperty () {
+ void deletePropertyByName () {
   // GIVEN
   // WHEN
-  propertyService.deleteProperty( "A" );
+  propertyService.deletePropertyByName( "A" );
 
   // THEN
   verify( availablePropertyDb ).deleteById( "A" );
