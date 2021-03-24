@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.arrayContainingInAnyOrder;
 import static org.hamcrest.Matchers.is;
 
 @SpringBootTest (webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -56,17 +55,6 @@ class PublicPageControllerTest {
                                  .type( "Header" )
                                  .components( List.of() )
                                  .build() ) ).build();
- }
-
- @Test
- @DisplayName ("List pages should return all pages within the db")
- void listPages () {
-  // WHEN
-  ResponseEntity<Page[]> response = testRestTemplate.getForEntity( getUrl(), Page[].class );
-
-  // THEN
-  assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
-  assertThat( response.getBody(), arrayContainingInAnyOrder( getPage( "page1" ), getPage( "page2" ) ) );
  }
 
  @Test

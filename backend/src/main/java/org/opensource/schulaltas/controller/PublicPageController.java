@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-
 @RestController
 @RequestMapping ("/api/v1/page")
 public class PublicPageController {
@@ -19,11 +17,6 @@ public class PublicPageController {
 
  public PublicPageController (PageService pageService) {
   this.pageService = pageService;
- }
-
- @GetMapping
- public List<Page> listPages () {
-  return pageService.listPages();
  }
 
  @GetMapping ("/name/{name}")
