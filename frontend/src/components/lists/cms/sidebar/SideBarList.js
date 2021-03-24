@@ -19,7 +19,9 @@ export default function SideBar({ pages, types }) {
 
 const Container = styled.div``;
 
-const List = styled.ol``;
+const List = styled.ol`
+  list-style: none;
+`;
 
 SideBar.propTypes = {
   pages: array,
