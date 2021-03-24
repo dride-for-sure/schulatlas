@@ -1,6 +1,8 @@
 import styled from 'styled-components/macro';
 import Image from '../../../resources/images/HeaderBackgroundSmall.jpg';
+import MaxWidth from '../../container/MaxWidth';
 import FlexRowCenter from '../../flex/FlexRowCenter';
+import FlexRowSpaceBetween from '../../flex/FlexRowSpaceBetween';
 import Logo from '../../logo/Logo';
 import Navigation from '../../navigation/cms/Navigation';
 
@@ -25,10 +27,9 @@ const Wrapper = styled.header`
 `;
 
 const Container = styled.div`
-  display:flex;
-  justify-content: space-between;
+  ${FlexRowSpaceBetween};
+  ${MaxWidth};
   padding: var(--container-padding);
-  width: 100%;
   
   > * {
     align-self:center;
