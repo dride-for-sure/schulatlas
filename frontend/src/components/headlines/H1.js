@@ -1,15 +1,6 @@
-import { node, string } from 'prop-types';
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components/macro';
 
-export default function H1({ children, size }) {
-  return (
-    <Headline size={size}>
-      {children}
-    </Headline>
-  );
-}
-
-const Headline = styled.h1`
+const H1 = styled.h1`
   font-family: var(--font-family-title);
   font-size: var(--font-size-title-m);
 
@@ -20,7 +11,4 @@ const Headline = styled.h1`
   margin: var(--margin-title);
 `;
 
-H1.propTypes = {
-  children: node.isRequired,
-  size: string,
-};
+export default H1;

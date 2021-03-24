@@ -1,35 +1,31 @@
 import styled from 'styled-components/macro';
-import Background from '../../../resources/images/HeaderBackgroundSmall.jpg';
+import Image from '../../../resources/images/HeaderBackgroundSmall.jpg';
+import FlexRowCenter from '../../flex/FlexRowCenter';
 import Logo from '../../logo/Logo';
 import Navigation from '../../navigation/cms/Navigation';
-import Center from '../../structure/Center';
-import MaxWidth from '../../structure/MaxWidth';
 
 export default function Header() {
   return (
-    <Container background={Background}>
-      <Center>
-        <MaxWidth>
-          <AlignSelf>
-            <Logo />
-            <Navigation />
-          </AlignSelf>
-        </MaxWidth>
-      </Center>
-    </Container>
+    <Wrapper background={Image}>
+      <Container>
+        <Logo />
+        <Navigation />
+      </Container>
+    </Wrapper>
   );
 }
 
-const Container = styled.header`
+const Wrapper = styled.header`
   background-image: url(${(props) => props.background});
   background-repeat: no-repeat;
   background-position: center;
-    background-position:50% 50%;
-  background-size:cover;
+  background-position: 50% 50%;
+  background-size: cover;
   padding: var(--container-padding) 0;
+  ${FlexRowCenter};
 `;
 
-const AlignSelf = styled.div`
+const Container = styled.div`
   display:flex;
   justify-content: space-between;
   

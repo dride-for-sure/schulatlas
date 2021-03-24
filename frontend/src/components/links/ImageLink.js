@@ -1,16 +1,7 @@
-import { node, string } from 'prop-types';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
-export default function ImageLink({ to, children }) {
-  return (
-    <Container>
-      <Link to={to}>{children}</Link>
-    </Container>
-  );
-}
-
-const Container = styled.span`
+const ImageLink = styled(Link)`
   > a {
     outline: none;
     transition: var(--transition-opacity);
@@ -21,7 +12,4 @@ const Container = styled.span`
   }
 `;
 
-ImageLink.propTypes = {
-  to: string.isRequired,
-  children: node.isRequired,
-};
+export default ImageLink;

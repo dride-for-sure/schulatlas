@@ -3,12 +3,10 @@ import NavigationLink from '../../links/NavigationLink';
 
 export default function Navigation() {
   return (
-    <>
-      <List>
-        <li><NavigationLink to="/cms/pages">Pages</NavigationLink></li>
-        <li><NavigationLink to="/cms/schools">Schools</NavigationLink></li>
-      </List>
-    </>
+    <List>
+      <li><NavigationLink to="/cms/pages">Pages</NavigationLink></li>
+      <li><NavigationLink to="/cms/schools">Schools</NavigationLink></li>
+    </List>
   );
 }
 

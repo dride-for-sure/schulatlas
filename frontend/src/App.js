@@ -11,47 +11,44 @@ import './fonts.css';
 
 function App() {
   return (
-    <>
-      <Router>
-        <AuthProvider>
-          <GlobalStyle />
-          <Switch>
-            <Route path="/cms/login" exact>
-              <Login />
-            </Route>
-            <ProtectedRoute path="/cms/school/:number" exact>
-              <Schools />
-            </ProtectedRoute>
-            <ProtectedRoute path="/cms/schools/search/:search" exact>
-              <Schools />
-            </ProtectedRoute>
-            <ProtectedRoute path="/cms/schools/:type" exact>
-              <Schools />
-            </ProtectedRoute>
-            <ProtectedRoute path="/cms/schools" exact>
-              <Schools />
-            </ProtectedRoute>
+    <Router>
+      <AuthProvider>
+        <GlobalStyle />
+        <Switch>
+          <Route path="/cms/login" exact>
+            <Login />
+          </Route>
+          <ProtectedRoute path="/cms/school/:number" exact>
+            <Schools />
+          </ProtectedRoute>
+          <ProtectedRoute path="/cms/schools/search/:search" exact>
+            <Schools />
+          </ProtectedRoute>
+          <ProtectedRoute path="/cms/schools/:type" exact>
+            <Schools />
+          </ProtectedRoute>
+          <ProtectedRoute path="/cms/schools" exact>
+            <Schools />
+          </ProtectedRoute>
+          <ProtectedRoute path="/cms/page/:name" exact>
+            <Page />
+          </ProtectedRoute>
+          <ProtectedRoute path="/cms/pages" exact>
+            <Page />
+          </ProtectedRoute>
+          <ProtectedRoute path="/cms" exact>
+            <Redirect to="/cms/pages" />
+          </ProtectedRoute>
 
-            <ProtectedRoute path="/cms/page/:name" exact>
-              <Page />
-            </ProtectedRoute>
-            <ProtectedRoute path="/cms/pages" exact>
-              <Page />
-            </ProtectedRoute>
-            <ProtectedRoute path="/cms" exact>
-              <Redirect to="/cms/pages" />
-            </ProtectedRoute>
-
-            <Route path="/entdecken" exact>
-              <Maps />
-            </Route>
-            <Route path="/:name?" exact>
-              <Page />
-            </Route>
-          </Switch>
-        </AuthProvider>
-      </Router>
-    </>
+          <Route path="/entdecken" exact>
+            <Maps />
+          </Route>
+          <Route path="/:name?" exact>
+            <Page />
+          </Route>
+        </Switch>
+      </AuthProvider>
+    </Router>
   );
 }
 

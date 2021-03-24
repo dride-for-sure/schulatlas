@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import styled from 'styled-components/macro';
+import FlexRowCenter from '../../components/flex/FlexRowCenter';
+import Footer from '../../components/footer/cms/Footer';
+import Grid from '../../components/grid/cms/Grid';
+import Header from '../../components/header/cms/Header';
+import SideBar from '../../components/lists/cms/sidebar/SideBarList';
 import EditPage from '../../components/parts/cms/EditPage';
-import SideBar from '../../components/sidebar/cms/SideBar';
-import Center from '../../components/structure/Center';
-import CmsGrid from '../../components/structure/cms/Grid';
-import CmsWrapper from '../../components/structure/cms/Wrapper';
-import MaxWidth from '../../components/structure/MaxWidth';
 import { getPageByName, listPages } from '../../services/private/pageApiService';
 
 export default function PageDetails() {
@@ -30,25 +31,29 @@ export default function PageDetails() {
   };
 
   useEffect(() => {
-    getPageList();
-  }, []);
-
-  useEffect(() => {
     handleParamsUpdate();
   }, [name]);
+
+  useEffect(() => {
+    getPageList();
+  }, []);
 
   /* TODO: LOADER */
 
   return (
-    <CmsWrapper>
-      <Center>
-        <MaxWidth>
-          <CmsGrid>
-            <SideBar pages={pages} />
-            {page && <EditPage page={page} />}
-          </CmsGrid>
-        </MaxWidth>
-      </Center>
-    </CmsWrapper>
+    <>
+      <Header />
+      <Container>
+        <Grid>
+          <SideBar pages={pages} />
+          {page && <EditPage page={page} />}
+        </Grid>
+      </Container>
+      <Footer />
+    </>
   );
 }
+
+const Container = styled.div`
+  ${FlexRowCenter};
+`;

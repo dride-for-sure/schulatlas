@@ -1,17 +1,17 @@
-import { string } from 'prop-types';
-import styled, { css } from 'styled-components';
+import { bool, string } from 'prop-types';
+import styled, { css } from 'styled-components/macro';
 import ArrowRight from '../icons/ArrowRight';
 
-export default function Button({ children, variant }) {
+export default function ButtonWithArrow({ children, variant, disabled }) {
   return (
-    <Container type="submit" variant={variant}>
+    <Button type="submit" variant={variant} disabled={disabled}>
       <span>{children}</span>
       <ArrowRight />
-    </Container>
+    </Button>
   );
 }
 
-const Container = styled.button`
+const Button = styled.button`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -39,16 +39,22 @@ const Container = styled.button`
     transition: var(--transition-transform);
   }
 
-  :hover {
+  :not(:disabled):hover {
     opacity: var(--opacity-hover);
 
     > img {
       transform: translateX(3px);
     }
   }
+
+  :disabled {
+    opacity: var(--opacity-disabled);
+    cursor: initial;
+  }
 `;
 
-Button.propTypes = {
+ButtonWithArrow.propTypes = {
   children: string.isRequired,
   variant: string,
+  disabled: bool,
 };

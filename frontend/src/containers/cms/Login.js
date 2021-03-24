@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import ButtonPrimary from '../../components/buttons/Button';
-import Input from '../../components/forms/Input';
+import Button from '../../components/buttons/ButtonWithArrow';
+import Input from '../../components/form/Input';
 import H1 from '../../components/headlines/H1';
 import Logo from '../../components/logo/Logo';
 import { useAuth } from '../../contexts/AuthProvider';
@@ -30,7 +30,7 @@ export default function Login() {
   };
 
   return (
-    <Absolute>
+    <Wrapper>
       <Container>
         <Logo />
         <H1 size="l">Please login:</H1>
@@ -45,14 +45,14 @@ export default function Login() {
             type="password"
             value={password}
             onChange={({ target }) => setPassword(target.value)} />
-          <ButtonPrimary>Continue</ButtonPrimary>
+          <Button disabled={!username || !password}>Continue</Button>
         </Form>
       </Container>
-    </Absolute>
+    </Wrapper>
   );
 }
 
-const Absolute = styled.div`
+const Wrapper = styled.div`
   position: absolute;
   width: 100%;
   height: 100vh;

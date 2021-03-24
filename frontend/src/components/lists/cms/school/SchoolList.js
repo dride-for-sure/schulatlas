@@ -1,18 +1,14 @@
 import { array } from 'prop-types';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import SchoolListItem from './SchoolListItem';
 
 export default function SchoolList({ schools }) {
   return (
-    <Container>
-      <List>
-        {schools.map((school) => <SchoolListItem key={school.number} school={school} />)}
-      </List>
-    </Container>
+    <List>
+      {schools.map((school) => <SchoolListItem key={school.number} school={school} />)}
+    </List>
   );
 }
-
-const Container = styled.div``;
 
 const List = styled.ol``;
 

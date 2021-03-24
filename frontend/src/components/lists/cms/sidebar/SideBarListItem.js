@@ -1,17 +1,17 @@
 import { object } from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 export default function SideBarListItem({ type, page }) {
   return (
-    <Container>
+    <ListItem>
       {page && (<NavLink to={`/cms/page/${page.name}`}>{page.name}</NavLink>)}
       {type && (<NavLink to={`/cms/schools/${type.name}`}>{`${type.name} (${type.count})`}</NavLink>)}
-    </Container>
+    </ListItem>
   );
 }
 
-const Container = styled.li``;
+const ListItem = styled.li``;
 
 SideBarListItem.propTypes = {
   page: object,

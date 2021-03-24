@@ -1,28 +1,25 @@
-import styled from 'styled-components';
-import Center from '../../structure/Center';
-import MaxWidth from '../../structure/MaxWidth';
+import styled from 'styled-components/macro';
+import FlexRowCenter from '../../flex/FlexRowCenter';
 
 export default function Footer() {
   return (
-    <FixedBottom>
-      <Center>
-        <MaxWidth>
-          <Container>
-            <p>Footer</p>
-          </Container>
-        </MaxWidth>
-      </Center>
-    </FixedBottom>
+    <Wrapper>
+      <Container>
+        <p>Footer</p>
+      </Container>
+    </Wrapper>
   );
 }
 
-const FixedBottom = styled.footer`
+const Wrapper = styled.footer`
   position: fixed;
   bottom: 0;
   background-color: var(--color-medium-silver);
   width: 100%;
+  ${FlexRowCenter};
 `;
 
 const Container = styled.div`
   color: white;
+  max-width: var(--max-width);
 `;
