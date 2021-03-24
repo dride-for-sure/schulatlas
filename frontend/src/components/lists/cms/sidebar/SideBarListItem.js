@@ -6,7 +6,7 @@ export default function SideBarListItem({ type, page }) {
   return (
     <ListItem>
       {page && (<NavLink to={`/cms/page/${page.name}`}>{page.name}</NavLink>)}
-      {type && (<NavLink to={`/cms/schools/${type.name}`}>{`${type.name} (${type.count})`}</NavLink>)}
+      {type && (<NavLink to={`/cms/type/${type.name}`}>{`${type.name} (${type.count})`}</NavLink>)}
     </ListItem>
   );
 }
