@@ -17,6 +17,7 @@ jobs:
         run: |
           cd frontend
           npm ci
+          npm run test
           npm run build
       - name: upload frontend
         uses: actions/upload-artifact@v2
