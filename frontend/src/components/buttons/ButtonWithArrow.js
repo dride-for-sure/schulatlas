@@ -1,7 +1,7 @@
 import { bool, string } from 'prop-types';
 import styled, { css } from 'styled-components/macro';
-import FlexRowCenter from '../flex/FlexRowCenter';
 import ArrowRight from '../icons/ArrowRight';
+import FlexRowCenter from '../structure/FlexRowCenter';
 
 export default function ButtonWithArrow({ children, variant, disabled }) {
   return (
@@ -16,6 +16,7 @@ const Button = styled.button`
   ${FlexRowCenter}
   width: 170px;
   padding: 4px 5px 6px;
+  margin: var(--default-margin) 0;
   border: 0;
   border-radius: var(--border-radius);
   outline: none;
