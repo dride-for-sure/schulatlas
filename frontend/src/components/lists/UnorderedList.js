@@ -1,9 +1,9 @@
 import styled from 'styled-components/macro';
 
-const OrderedList = styled.ol`
-  list-style: none;
+const UnorderedList = styled.ul`
   list-style-position: inside;
   margin: var(--default-margin) 0;
+  text-transform: capitalize;
 `;
 
-export default OrderedList;
+export default UnorderedList;

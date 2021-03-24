@@ -1,17 +1,19 @@
 import { object } from 'prop-types';
-import { NavLink } from 'react-router-dom';
 import styled from 'styled-components/macro';
+import RegularLink from '../../../links/RegularLink';
 
 export default function SideBarListItem({ type, page }) {
   return (
     <ListItem>
-      {page && (<NavLink to={`/cms/page/${page.name}`}>{page.name}</NavLink>)}
-      {type && (<NavLink to={`/cms/type/${type.name}`}>{`${type.name} (${type.count})`}</NavLink>)}
+      {page && (<RegularLink to={`/cms/page/${page.name}`}>{page.name}</RegularLink>)}
+      {type && (<RegularLink to={`/cms/type/${type.name}`}>{`${type.name} (${type.count})`}</RegularLink>)}
     </ListItem>
   );
 }
 
-const ListItem = styled.li``;
+const ListItem = styled.li`
+  font-size: var(--font-size-medium-content);
+`;
 
 SideBarListItem.propTypes = {
   page: object,
