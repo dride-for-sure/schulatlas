@@ -6,12 +6,14 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder (toBuilder = true)
 @EqualsAndHashCode (callSuper = true)
-public class SourceList extends Component {
+public class SubComponent extends Component {
 
- private String content;
+ private List<Component> subcomponents;
 }

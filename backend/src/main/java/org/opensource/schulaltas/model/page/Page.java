@@ -17,7 +17,7 @@ import java.util.List;
 public class Page {
 
  @Id
- private String name;
+ private String slug;
  private Long updated;
  private String userId;
  private boolean landingPage;

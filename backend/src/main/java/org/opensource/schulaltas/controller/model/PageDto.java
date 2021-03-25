@@ -14,7 +14,7 @@ import java.util.List;
 @Builder (toBuilder = true)
 public class PageDto {
 
- private String name;
+ private String slug;
  private String userId;
  private List<Assembly> assemblies;
 }

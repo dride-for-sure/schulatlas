@@ -13,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode (callSuper = true)
 public class Button extends Component {
 
- public String url;
- public String description;
- public String content;
+ private String target;
+ private String description;
+ private String content;
 }

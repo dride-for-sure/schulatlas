@@ -64,9 +64,9 @@ class PrivatePageControllerTest {
   return "http://localhost:" + port;
  }
 
- private Page getPage (String name) {
+ private Page getPage (String slug) {
   return Page.builder()
-                 .name( name )
+                 .slug( slug )
                  .updated( 1L )
                  .userId( "1" )
                  .landingPage( false )
@@ -77,9 +77,9 @@ class PrivatePageControllerTest {
                                  .build() ) ).build();
  }
 
- private PageDto getPageDto (String name) {
+ private PageDto getPageDto (String slug) {
   return PageDto.builder()
-                 .name( name )
+                 .slug( slug )
                  .userId( "1" )
                  .assemblies( List.of(
                          Assembly.builder()
@@ -88,8 +88,8 @@ class PrivatePageControllerTest {
                                  .build() ) ).build();
  }
 
- private Assembly getAssembly (String name) {
-  return Assembly.builder().type( name ).components( List.of() ).build();
+ private Assembly getAssembly (String slug) {
+  return Assembly.builder().type( slug ).components( List.of() ).build();
  }
 
  private String getJWTToken () {
@@ -125,12 +125,12 @@ class PrivatePageControllerTest {
 
  @Test
  @DisplayName ("Get Page should return the specific page")
- void getPageByName () {
+ void getPageBySlug () {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
-  ResponseEntity<Page> actual = testRestTemplate.exchange( getUrl() + "/auth/v1/page/name/A",
+  ResponseEntity<Page> actual = testRestTemplate.exchange( getUrl() + "/auth/v1/page/slug/A",
           HttpMethod.GET, entity, Page.class );
 
   // THEN
@@ -140,13 +140,13 @@ class PrivatePageControllerTest {
 
  @Test
  @DisplayName ("Get Page should throw an exception in case of not existing page")
- void getNotExistingPageByName () {
+ void getNotExistingPageBySlug () {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
   ResponseEntity<Page> actual =
-          testRestTemplate.exchange( getUrl() + "/auth/v1/page/name/NOTEXISTING",
+          testRestTemplate.exchange( getUrl() + "/auth/v1/page/slug/NOTEXISTING",
                   HttpMethod.GET, entity, Page.class );
 
   // THEN
@@ -203,7 +203,7 @@ class PrivatePageControllerTest {
           new HttpEntity<>( getPageDto( "A" ).toBuilder().userId( "UPDATED" ).build(),
                   headers );
   ResponseEntity<Page> actual =
-          testRestTemplate.exchange( getUrl() + "/auth/v1/page/name/A",
+          testRestTemplate.exchange( getUrl() + "/auth/v1/page/slug/A",
                   HttpMethod.PUT, entity, Page.class );
 
   // THEN
@@ -221,7 +221,7 @@ class PrivatePageControllerTest {
           new HttpEntity<>( getPageDto( "NOTEXISTING" ),
                   headers );
   ResponseEntity<Page> actual =
-          testRestTemplate.exchange( getUrl() + "/auth/v1/page/name/NOTEXISTING",
+          testRestTemplate.exchange( getUrl() + "/auth/v1/page/slug/NOTEXISTING",
                   HttpMethod.PUT, entity, Page.class );
 
   // THEN
@@ -230,7 +230,7 @@ class PrivatePageControllerTest {
 
  @Test
  @DisplayName ("Set landing page should change landingPage to true and save it within the db")
- void setLandingPageByName () {
+ void setLandingPageBySlug () {
   // GIVEN
   pageDb.save( getPage( "B" ).toBuilder().landingPage( true ).build() );
 
@@ -239,7 +239,7 @@ class PrivatePageControllerTest {
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Page> entity = new HttpEntity<>( headers );
   ResponseEntity<Page> actual = testRestTemplate.exchange(
-          getUrl() + "/auth/v1/page/name/A/landingpage", HttpMethod.PUT, entity, Page.class );
+          getUrl() + "/auth/v1/page/slug/A/landingpage", HttpMethod.PUT, entity, Page.class );
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
@@ -251,7 +251,7 @@ class PrivatePageControllerTest {
 
  @Test
  @DisplayName ("Set landing page again should return it again")
- void setLandingPageAgainAsLandingPageByName () {
+ void setLandingPageAgainAsLandingPageBySlug () {
   // GIVEN
   pageDb.save( getPage( "A" ).toBuilder().landingPage( true ).build() );
 
@@ -260,7 +260,7 @@ class PrivatePageControllerTest {
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Page> entity = new HttpEntity<>( headers );
   ResponseEntity<Page> actual = testRestTemplate.exchange(
-          getUrl() + "/auth/v1/page/name/A/landingpage", HttpMethod.PUT, entity, Page.class );
+          getUrl() + "/auth/v1/page/slug/A/landingpage", HttpMethod.PUT, entity, Page.class );
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
@@ -272,13 +272,13 @@ class PrivatePageControllerTest {
 
  @Test
  @DisplayName ("Set not existing landing page should throw an exception")
- void setNotExistingPageAsLandingPageByName () {
+ void setNotExistingPageAsLandingPageBySlug () {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Page> entity = new HttpEntity<>( headers );
   ResponseEntity<Page> actual =
-          testRestTemplate.exchange( getUrl() + "/auth/v1/page/name/NOTEXISTING/landingpage",
+          testRestTemplate.exchange( getUrl() + "/auth/v1/page/slug/NOTEXISTING/landingpage",
                   HttpMethod.PUT, entity, Page.class );
 
   // THEN
@@ -287,13 +287,13 @@ class PrivatePageControllerTest {
  }
 
  @Test
- void deletePageByName () {
+ void deletePageBySlug () {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
   ResponseEntity<Void> actual =
-          testRestTemplate.exchange( getUrl() + "/auth/v1/page/name/A",
+          testRestTemplate.exchange( getUrl() + "/auth/v1/page/slug/A",
                   HttpMethod.DELETE, entity, Void.class );
 
   // THEN

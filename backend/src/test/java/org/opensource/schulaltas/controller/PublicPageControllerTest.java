@@ -43,13 +43,14 @@ class PublicPageControllerTest {
   return "http://localhost:" + port + "/api/v1/page";
  }
 
- private Page getPage (String name) {
+ private Page getPage (String slug) {
   Map<String, List<Object>> components = new HashMap<>();
   components.put( "Header", List.of() );
   return Page.builder()
-                 .name( name )
+                 .slug( slug )
                  .updated( 1L )
                  .userId( "1" )
+                 .landingPage( false )
                  .assemblies( List.of(
                          Assembly.builder()
                                  .type( "Header" )
@@ -59,10 +60,10 @@ class PublicPageControllerTest {
 
  @Test
  @DisplayName ("Get page should return an specific existing page from the db")
- void getPage () {
+ void getPageBySlug () {
   // WHEN
   ResponseEntity<Page> response = testRestTemplate.getForEntity(
-          getUrl() + "/name/page1", Page.class );
+          getUrl() + "/slug/page1", Page.class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
@@ -71,10 +72,10 @@ class PublicPageControllerTest {
 
  @Test
  @DisplayName ("Get page should throw an exception for a not existing page")
- void getNotExistingPage () {
+ void getNotExistingPageBySlug () {
   // WHEN
   ResponseEntity<Page> response = testRestTemplate.getForEntity(
-          getUrl() + "/name/XXX", Page.class );
+          getUrl() + "/slug/XXX", Page.class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.BAD_REQUEST ) );

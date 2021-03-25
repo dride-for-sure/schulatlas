@@ -13,6 +13,6 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode (callSuper = true)
 public class Image extends Component {
 
- public String url;
- public String description;
+ private String url;
+ private String description;
 }

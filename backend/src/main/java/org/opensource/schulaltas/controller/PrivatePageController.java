@@ -24,37 +24,37 @@ public class PrivatePageController {
   return pageService.listPages();
  }
 
- @GetMapping ("/name/{name}")
- public Page getPageByName (@PathVariable String name) {
-  return pageService.getPageByName( name )
+ @GetMapping ("/slug/{slug}")
+ public Page getPageBySlug (@PathVariable String slug) {
+  return pageService.getPageBySlug( slug )
                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
-                         "Page: " + name + " is not available" ) );
+                         "Page: " + slug + " is not available" ) );
  }
 
  @PostMapping
  public Page addPage (@RequestBody PageDto pageDto) {
   return pageService.addPage( pageDto )
                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
-                         "Page: " + pageDto.getName() + " could not be added" ) );
+                         "Page: " + pageDto.getSlug() + " could not be added" ) );
  }
 
- @PutMapping ("/name/{name}/landingpage")
- public Page setLandingPageByName (@PathVariable String name) {
-  return pageService.setLandingPageByName( name )
+ @PutMapping ("/slug/{slug}/landingpage")
+ public Page setLandingPageBySlug (@PathVariable String slug) {
+  return pageService.setLandingPageBySlug( slug )
                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
-                         "Could not set landing page: " + name ) );
+                         "Could not set landing page: " + slug ) );
  }
 
- @PutMapping ("/name/{name}")
+ @PutMapping ("/slug/{slug}")
  public Page updatePage (@RequestBody PageDto pageDto) {
   return pageService.updatePage( pageDto )
                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
-                         "Could not update page: " + pageDto.getName() ) );
+                         "Could not update page: " + pageDto.getSlug() ) );
  }
 
- @DeleteMapping ("/name/{name}")
- public void deletePageByName (@PathVariable String name) {
-  pageService.deletePageByName( name );
+ @DeleteMapping ("/slug/{slug}")
+ public void deletePageBySlug (@PathVariable String slug) {
+  pageService.deletePageBySlug( slug );
  }
 
 }

@@ -12,4 +12,5 @@ import lombok.experimental.SuperBuilder;
 public class Component {
 
  private String type;
+ private String variant;
 }

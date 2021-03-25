@@ -19,5 +19,6 @@ public class Assembly {
 
  @Id
  private String type;
+ private String variant;
  private List<Component> components;
 }

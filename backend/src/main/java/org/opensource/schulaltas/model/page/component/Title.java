@@ -13,5 +13,5 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode (callSuper = true)
 public class Title extends Component {
 
- public String content;
+ private String content;
 }
