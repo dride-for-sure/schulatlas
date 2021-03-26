@@ -20,6 +20,6 @@ public class PrivateAssemblyController {
 
  @GetMapping
  public List<Assembly> listComponents () {
-  return assemblyService.listComponents();
+  return assemblyService.listAssemblies();
  }
 }
