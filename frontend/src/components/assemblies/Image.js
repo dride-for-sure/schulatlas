@@ -13,7 +13,7 @@ export default function Image({ component, onChange, onFileDelete, onFileUpload 
       <Label>{component.type}</Label>
       <GridOneTwo>
         <Container>
-          {component.url && <CustomImage src={component.url} alt={component.description} />}
+          {component.url && <CustomImage src={component.url} alt="" />}
           <Input
             align="left"
             id="description"
