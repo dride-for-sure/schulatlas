@@ -1,4 +1,8 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   data:
     mongodb:
       database: schulatlas
@@ -17,3 +21,6 @@ google:
 security:
   jwt:
     secret: top-secret
+server:
+  tomcat:
+    max-swallow-size: -1
