@@ -1,5 +1,5 @@
 import { array, func, object } from 'prop-types';
-import prettifySlug from '../../common/prettifySlug';
+import { prettifySlug } from '../../common/slugHelper';
 import Input from '../form/Input';
 import Label from '../form/Label';
 import Select from '../form/Select';

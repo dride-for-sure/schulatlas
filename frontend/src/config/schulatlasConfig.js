@@ -15,7 +15,7 @@ export const getPageTemplate = (name) => {
   switch (name) {
     case 'highlights':
       return {
-        slug: 'New hightlights page',
+        slug: 'new-hightlights-page',
         newPage: true,
         landingPage: false,
         assemblies: [
@@ -78,7 +78,7 @@ export const getPageTemplate = (name) => {
       };
     case 'contentfull':
       return {
-        slug: 'New contentfull page',
+        slug: 'new-contentfull-page',
         landingPage: false,
         newPage: true,
         assemblies: [

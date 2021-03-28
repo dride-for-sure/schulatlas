@@ -3,7 +3,7 @@ import { array, func, object } from 'prop-types';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components/macro';
 import { v4 as uuid } from 'uuid';
-import prettifySlug from '../../../../common/prettifySlug';
+import { escapeSlug, prettifySlug } from '../../../../common/slugHelper';
 import { useAuth } from '../../../../contexts/AuthProvider';
 import { addAttachment } from '../../../../services/api/private/attachmentApiService';
 import Slug from '../../../assemblies/Slug';
@@ -36,7 +36,7 @@ export default function EditPage({ page, savePage, pages, newPage, deletePage })
   };
 
   const updateSlug = (event) => {
-    const slug = event.target.value;
+    const slug = escapeSlug(event.target.value);
     const user = decode(token);
     const updatedPage = { ...tmpPage, updated: Date.now(), userId: user.sub, slug };
     setTmpPage(updatedPage);

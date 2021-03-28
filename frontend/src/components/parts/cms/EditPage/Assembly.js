@@ -1,6 +1,6 @@
 import { array, func, object } from 'prop-types';
 import styled from 'styled-components/macro';
-import prettifySlug from '../../../../common/prettifySlug';
+import { prettifySlug } from '../../../../common/slugHelper';
 import Button from '../../../assemblies/Button';
 import Card from '../../../assemblies/Card';
 import Image from '../../../assemblies/Image';

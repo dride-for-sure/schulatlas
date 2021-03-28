@@ -1,6 +1,6 @@
 import { object } from 'prop-types';
 import styled from 'styled-components/macro';
-import prettifySlug from '../../../../common/prettifySlug';
+import { prettifySlug } from '../../../../common/slugHelper';
 import RegularLink from '../../../links/RegularLink';
 
 export default function SideBarListItem({ type, page }) {
