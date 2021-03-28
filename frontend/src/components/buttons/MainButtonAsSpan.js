@@ -3,12 +3,14 @@ import styled from 'styled-components/macro';
 import ArrowRight from '../icons/ArrowRight';
 import Button from './Button';
 
-export default function MainButtonAsSpan({ children, variant, disabled }) {
+export default function MainButtonAsSpan({ children, variant, disabled, htmlFor }) {
   return (
-    <CustomButton variant={variant} disabled={disabled}>
-      <span>{children}</span>
-      <ArrowRight />
-    </CustomButton>
+    <label htmlFor={htmlFor}>
+      <CustomButton variant={variant} disabled={disabled}>
+        <span>{children}</span>
+        <ArrowRight />
+      </CustomButton>
+    </label>
   );
 }
 
@@ -20,4 +22,5 @@ MainButtonAsSpan.propTypes = {
   children: string.isRequired,
   variant: string,
   disabled: bool,
+  htmlFor: string,
 };

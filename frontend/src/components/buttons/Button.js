@@ -5,6 +5,7 @@ const Button = css`
   ${FlexRowCenter}
   box-sizing: border-box;
   width: 180px;
+  height: 32px;
   padding: 4px 5px 6px;
   margin: var(--default-margin) 0;
   border: 0;
