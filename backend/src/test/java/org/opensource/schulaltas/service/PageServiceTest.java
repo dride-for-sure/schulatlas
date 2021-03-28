@@ -150,7 +150,7 @@ class PageServiceTest {
   when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( true );
 
   // WHEN
-  Optional<Page> actual = pageService.updatePage( pageDto );
+  Optional<Page> actual = pageService.updatePage( pageDto, "A" );
 
   // THEN
   assertThat( actual.get(), is( getPage( "A" ) ) );
@@ -170,7 +170,7 @@ class PageServiceTest {
   when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( false );
 
   // WHEN
-  Optional<Page> actual = pageService.updatePage( pageDto );
+  Optional<Page> actual = pageService.updatePage( pageDto, "A" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
@@ -191,11 +191,56 @@ class PageServiceTest {
   when( timeUTC.now() ).thenReturn( 1L );
 
   // WHEN
-  Optional<Page> actual = pageService.updatePage( pageDto );
+  Optional<Page> actual = pageService.updatePage( pageDto, "A" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
   verify( pageDb, never() ).save( getPage( "A" ) );
+ }
+
+ @Test
+ @DisplayName ("Update slug of existing page should return page with new slug")
+ void updatePagesSlug () {
+  // GIVEN
+  PageDto pageDto = PageDto.builder()
+                            .slug( "NEWSLUG" )
+                            .userId( "B" )
+                            .assemblies( List.of() )
+                            .build();
+  String originalSlug = "A";
+  when( pageDb.findById( originalSlug ) ).thenReturn( Optional.of( getPage( originalSlug ) ) );
+  when( pageDb.save( getPage( "NEWSLUG" ) ) ).thenReturn( getPage( "NEWSLUG" ) );
+  when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( true );
+  when( timeUTC.now() ).thenReturn( 1L );
+
+  // WHEN
+  Optional<Page> actual = pageService.updatePage( pageDto, originalSlug );
+
+  // THEN
+  assertThat( actual.get(), is( getPage( "NEWSLUG" ) ) );
+  verify( pageDb ).save( getPage( "NEWSLUG" ) );
+  verify( pageDb ).deleteById( "A" );
+ }
+
+ @Test
+ @DisplayName ("Update slug of not existing page should return optional empty")
+ void updateNotExistingPagesSlug () {
+  // GIVEN
+  PageDto pageDto = PageDto.builder()
+                            .slug( "NOTEXISTING" )
+                            .userId( "B" )
+                            .assemblies( List.of() )
+                            .build();
+  String originalSlug = "A";
+  when( pageDb.findById( originalSlug ) ).thenReturn( Optional.empty() );
+  when( timeUTC.now() ).thenReturn( 1L );
+
+  // WHEN
+  Optional<Page> actual = pageService.updatePage( pageDto, originalSlug );
+
+  // THEN
+  assertThat( actual.isEmpty(), is( true ) );
+  verify( pageDb, never() ).save( getPage( "NOTEXISTING" ) );
  }
 
  @Test

@@ -229,6 +229,51 @@ class PrivatePageControllerTest {
  }
 
  @Test
+ @DisplayName ("Update existing pages slug should return the updated version")
+ void updateSlugOfExistingPage () {
+  // GIVEN
+  when( timeUTC.now() ).thenReturn( 1L );
+  when( assemblyDb.findAll() ).thenReturn( List.of( getAssembly( "A" ), getAssembly( "B" ) ) );
+
+  // WHEN
+  HttpHeaders headers = new HttpHeaders();
+  headers.setBearerAuth( getJWTToken() );
+  HttpEntity<PageDto> entity =
+          new HttpEntity<>( getPageDto( "NEWSLUG" ).toBuilder().userId( "UPDATED" ).build(),
+                  headers );
+  ResponseEntity<Page> actual =
+          testRestTemplate.exchange( getUrl() + "/auth/v1/page/slug/A",
+                  HttpMethod.PUT, entity, Page.class );
+
+  // THEN
+  assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
+  assertThat( actual.getBody(), is( getPage( "NEWSLUG" ).toBuilder().userId( "UPDATED" ).build() ) );
+  assertFalse( pageDb.existsById( "A" ) );
+ }
+
+ @Test
+ @DisplayName ("Update not existing pages slug should throw an exception")
+ void updateSlugOfNotExistingPage () {
+  // GIVEN
+  when( timeUTC.now() ).thenReturn( 1L );
+  when( assemblyDb.findAll() ).thenReturn( List.of( getAssembly( "A" ), getAssembly( "B" ) ) );
+
+  // WHEN
+  HttpHeaders headers = new HttpHeaders();
+  headers.setBearerAuth( getJWTToken() );
+  HttpEntity<PageDto> entity =
+          new HttpEntity<>( getPageDto( "NEWSLUG" ).toBuilder().userId( "UPDATED" ).build(),
+                  headers );
+  ResponseEntity<Page> actual =
+          testRestTemplate.exchange( getUrl() + "/auth/v1/page/slug/NOTEXISTING",
+                  HttpMethod.PUT, entity, Page.class );
+
+  // THEN
+  assertThat( actual.getStatusCode(), is( HttpStatus.BAD_REQUEST ) );
+  assertFalse( pageDb.existsById( "NEWSLUG" ) );
+ }
+
+ @Test
  @DisplayName ("Set landing page should change landingPage to true and save it within the db")
  void setLandingPageBySlug () {
   // GIVEN
