@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components/macro';
 
-const H1 = styled.h1`
+const Headline = styled.h1`
   font-family: var(--font-family-title);
   font-size: var(--font-size-title-m);
 
@@ -8,7 +8,16 @@ const H1 = styled.h1`
     font-size: var(--font-size-title-l);
   `}
 
+  ${(props) => props.size === 's' && css`
+    font-size: var(--font-size-title-s);
+  `}
+
+  ${(props) => props.size === 'xs' && css`
+    font-size: var(--font-size-title-xs);
+  `}
+
   margin: var(--margin-title);
+  text-transform: capitalize;
 `;
 
-export default H1;
+export default Headline;
