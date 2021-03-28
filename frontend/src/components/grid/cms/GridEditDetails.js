@@ -7,7 +7,8 @@ const EditGrid = css`
   grid-template-areas:
     ". headline"
     "fields fields";
-    grid-gap: 0 var(--container-padding);
+  grid-gap: 0 var(--container-padding);
+  height: fit-content;
 
   > h1 {
     grid-area: headline;
