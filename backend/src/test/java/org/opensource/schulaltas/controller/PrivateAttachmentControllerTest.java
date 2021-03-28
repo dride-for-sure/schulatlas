@@ -66,7 +66,7 @@ class PrivateAttachmentControllerTest {
   attachmentDb.deleteAll();
   attachmentDb.save( getAttachment( "A" ) );
   attachmentDb.save( getAttachment( "B" ) );
-  attachmentDb.save( getAttachment( "UUID/A" ) );
+  attachmentDb.save( getAttachment( "A" ) );
  }
 
  private Attachment getAttachment (String name) {
@@ -233,11 +233,11 @@ class PrivateAttachmentControllerTest {
   HttpEntity<Void> entity = new HttpEntity<>( headers );
 
   ResponseEntity<Void> actual = testRestTemplate.exchange(
-          getUrl() + "/auth/v1/attachment/filename/UUID/A", HttpMethod.DELETE, entity, Void.class );
+          getUrl() + "/auth/v1/attachment/filename/A", HttpMethod.DELETE, entity, Void.class );
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
-  assertFalse( attachmentDb.existsById( "UUID/A" ) );
-  verify( awsService ).deleteFileFromS3( "UUID/A" );
+  assertFalse( attachmentDb.existsById( "A" ) );
+  verify( awsService ).deleteFileFromS3( "A" );
  }
 }
