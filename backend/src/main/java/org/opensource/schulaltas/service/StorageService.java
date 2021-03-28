@@ -21,11 +21,11 @@ public class StorageService {
  }
 
  public Optional<Attachment> save (MultipartFile file) {
-  Optional<String> pathOnS3 = awsService.uploadFileToS3( file, true );
-  if ( pathOnS3.isPresent() ) {
-   String fileUrl = "https://" + awsConfig.getAWSS3AudioBucket() + ".s3.amazonaws.com/" + pathOnS3.get();
+  Optional<String> fileName = awsService.uploadFileToS3( file, true );
+  if ( fileName.isPresent() ) {
+   String fileUrl = "https://" + awsConfig.getAWSS3AudioBucket() + ".s3.amazonaws.com/" + fileName.get();
    return Optional.of( Attachment.builder()
-                               .fileName( pathOnS3.get() )
+                               .fileName( fileName.get() )
                                .url( fileUrl )
                                .type( file.getContentType() )
                                .build() );

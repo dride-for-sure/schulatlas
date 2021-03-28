@@ -44,8 +44,8 @@ public class PrivateAttachmentController {
   throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "This file has no valid fileType" );
  }
 
- @DeleteMapping ("/filename/{uuid}/{filename}")
- public void deleteAttachmentByFilename (@PathVariable String uuid, @PathVariable String filename) {
-  attachmentService.deleteAttachmentByFilename( uuid + "/" + filename );
+ @DeleteMapping ("/filename/{filename}")
+ public void deleteAttachmentByFilename (@PathVariable String filename) {
+  attachmentService.deleteAttachmentByFilename( filename );
  }
 }
