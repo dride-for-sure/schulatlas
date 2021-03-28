@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import Grid from '../../components/grid/cms/Grid';
+import GridSideBar from '../../components/grid/cms/GridSideBar';
 import Header from '../../components/header/cms/Header';
 import SchoolList from '../../components/lists/cms/school/SchoolList';
-import EditSchool from '../../components/parts/cms/EditSchool';
+import EditSchool from '../../components/parts/cms/EditSchool/EditSchool';
 import SideBar from '../../components/parts/cms/SideBar';
-import FlexRowCenter from '../../components/structure/FlexRowCenter';
-import { getSchoolByNumber, getSchoolByType, listSchools, listTypes } from '../../services/private/schoolApiService';
+import FlexRowCenter from '../../components/structures/FlexRowCenter';
+import { getSchoolByNumber, getSchoolByType, listSchools, listTypes } from '../../services/api/private/schoolApiService';
 
 export default function SchoolsOverview() {
   const [types, setTypes] = useState('');
@@ -51,17 +51,15 @@ export default function SchoolsOverview() {
     getTypeList();
   }, []);
 
-  /* TODO: LOADER */
-
   return (
     <>
       <Header />
       <Container>
-        <Grid>
+        <GridSideBar>
           {types && <SideBar types={types} />}
           {schools && <SchoolList schools={schools} />}
           {school && <EditSchool school={school} />}
-        </Grid>
+        </GridSideBar>
       </Container>
     </>
   );

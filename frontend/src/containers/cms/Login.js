@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import Button from '../../components/buttons/ButtonWithArrow';
+import MainButton from '../../components/buttons/MainButton';
 import Input from '../../components/form/Input';
 import Headline from '../../components/headlines/Headline';
 import Logo from '../../components/logo/Logo';
-import FlexColumnCenter from '../../components/structure/FlexColumnCenter';
-import FlexRowCenter from '../../components/structure/FlexRowCenter';
+import FlexColumnCenter from '../../components/structures/FlexColumnCenter';
+import FlexRowCenter from '../../components/structures/FlexRowCenter';
 import { useAuth } from '../../contexts/AuthProvider';
-import login from '../../services/private/loginApiService';
+import login from '../../services/api/private/loginApiService';
 
 export default function Login() {
   const { token, setToken } = useAuth();
@@ -47,7 +47,7 @@ export default function Login() {
             type="password"
             value={password}
             onChange={({ target }) => setPassword(target.value)} />
-          <Button disabled={!username || !password}>Continue</Button>
+          <MainButton disabled={!username || !password}>Continue</MainButton>
         </Form>
       </Container>
     </Wrapper>
