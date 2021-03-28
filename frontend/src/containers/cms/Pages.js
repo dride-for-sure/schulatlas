@@ -8,7 +8,7 @@ import EditPage from '../../components/parts/cms/EditPage/EditPage';
 import SideBar from '../../components/parts/cms/SideBar';
 import FlexRowCenter from '../../components/structures/FlexRowCenter';
 import { getPageTemplate } from '../../config/schulatlasConfig';
-import { addPage, deletePageBySlug, getPageBySlug, listPages, updatePage } from '../../services/api/private/pageApiService';
+import { addPage, deletePageBySlug, getPageBySlug, listPages, setLandingPageBySlug, updatePage } from '../../services/api/private/pageApiService';
 
 export default function PageDetails() {
   const [page, setPage] = useState('');
@@ -31,6 +31,12 @@ export default function PageDetails() {
     } else {
       setPage('');
     }
+  };
+
+  const setLandingPage = (slugToSetLandingPage) => {
+    setLandingPageBySlug(slugToSetLandingPage)
+      .then(getPageList)
+      .catch((error) => console.log(error));
   };
 
   const handleDelete = (slugToDelete) => {
@@ -82,7 +88,8 @@ export default function PageDetails() {
         <GridSideBar>
           <SideBar
             pages={pages}
-            onAddPage={addNewPage} />
+            onAddPage={addNewPage}
+            setLandingPage={setLandingPage} />
           {(page || newPage)
             && (
             <EditPage

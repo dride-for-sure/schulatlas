@@ -4,7 +4,7 @@ import MainButton from '../../buttons/MainButton';
 import HeadlineWithSubtitle from '../../headlines/HeadlineWithSubtitle';
 import SideBarList from '../../lists/cms/sidebar/SideBarList';
 
-export default function SideBar({ pages, types, onAddPage, onAddSchool }) {
+export default function SideBar({ pages, types, onAddPage, onAddSchool, setLandingPage }) {
   return (
     <Container>
       {pages && (
@@ -20,7 +20,7 @@ export default function SideBar({ pages, types, onAddPage, onAddSchool }) {
           <MainButton onClick={onAddSchool}>Add School</MainButton>
         </>
       )}
-      <SideBarList pages={pages} types={types} />
+      <SideBarList pages={pages} types={types} setLandingPage={setLandingPage} />
     </Container>
   );
 }
@@ -38,6 +38,7 @@ const Container = styled.div`
 SideBar.propTypes = {
   pages: array,
   types: array,
-  onAddPage: func.isRequired,
-  onAddSchool: func.isRequired,
+  onAddPage: func,
+  onAddSchool: func,
+  setLandingPage: func,
 };

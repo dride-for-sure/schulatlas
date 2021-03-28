@@ -1,12 +1,20 @@
-import { object } from 'prop-types';
+import { func, object } from 'prop-types';
 import styled from 'styled-components/macro';
 import { prettifySlug } from '../../../../common/slugHelper';
+import LandingPageButton from '../../../buttons/LandingPageButton';
 import RegularLink from '../../../links/RegularLink';
 
-export default function SideBarListItem({ type, page }) {
+export default function SideBarListItem({ type, page, setLandingPage }) {
   return (
     <ListItem>
-      {page && (<RegularLink to={`/cms/page/${page.slug}`}>{prettifySlug(page.slug)}</RegularLink>)}
+      {page && (
+        <>
+          <RegularLink to={`/cms/page/${page.slug}`}>{prettifySlug(page.slug)}</RegularLink>
+          <LandingPageButton
+            onClick={() => setLandingPage(page.slug)}
+            inactive={!page.landingPage} />
+        </>
+      )}
       {type && (<RegularLink to={`/cms/type/${type.name}`}>{`${type.name} (${type.count})`}</RegularLink>)}
     </ListItem>
   );
@@ -19,4 +27,5 @@ const ListItem = styled.li`
 SideBarListItem.propTypes = {
   page: object,
   type: object,
+  setLandingPage: func,
 };
