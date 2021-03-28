@@ -6,9 +6,9 @@ export default function SideBarList({ pages, types }) {
   return (
     <UnorderedList>
       {pages && pages.map((page) =>
-        <SideBarListItem key={page.name} page={page} />)}
+        <SideBarListItem key={page.slug} page={page} />)}
       {types && types.map((type) =>
-        <SideBarListItem key={type.name} type={type} />)}
+        <SideBarListItem key={type.slug} type={type} />)}
     </UnorderedList>
   );
 }
