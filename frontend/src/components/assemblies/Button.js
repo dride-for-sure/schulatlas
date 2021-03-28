@@ -19,8 +19,9 @@ export default function Button({ component, onChange, pages }) {
           onChange={onChange} />
         <Select
           id="target"
-          value={component.target || ''}
+          value={component.target || 'default'}
           onChange={onChange}>
+          <option disabled value="default">Please select a page</option>
           {pages && pages.map((page) =>
             <option key={page.slug} value={page.slug}>{prettifySlug(page.slug)}</option>)}
         </Select>

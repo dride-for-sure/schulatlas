@@ -30,9 +30,11 @@ export default function Image({ component, onChange, onFileDelete, onFileUpload 
             accept="image/jpg, image/jpeg"
             style={{ display: 'none' }}
             onChange={onFileUpload} />
-          <label htmlFor={`${component.id}-'fileUpload'`}>
-            <MainButtonAsSpan variant="secondary">Upload Image</MainButtonAsSpan>
-          </label>
+          <MainButtonAsSpan
+            htmlFor={`${component.id}-'fileUpload'`}
+            variant="secondary">
+            Upload Image
+          </MainButtonAsSpan>
           <MainButton
             type="button"
             id="delete"
@@ -55,7 +57,7 @@ const Container = styled.div`
   }
 
   > label span {
-    margin:0
+    margin: 0;
   }
 
   > button {
