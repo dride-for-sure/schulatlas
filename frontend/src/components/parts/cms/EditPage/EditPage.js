@@ -26,8 +26,7 @@ export default function EditPage({ page, savePage, pages, newPage, deletePage })
   const uploadFile = (file) =>
     addAttachment(file)
       .then((response) => response.url)
-      .catch((error) => console.error(error))
-      .then('');
+      .catch((error) => console.error(error));
 
   const updateTmpPage = () => {
     const user = decode(token);
