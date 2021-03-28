@@ -1,6 +1,6 @@
 import { array, func } from 'prop-types';
 import styled from 'styled-components';
-import ButtonWithArrow from '../../buttons/ButtonWithArrow';
+import MainButton from '../../buttons/MainButton';
 import HeadlineWithSubtitle from '../../headlines/HeadlineWithSubtitle';
 import SideBarList from '../../lists/cms/sidebar/SideBarList';
 
@@ -10,13 +10,13 @@ export default function SideBar({ pages, types, onAddPage, onAddSchool }) {
       {pages && (
         <>
           <HeadlineWithSubtitle title="Pages" subtitle="List of all pages" />
-          <ButtonWithArrow onClick={onAddPage}>Add Page</ButtonWithArrow>
+          <MainButton onClick={onAddPage}>Add Page</MainButton>
         </>
       )}
       {types && (
         <>
           <HeadlineWithSubtitle title="Schools" subtitle="List of all schools" />
-          <ButtonWithArrow onClick={onAddSchool}>Add School</ButtonWithArrow>
+          <MainButton onClick={onAddSchool}>Add School</MainButton>
         </>
       )}
       <SideBarList pages={pages} types={types} />
