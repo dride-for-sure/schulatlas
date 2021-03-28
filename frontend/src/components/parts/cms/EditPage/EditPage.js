@@ -13,14 +13,14 @@ import Headline from '../../../headlines/Headline';
 import Loading from '../../../loading/Loading';
 import Assembly from './Assembly';
 
-export default function EditPage({ page, updatePage, pages }) {
+export default function EditPage({ page, savePage, pages, newPage, deletePage }) {
   const { token } = useAuth();
   const [tmpPage, setTmpPage] = useState('');
   const [assemblies, setAssemblies] = useState('');
 
   const submit = (event) => {
     event.preventDefault();
-    if (tmpPage) { updatePage(tmpPage); }
+    if (tmpPage) { savePage(tmpPage); }
   };
 
   const uploadFile = (file) =>
@@ -77,6 +77,13 @@ export default function EditPage({ page, updatePage, pages }) {
     }
   }, [assemblies]);
 
+  useEffect(() => {
+    if (newPage) {
+      setTmpPage(newPage);
+      setAssemblies(addUuidsToAssemblies(newPage.assemblies));
+    }
+  }, [newPage]);
+
   if (!assemblies) {
     return <Loading />;
   }
@@ -99,7 +106,10 @@ export default function EditPage({ page, updatePage, pages }) {
             pages={pages} />
         ))}
       </Form>
-      <MainButton>Save</MainButton>
+      <Container>
+        <MainButton type="button" variant="monochrome" onClick={() => deletePage(page.slug)}>Delete</MainButton>
+        <MainButton>Save</MainButton>
+      </Container>
     </Grid>
   );
 }
@@ -116,9 +126,16 @@ const Grid = styled.form`
     "fields fields"
     ". submit";
     
-  > button {
-    grid-area: submit;
-    justify-self: right;
+`;
+
+const Container = styled.div`
+  grid-area: submit;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  button + button {
+    margin-left: var(--container-padding);
   }
 `;
 
@@ -132,6 +149,8 @@ const Form = styled.div`
 
 EditPage.propTypes = {
   page: object.isRequired,
-  updatePage: func.isRequired,
+  savePage: func.isRequired,
   pages: array.isRequired,
+  newPage: object,
+  deletePage: func.isRequired,
 };

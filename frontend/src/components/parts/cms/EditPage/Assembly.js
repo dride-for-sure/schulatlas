@@ -6,6 +6,7 @@ import Card from '../../../assemblies/Card';
 import Image from '../../../assemblies/Image';
 import Paragraph from '../../../assemblies/Paragraph';
 import Title from '../../../assemblies/Title';
+import Variant from '../../../assemblies/Variant';
 import GridEditDetails from '../../../grid/cms/GridEditDetails';
 import Headline from '../../../headlines/Headline';
 
@@ -18,6 +19,11 @@ export default function Assembly({ assembly, onChange, onFileUpload, pages }) {
       return component;
     });
     onChange({ ...assembly, components: updatedComponents });
+  };
+
+  const updateVariant = (event) => {
+    const variant = event.target.value;
+    onChange({ ...assembly, variant });
   };
 
   const handleFileUpload = (event, id) => {
@@ -85,6 +91,11 @@ export default function Assembly({ assembly, onChange, onFileUpload, pages }) {
     <OuterGrid>
       <Headline>{prettifySlug(assembly.type)}</Headline>
       <InnerGrid>
+        {assembly.variant && (
+          <Variant
+            assembly={assembly}
+            onChange={updateVariant} />
+        )}
         {assembly.components.map((component) => getComponentForm(component))}
       </InnerGrid>
     </OuterGrid>
@@ -93,10 +104,10 @@ export default function Assembly({ assembly, onChange, onFileUpload, pages }) {
 
 const OuterGrid = styled.div`
   ${GridEditDetails};
-
   > div {
     grid-area: fields;
   }
+
 `;
 
 const InnerGrid = styled.div`

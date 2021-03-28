@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import sortPages from '../../common/sortPages';
 import GridSideBar from '../../components/grid/cms/GridSideBar';
@@ -7,11 +7,14 @@ import Header from '../../components/header/cms/Header';
 import EditPage from '../../components/parts/cms/EditPage/EditPage';
 import SideBar from '../../components/parts/cms/SideBar';
 import FlexRowCenter from '../../components/structures/FlexRowCenter';
-import { getPageBySlug, listPages, updatePage } from '../../services/api/private/pageApiService';
+import { getPageTemplate } from '../../config/schulatlasConfig';
+import { addPage, deletePageBySlug, getPageBySlug, listPages, updatePage } from '../../services/api/private/pageApiService';
 
 export default function PageDetails() {
   const [page, setPage] = useState('');
   const [pages, setPages] = useState('');
+  const [newPage, setNewPage] = useState('');
+  const history = useHistory();
   const { slug } = useParams();
 
   const getPageList = () => {
@@ -30,14 +33,34 @@ export default function PageDetails() {
     }
   };
 
-  const handleUpdate = (pageToUpdate) => {
-    updatePage(pageToUpdate, page.slug)
-      .then(setPage)
-      .catch((error) => console.log(error));
+  const handleDelete = (slugToDelete) => {
+    deletePageBySlug(slugToDelete);
+    setPage('');
+    getPageList();
+    history.push('/cms/pages');
   };
 
-  const addPage = () => {
-    console.log('Add Page');
+  const handleSave = (pageToSave) => {
+    if (pageToSave.newPage === true) {
+      const clearedPage = {
+        slug: pageToSave.slug,
+        updated: pageToSave.updated,
+        userId: pageToSave.userId,
+        landingPage: false,
+        assemblies: pageToSave.assemblies };
+      addPage(clearedPage)
+        .then(setPage)
+        .catch((error) => console.log(error));
+    } else {
+      updatePage(pageToSave, page.slug)
+        .then(setPage)
+        .catch((error) => console.log(error));
+    }
+  };
+
+  const addNewPage = (template) => {
+    const pageFromTemplate = getPageTemplate(template);
+    setNewPage(pageFromTemplate);
   };
 
   useEffect(() => {
@@ -59,13 +82,15 @@ export default function PageDetails() {
         <GridSideBar>
           <SideBar
             pages={pages}
-            onAddPage={addPage} />
-          {page
+            onAddPage={addNewPage} />
+          {(page || newPage)
             && (
             <EditPage
               page={page}
               pages={pages}
-              updatePage={handleUpdate} />
+              newPage={newPage}
+              savePage={handleSave}
+              deletePage={handleDelete} />
             )}
         </GridSideBar>
       </Container>
