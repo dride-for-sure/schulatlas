@@ -14,8 +14,8 @@ export const addPage = (page) => axiosConfig.instance
   .post(PAGE_API_BASE_URL, page)
   .then((response) => response.data);
 
-export const updatePage = (page) => axiosConfig.instance
-  .put(`${PAGE_API_BASE_URL}/slug/${page.slug}`, page)
+export const updatePage = (page, slug) => axiosConfig.instance
+  .put(`${PAGE_API_BASE_URL}/slug/${slug}`, page)
   .then((response) => response.data);
 
 export const deletePageBySlug = (slug) => axiosConfig.instance
