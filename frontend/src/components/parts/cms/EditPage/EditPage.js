@@ -6,6 +6,7 @@ import { v4 as uuid } from 'uuid';
 import prettifySlug from '../../../../common/prettifySlug';
 import { useAuth } from '../../../../contexts/AuthProvider';
 import { addAttachment } from '../../../../services/api/private/attachmentApiService';
+import Slug from '../../../assemblies/Slug';
 import MainButton from '../../../buttons/MainButton';
 import GridEditDetails from '../../../grid/cms/GridEditDetails';
 import Headline from '../../../headlines/Headline';
@@ -31,6 +32,13 @@ export default function EditPage({ page, updatePage, pages }) {
   const updateTmpPage = () => {
     const user = decode(token);
     const updatedPage = { ...tmpPage, updated: Date.now(), userId: user.sub, assemblies };
+    setTmpPage(updatedPage);
+  };
+
+  const updateSlug = (event) => {
+    const slug = event.target.value;
+    const user = decode(token);
+    const updatedPage = { ...tmpPage, updated: Date.now(), userId: user.sub, slug };
     setTmpPage(updatedPage);
   };
 
@@ -76,7 +84,12 @@ export default function EditPage({ page, updatePage, pages }) {
   return (
     <Grid onSubmit={submit}>
       <Headline size="l">{prettifySlug(tmpPage.slug)}</Headline>
-      <Container>
+      <Form>
+        <InnerGrid>
+          <Slug
+            slug={tmpPage.slug}
+            onChange={updateSlug} />
+        </InnerGrid>
         {assemblies && assemblies.map((assembly) => (
           <Assembly
             key={assembly.id}
@@ -85,17 +98,31 @@ export default function EditPage({ page, updatePage, pages }) {
             onFileUpload={uploadFile}
             pages={pages} />
         ))}
-      </Container>
+      </Form>
       <MainButton>Save</MainButton>
     </Grid>
   );
 }
 
-const Grid = styled.form`
+const InnerGrid = styled.div`
   ${GridEditDetails};
+  grid-gap: var(--container-padding);
 `;
 
-const Container = styled.div`
+const Grid = styled.form`
+  ${GridEditDetails};
+  grid-template-areas:
+    ". headline"
+    "fields fields"
+    ". submit";
+    
+  > button {
+    grid-area: submit;
+    justify-self: right;
+  }
+`;
+
+const Form = styled.div`
   grid-area: fields;
 
   > div + div {

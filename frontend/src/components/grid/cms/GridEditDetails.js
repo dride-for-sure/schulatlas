@@ -6,18 +6,13 @@ const EditGrid = css`
   grid-template-rows: repeat();
   grid-template-areas:
     ". headline"
-    "fields fields"
-    ". submit";
+    "fields fields";
     grid-gap: 0 var(--container-padding);
 
   > h1 {
     grid-area: headline;
   }
 
-  > button {
-    grid-area: submit;
-    justify-self: right;
-  }
 `;
 
 export default EditGrid;
