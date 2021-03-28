@@ -18,6 +18,8 @@ const GlobalStyle = createGlobalStyle`
   /* Titles */
   --font-family-title: 'DM Serif Display', serif;
   --font-weight-title: 600;
+  --font-size-title-xs: 1rem;
+  --font-size-title-s: 1.3rem;
   --font-size-title-m: 1.5rem;
   --font-size-title-l: 2rem;
   --margin-title: 0 0 1rem;
