@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components/macro';
+import sortPages from '../../common/sortPages';
 import GridSideBar from '../../components/grid/cms/GridSideBar';
 import Header from '../../components/header/cms/Header';
 import EditPage from '../../components/parts/cms/EditPage/EditPage';
@@ -15,7 +16,7 @@ export default function PageDetails() {
 
   const getPageList = () => {
     listPages()
-      .then(setPages)
+      .then((incomingPages) => setPages(sortPages(incomingPages)))
       .catch((error) => console.log(error));
   };
 
@@ -30,7 +31,7 @@ export default function PageDetails() {
   };
 
   const handleUpdate = (pageToUpdate) => {
-    updatePage(pageToUpdate)
+    updatePage(pageToUpdate, page.slug)
       .then(setPage)
       .catch((error) => console.log(error));
   };
@@ -38,6 +39,10 @@ export default function PageDetails() {
   const addPage = () => {
     console.log('Add Page');
   };
+
+  useEffect(() => {
+    getPageList();
+  }, [page]);
 
   useEffect(() => {
     handleParamsUpdate();
