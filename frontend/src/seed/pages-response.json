@@ -1,0 +1,267 @@
+[
+    {
+        "slug": "landing-page",
+        "updated": 1616342263125,
+        "userId": "dennis",
+        "landingPage": false,
+        "assemblies": [
+            {
+                "type": "hero",
+                "variant": "primary",
+                "components": [
+                    {
+                        "type": "title",
+                        "variant": null,
+                        "content": "Wie lernen Kinder heute?"
+                    },
+                    {
+                        "type": "subtitle",
+                        "variant": null,
+                        "content": "Erfahre mehr über deine Schule..."
+                    },
+                    {
+                        "type": "button",
+                        "variant": "primary",
+                        "target": "/entdeckeninnnen",
+                        "description": "Entdecke alle Schulen auf der Karte vom Schulatlas",
+                        "content": "Entdecker*Innen"
+                    },
+                    {
+                        "type": "button",
+                        "variant": "secondary",
+                        "target": "/zahlenjunkies",
+                        "description": "Als Zahlenjunkie erkunde eigenständig alle Daten",
+                        "content": "Entdecker*Innen"
+                    },
+                    {
+                        "type": "image",
+                        "variant": null,
+                        "url": "https://schulatlas.s3.amazonaws.com/a71d2d73-7132-4959-b8ba-b139a2b43580/sampleImage.jpg",
+                        "description": "SampleImage"
+                    }
+                ]
+            },
+            {
+                "type": "sponsors",
+                "variant": null,
+                "components": [
+                    {
+                        "type": "title",
+                        "variant": null,
+                        "content": "Wir werden unterstützt durch:"
+                    },
+                    {
+                        "type": "image",
+                        "variant": null,
+                        "url": "https://schulatlas.s3.amazonaws.com/a71d2d73-7132-4959-b8ba-b139a2b43580/sampleImage.jpg",
+                        "description": "SampleImage"
+                    },
+                    {
+                        "type": "image",
+                        "variant": null,
+                        "url": "https://schulatlas.s3.amazonaws.com/a71d2d73-7132-4959-b8ba-b139a2b43580/sampleImage.jpg",
+                        "description": "SampleImage"
+                    },
+                    {
+                        "type": "image",
+                        "variant": null,
+                        "url": "https://schulatlas.s3.amazonaws.com/a71d2d73-7132-4959-b8ba-b139a2b43580/sampleImage.jpg",
+                        "description": "SampleImage"
+                    }
+                ]
+            },
+            {
+                "type": "feature-card",
+                "variant": "image-left",
+                "components": [
+                    {
+                        "type": "image",
+                        "variant": null,
+                        "url": "https://schulatlas.s3.amazonaws.com/a71d2d73-7132-4959-b8ba-b139a2b43580/sampleImage.jpg",
+                        "description": "SampleImage"
+                    },
+                    {
+                        "type": "title",
+                        "variant": null,
+                        "content": "Digitale Wüste"
+                    },
+                    {
+                        "type": "subtitle",
+                        "variant": null,
+                        "content": "Momentaufnahme deutscher Schulen"
+                    },
+                    {
+                        "type": "paragraph",
+                        "variant": null,
+                        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                    }
+                ]
+            },
+            {
+                "type": "feature-card",
+                "variant": "image-right",
+                "components": [
+                    {
+                        "type": "image",
+                        "variant": null,
+                        "url": "https://schulatlas.s3.amazonaws.com/a71d2d73-7132-4959-b8ba-b139a2b43580/sampleImage.jpg",
+                        "description": "SampleImage"
+                    },
+                    {
+                        "type": "title",
+                        "variant": null,
+                        "content": "Digitale Wüste"
+                    },
+                    {
+                        "type": "subtitle",
+                        "variant": null,
+                        "content": "Momentaufnahme deutscher Schulen"
+                    },
+                    {
+                        "type": "paragraph",
+                        "variant": null,
+                        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                    }
+                ]
+            },
+            {
+                "type": "cards",
+                "variant": null,
+                "components": [
+                    {
+                        "type": "card",
+                        "variant": null,
+                        "components": [
+                            {
+                                "type": "image",
+                                "variant": null,
+                                "url": "https://schulatlas.s3.amazonaws.com/a71d2d73-7132-4959-b8ba-b139a2b43580/sampleImage.jpg",
+                                "description": "SampleImage"
+                            },
+                            {
+                                "type": "title",
+                                "variant": null,
+                                "content": "Digitale Wüste"
+                            },
+                            {
+                                "type": "subtitle",
+                                "variant": null,
+                                "content": "Momentaufnahme deutscher Schulen"
+                            },
+                            {
+                                "type": "paragraph",
+                                "variant": null,
+                                "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                            },
+                            {
+                                "type": "button",
+                                "variant": "arrow",
+                                "target": "/entdeckeninnnen",
+                                "description": "Entdecke alle Schulen auf der Karte vom Schulatlas",
+                                "content": "Entdecker*Innen"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "card",
+                        "variant": null,
+                        "components": [
+                            {
+                                "type": "image",
+                                "variant": null,
+                                "url": "https://schulatlas.s3.amazonaws.com/a71d2d73-7132-4959-b8ba-b139a2b43580/sampleImage.jpg",
+                                "description": "SampleImage"
+                            },
+                            {
+                                "type": "title",
+                                "variant": null,
+                                "content": "Digitale Wüste"
+                            },
+                            {
+                                "type": "subtitle",
+                                "variant": null,
+                                "content": "Momentaufnahme deutscher Schulen"
+                            },
+                            {
+                                "type": "paragraph",
+                                "variant": null,
+                                "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                            },
+                            {
+                                "type": "button",
+                                "variant": "arrow",
+                                "target": "/entdeckeninnnen",
+                                "description": "Entdecke alle Schulen auf der Karte vom Schulatlas",
+                                "content": "Entdecker*Innen"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "card",
+                        "variant": null,
+                        "components": [
+                            {
+                                "type": "image",
+                                "variant": null,
+                                "url": "https://schulatlas.s3.amazonaws.com/a71d2d73-7132-4959-b8ba-b139a2b43580/sampleImage.jpg",
+                                "description": "SampleImage"
+                            },
+                            {
+                                "type": "title",
+                                "variant": null,
+                                "content": "Digitale Wüste"
+                            },
+                            {
+                                "type": "subtitle",
+                                "variant": null,
+                                "content": "Momentaufnahme deutscher Schulen"
+                            },
+                            {
+                                "type": "paragraph",
+                                "variant": null,
+                                "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                            },
+                            {
+                                "type": "button",
+                                "variant": "arrow",
+                                "target": "/entdeckeninnnen",
+                                "description": "Entdecke alle Schulen auf der Karte vom Schulatlas",
+                                "content": "Entdecker*Innen"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "cta",
+                "variant": null,
+                "components": [
+                    {
+                        "type": "title",
+                        "variant": null,
+                        "content": "Füllt mit uns die Lücken"
+                    },
+                    {
+                        "type": "paragraph",
+                        "variant": null,
+                        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                    },
+                    {
+                        "type": "button",
+                        "variant": "primary",
+                        "target": "/entdeckeninnnen",
+                        "description": "Entdecke alle Schulen auf der Karte vom Schulatlas",
+                        "content": "Entdecker*Innen"
+                    },
+                    {
+                        "type": "button",
+                        "variant": "secondary",
+                        "target": "/zahlenjunkies",
+                        "description": "Als Zahlenjunkie erkunde eigenständig alle Daten",
+                        "content": "Entdecker*Innen"
+                    }
+                ]
+            }
+        ]
+    }
+]
