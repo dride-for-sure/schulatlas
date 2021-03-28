@@ -47,15 +47,17 @@ public class PageService {
   return page;
  }
 
- public Optional<Page> updatePage (PageDto pageDto) {
-  Optional<Page> pageToUpdate = pageDb.findById( pageDto.getSlug() );
+ public Optional<Page> updatePage (PageDto pageDto, String slug) {
+  Optional<Page> pageToUpdate = pageDb.findById( slug );
   if ( pageToUpdate.isPresent() && assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ) {
    Page updatedPage = pageToUpdate.get()
                               .toBuilder()
+                              .slug( pageDto.getSlug() )
                               .updated( timeUTC.now() )
                               .userId( pageDto.getUserId() )
                               .assemblies( pageDto.getAssemblies() )
                               .build();
+   pageDb.deleteById( slug );
    return Optional.of( pageDb.save( updatedPage ) );
   }
   return Optional.empty();

@@ -46,8 +46,8 @@ public class PrivatePageController {
  }
 
  @PutMapping ("/slug/{slug}")
- public Page updatePage (@RequestBody PageDto pageDto) {
-  return pageService.updatePage( pageDto )
+ public Page updatePage (@RequestBody PageDto pageDto, @PathVariable String slug) {
+  return pageService.updatePage( pageDto, slug )
                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
                          "Could not update page: " + pageDto.getSlug() ) );
  }
