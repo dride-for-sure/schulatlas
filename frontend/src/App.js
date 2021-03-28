@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 import GlobalStyle from './components/GlobalStyles';
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './containers/cms/Login';
-import Page from './containers/cms/Page';
+import Pages from './containers/cms/Pages';
 import Schools from './containers/cms/Schools';
 import Maps from './containers/schulatlas/Maps';
+import Page from './containers/schulatlas/Page';
 import { AuthProvider } from './contexts/AuthProvider';
 import './fonts.css';
 
@@ -30,11 +31,11 @@ function App() {
           <ProtectedRoute path="/cms/type/:type" exact>
             <Schools />
           </ProtectedRoute>
-          <ProtectedRoute path="/cms/page/:name" exact>
-            <Page />
+          <ProtectedRoute path="/cms/page/:slug" exact>
+            <Pages />
           </ProtectedRoute>
           <ProtectedRoute path="/cms/pages" exact>
-            <Page />
+            <Pages />
           </ProtectedRoute>
           <ProtectedRoute path="/cms" exact>
             <Redirect to="/cms/pages" />
@@ -43,7 +44,7 @@ function App() {
           <Route path="/entdecken" exact>
             <Maps />
           </Route>
-          <Route path="/:name?" exact>
+          <Route path="/:slug?" exact>
             <Page />
           </Route>
         </Switch>
