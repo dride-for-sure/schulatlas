@@ -19,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -26,7 +27,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.arrayContainingInAnyOrder;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
@@ -73,7 +75,7 @@ class PrivateSchoolControllerTest {
                  .name( "Goetheschule" )
                  .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                  .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
-                 .type( number )
+                 .type( "A" )
                  .coordinates( Coordinates.builder().longitude( 1.1 ).latitude( 1.1 ).build() )
                  .updated( 1L )
                  .userId( "A" )
@@ -103,18 +105,52 @@ class PrivateSchoolControllerTest {
  }
 
  @Test
- @DisplayName ("List schools should return a list of schools")
- void listSchools () {
+ @DisplayName ("List all schools should return a page of all schools in asc order")
+ void listAllSchoolsAsc () {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
-  ResponseEntity<School[]> response = testRestTemplate.exchange( getUrl() + "/auth/v1/school",
-          HttpMethod.GET, entity, School[].class );
+  ResponseEntity<RestPage<School>> response = testRestTemplate.exchange(
+          getUrl() + "/auth/v1/school?page=0&size=1000", HttpMethod.GET, entity,
+          new ParameterizedTypeReference<RestPage<School>>() {} );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
-  assertThat( response.getBody(), arrayContainingInAnyOrder( getSchool( "1" ), getSchool( "2" ) ) );
+  assertThat( response.getBody().getContent(), is( List.of( getSchool( "1" ), getSchool( "2" ) ) ) );
+ }
+
+ @Test
+ @DisplayName ("List schools paginated in desc order should return a page of schools in desc order")
+ void listSchoolsPaginatedDesc () {
+  // WHEN
+  HttpHeaders headers = new HttpHeaders();
+  headers.setBearerAuth( getJWTToken() );
+  HttpEntity<Void> entity = new HttpEntity<>( headers );
+  ResponseEntity<RestPage<School>> response = testRestTemplate.exchange(
+          getUrl() + "/auth/v1/school?page=0&size=2&direction=desc", HttpMethod.GET, entity,
+          new ParameterizedTypeReference<RestPage<School>>() {} );
+
+  // THEN
+  assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
+  assertThat( response.getBody().getContent(), is( List.of( getSchool( "2" ), getSchool( "1" ) ) ) );
+ }
+
+ @Test
+ @DisplayName ("List schools paginated sorted desc by number order should return a page of " +
+                       "schools sorted by number in desc order")
+ void listSchoolsPaginatedAsc () {
+  // WHEN
+  HttpHeaders headers = new HttpHeaders();
+  headers.setBearerAuth( getJWTToken() );
+  HttpEntity<Void> entity = new HttpEntity<>( headers );
+  ResponseEntity<RestPage<School>> response = testRestTemplate.exchange(
+          getUrl() + "/auth/v1/school?page=0&size=2&direction=desc&sort=number", HttpMethod.GET, entity,
+          new ParameterizedTypeReference<RestPage<School>>() {} );
+
+  // THEN
+  assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
+  assertThat( response.getBody().getContent(), is( List.of( getSchool( "2" ), getSchool( "1" ) ) ) );
  }
 
  @Test
@@ -130,8 +166,7 @@ class PrivateSchoolControllerTest {
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
   assertThat( response.getBody(), arrayContainingInAnyOrder(
-          TypeDto.builder().name( "1" ).count( 1 ).build(),
-          TypeDto.builder().name( "2" ).count( 1 ).build()
+          TypeDto.builder().name( "A" ).count( 2 ).build()
   ) );
  }
 
@@ -142,12 +177,47 @@ class PrivateSchoolControllerTest {
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
-  ResponseEntity<School[]> response = testRestTemplate.exchange(
-          getUrl() + "/auth/v1/school/type/1", HttpMethod.GET, entity, School[].class );
+  ResponseEntity<RestPage<School>> response = testRestTemplate.exchange(
+          getUrl() + "/auth/v1/school/type/A", HttpMethod.GET, entity,
+          new ParameterizedTypeReference<RestPage<School>>() {} );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
-  assertThat( response.getBody(), arrayContainingInAnyOrder( getSchool( "1" ) ) );
+  assertThat( response.getBody().getContent(), is( List.of( getSchool( "1" ), getSchool( "2" ) ) ) );
+ }
+
+ @Test
+ @DisplayName ("List schools paginated by type should return a subset of schools for a specific type")
+ void listSchoolsPaginatedByType () {
+  // WHEN
+  HttpHeaders headers = new HttpHeaders();
+  headers.setBearerAuth( getJWTToken() );
+  HttpEntity<Void> entity = new HttpEntity<>( headers );
+  ResponseEntity<RestPage<School>> response = testRestTemplate.exchange(
+          getUrl() + "/auth/v1/school/type/A?page=0&size=1", HttpMethod.GET, entity,
+          new ParameterizedTypeReference<RestPage<School>>() {} );
+
+  // THEN
+  assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
+  assertThat( response.getBody().getContent(), is( List.of( getSchool( "1" ) ) ) );
+ }
+
+ @Test
+ @DisplayName ("List schools paginated and sortedby type should return a subset of schools for a " +
+                       "specific type sorted by number in desc direction")
+ void listSchoolsPaginatedAndSortedByType () {
+  // WHEN
+  HttpHeaders headers = new HttpHeaders();
+  headers.setBearerAuth( getJWTToken() );
+  HttpEntity<Void> entity = new HttpEntity<>( headers );
+  ResponseEntity<RestPage<School>> response = testRestTemplate.exchange(
+          getUrl() + "/auth/v1/school/type/A?page=0&size=1&sort=number&direction=desc",
+          HttpMethod.GET, entity,
+          new ParameterizedTypeReference<RestPage<School>>() {} );
+
+  // THEN
+  assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
+  assertThat( response.getBody().getContent(), is( List.of( getSchool( "2" ) ) ) );
  }
 
  @Test
@@ -157,12 +227,13 @@ class PrivateSchoolControllerTest {
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
-  ResponseEntity<School[]> response = testRestTemplate.exchange(
-          getUrl() + "/auth/v1/school/type/UNKNOWN", HttpMethod.GET, entity, School[].class );
+  ResponseEntity<RestPage<School>> response = testRestTemplate.exchange(
+          getUrl() + "/auth/v1/school/type/UNKNOWN", HttpMethod.GET, entity,
+          new ParameterizedTypeReference<RestPage<School>>() {} );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
-  assertThat( response.getBody(), is( emptyArray() ) );
+  assertThat( response.getBody().getContent(), is( List.of() ) );
  }
 
 
@@ -205,7 +276,7 @@ class PrivateSchoolControllerTest {
                                 .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                                 .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
                                 .userId( "A" )
-                                .type( "100" )
+                                .type( "A" )
                                 .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
                                 .build();
   when( timeUTC.now() ).thenReturn( 1L );
@@ -234,7 +305,7 @@ class PrivateSchoolControllerTest {
                                 .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                                 .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
                                 .userId( "A" )
-                                .type( "1" )
+                                .type( "A" )
                                 .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
                                 .build();
   when( timeUTC.now() ).thenReturn( 1L );
@@ -289,7 +360,7 @@ class PrivateSchoolControllerTest {
                                 .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                                 .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
                                 .userId( "A" )
-                                .type( "1" )
+                                .type( "A" )
                                 .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
                                 .build();
   when( timeUTC.now() ).thenReturn( 1L );
@@ -318,7 +389,7 @@ class PrivateSchoolControllerTest {
                                 .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                                 .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
                                 .userId( "A" )
-                                .type( "1" )
+                                .type( "A" )
                                 .properties( List.of( Property.builder().name( "A" ).value( "B" ).unit( "C" ).build() ) )
                                 .build();
   when( timeUTC.now() ).thenReturn( 1L );
@@ -346,7 +417,7 @@ class PrivateSchoolControllerTest {
                                 .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                                 .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
                                 .userId( "A" )
-                                .type( "1" )
+                                .type( "A" )
                                 .properties( List.of( Property.builder().name( "INVALID PROPERTY" ).value(
                                         "B" ).unit( "C" ).build() ) )
                                 .build();
@@ -375,7 +446,7 @@ class PrivateSchoolControllerTest {
                                 .address( Address.builder().street( "A" ).number( "B" ).city( "C" ).build() )
                                 .contact( Contact.builder().phone( "A" ).email( "B" ).url( "C" ).build() )
                                 .userId( "A" )
-                                .type( "1" )
+                                .type( "A" )
                                 .properties( List.of( Property.builder().name( "A" ).value(
                                         "B" ).unit( "C" ).build() ) )
                                 .build();

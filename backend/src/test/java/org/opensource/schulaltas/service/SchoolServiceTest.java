@@ -6,12 +6,15 @@ import org.opensource.schulaltas.controller.model.SchoolDto;
 import org.opensource.schulaltas.controller.model.TypeDto;
 import org.opensource.schulaltas.model.school.*;
 import org.opensource.schulaltas.repository.SchoolDb;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 
@@ -39,16 +42,31 @@ class SchoolServiceTest {
  }
 
  @Test
- @DisplayName ("Lists schools should return all schools within the db")
- void listSchools () {
+ @DisplayName ("Lists all schools should return all schools in the asc order")
+ void listAllSchoolsAscending () {
   // GIVEN
-  when( schoolDb.findAll() ).thenReturn( List.of( getSchool( "1" ), getSchool( "2" ) ) );
+  when( schoolDb.findAll( PageRequest.of( 1, 10000, Sort.by( "number" ).ascending() ) ) )
+          .thenReturn( new PageImpl<>( List.of( getSchool( "1" ), getSchool( "2" ) ) ) );
 
   // WHEN
-  List<School> actual = schoolService.listSchools();
+  Page<School> actual = schoolService.listSchools( 1, 10000, "number", "asc" );
 
   // THEN
-  assertThat( actual, containsInAnyOrder( getSchool( "1" ), getSchool( "2" ) ) );
+  assertThat( actual.getContent(), is( List.of( getSchool( "1" ), getSchool( "2" ) ) ) );
+ }
+
+ @Test
+ @DisplayName ("Lists schools should return page with subset of schools in desc order")
+ void listSchoolsPaginatedDescending () {
+  // GIVEN
+  when( schoolDb.findAll( PageRequest.of( 1, 1, Sort.by( "number" ).descending() ) ) )
+          .thenReturn( new PageImpl<>( List.of( getSchool( "2" ) ) ) );
+
+  // WHEN
+  Page<School> actual = schoolService.listSchools( 1, 1, "number", "desc" );
+
+  // THEN
+  assertThat( actual.getContent(), is( List.of( getSchool( "2" ) ) ) );
  }
 
  @Test
@@ -71,20 +89,37 @@ class SchoolServiceTest {
  }
 
  @Test
- @DisplayName ("List schools return a list with schools of this specific type")
- void listSchoolsByType () {
+ @DisplayName ("List all schools return a list with schools of this specific type in asc order")
+ void listAllSchoolsByTypeAsc () {
   // GIVEN
-  when( schoolDb.findAllByType( "A" ) ).thenReturn( List.of(
-          getSchool( "A" ).toBuilder().type( "A" ).build(),
-          getSchool( "C" ).toBuilder().type( "A" ).build() ) );
+  when( schoolDb.findAllByType( "A", PageRequest.of( 1, 1000, Sort.by( "number" ).ascending() ) ) )
+          .thenReturn( new PageImpl<>( List.of(
+                  getSchool( "A" ).toBuilder().type( "A" ).build(),
+                  getSchool( "C" ).toBuilder().type( "A" ).build() ) ) );
 
   // WHEN
-  List<School> actual = schoolService.listSchoolsByType( "A" );
+  Page<School> actual = schoolService.listSchoolsByType( "A", 1, 1000, "number", "asc" );
 
   // THEN
-  assertThat( actual, is( List.of(
+  assertThat( actual.getContent(), is( List.of(
           getSchool( "A" ).toBuilder().type( "A" ).build(),
           getSchool( "C" ).toBuilder().type( "A" ).build() ) ) );
+ }
+
+ @Test
+ @DisplayName ("List schools should return a page with a subset of schools with specific type in desc order")
+ void listSchoolsPaginatedByTypeDesc () {
+  // GIVEN
+  when( schoolDb.findAllByType( "A", PageRequest.of( 1, 1, Sort.by( "number" ).descending() ) ) )
+          .thenReturn( new PageImpl<>( List.of(
+                  getSchool( "A" ).toBuilder().type( "A" ).build() ) ) );
+
+  // WHEN
+  Page<School> actual = schoolService.listSchoolsByType( "A", 1, 1, "number", "desc" );
+
+  // THEN
+  assertThat( actual.getContent(), is( List.of(
+          getSchool( "A" ).toBuilder().type( "A" ).build() ) ) );
  }
 
  @Test
