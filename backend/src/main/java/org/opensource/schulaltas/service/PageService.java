@@ -25,18 +25,19 @@ public class PageService {
   return pageDb.findAll();
  }
 
- public Optional<Page> getPageByName (String name) {
-  return pageDb.findById( name );
+ public Optional<Page> getPageBySlug (String slug) {
+  return pageDb.findById( slug );
  }
 
  public Optional<Page> addPage (PageDto pageDto) {
-  Optional<Page> page = pageDb.findById( pageDto.getName() );
+  Optional<Page> page = pageDb.findById( pageDto.getSlug() );
   if ( page.isEmpty() ) {
    if ( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ) {
     Page newPage = Page.builder()
-                           .name( pageDto.getName() )
+                           .slug( pageDto.getSlug() )
                            .updated( timeUTC.now() )
                            .userId( pageDto.getUserId() )
+                           .landingPage( false )
                            .assemblies( pageDto.getAssemblies() )
                            .build();
     return Optional.of( pageDb.save( newPage ) );
@@ -46,22 +47,24 @@ public class PageService {
   return page;
  }
 
- public Optional<Page> updatePage (PageDto pageDto) {
-  Optional<Page> pageToUpdate = pageDb.findById( pageDto.getName() );
+ public Optional<Page> updatePage (PageDto pageDto, String slug) {
+  Optional<Page> pageToUpdate = pageDb.findById( slug );
   if ( pageToUpdate.isPresent() && assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ) {
    Page updatedPage = pageToUpdate.get()
                               .toBuilder()
+                              .slug( pageDto.getSlug() )
                               .updated( timeUTC.now() )
                               .userId( pageDto.getUserId() )
                               .assemblies( pageDto.getAssemblies() )
                               .build();
+   pageDb.deleteById( slug );
    return Optional.of( pageDb.save( updatedPage ) );
   }
   return Optional.empty();
  }
 
- public Optional<Page> setLandingPageByName (String name) {
-  Optional<Page> pageToSetLandingPage = pageDb.findById( name );
+ public Optional<Page> setLandingPageBySlug (String slug) {
+  Optional<Page> pageToSetLandingPage = pageDb.findById( slug );
   if ( pageToSetLandingPage.isPresent() ) {
    List<Page> landingPages = pageDb.findByLandingPageIs( true );
    landingPages.forEach( page -> pageDb.save( page.toBuilder().landingPage( false ).build() ) );
@@ -74,7 +77,7 @@ public class PageService {
   return Optional.empty();
  }
 
- public void deletePageByName (String name) {
-  pageDb.deleteById( name );
+ public void deletePageBySlug (String slug) {
+  pageDb.deleteById( slug );
  }
 }

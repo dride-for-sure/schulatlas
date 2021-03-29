@@ -16,7 +16,7 @@ public class AssemblyService {
   this.assemblyDb = assemblyDb;
  }
 
- public List<Assembly> listComponents () {
+ public List<Assembly> listAssemblies () {
   return assemblyDb.findAll();
  }
 

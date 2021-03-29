@@ -19,10 +19,10 @@ public class PublicPageController {
   this.pageService = pageService;
  }
 
- @GetMapping ("/name/{name}")
- public Page getPageByName (@PathVariable String name) {
-  return pageService.getPageByName( name )
+ @GetMapping ("/slug/{slug}")
+ public Page getPageBySlug (@PathVariable String slug) {
+  return pageService.getPageBySlug( slug )
                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
-                         "Page: " + name + " is not available" ) );
+                         "Page: " + slug + " is not available" ) );
  }
 }

@@ -1,0 +1,136 @@
+export const getAssemblyVariants = (type) => {
+  switch (type) {
+    case 'hero':
+      return ['primary', 'secondary'];
+    case 'feature-card':
+      return ['image-left', 'image-right'];
+    case 'button':
+      return ['primary', 'secondary', 'arrow'];
+    default:
+      return '';
+  }
+};
+
+export const getPageTemplate = (name) => {
+  switch (name) {
+    case 'highlights':
+      return {
+        slug: 'new-hightlights-page',
+        newPage: true,
+        landingPage: false,
+        assemblies: [
+          {
+            type: 'hero',
+            variant: 'primary',
+            components: [
+              { type: 'title' },
+              { type: 'subtitle' },
+              { type: 'button' },
+              { type: 'button' },
+              { type: 'image' },
+            ],
+          },
+          {
+            type: 'sponsors',
+            components: [
+              { type: 'title' },
+              { type: 'image' },
+              { type: 'image' },
+              { type: 'image' },
+            ],
+          },
+          {
+            type: 'feature-card',
+            components: [
+              { type: 'title' },
+              { type: 'subtitle' },
+              { type: 'paragraph' },
+              { type: 'image' },
+            ],
+          },
+          {
+            type: 'feature-card',
+            components: [
+              { type: 'title' },
+              { type: 'subtitle' },
+              { type: 'paragraph' },
+              { type: 'image' },
+            ],
+          },
+          {
+            type: 'cards',
+            components: [
+              { type: 'card' },
+              { type: 'card' },
+              { type: 'card' },
+            ],
+          },
+          {
+            type: 'cta',
+            components: [
+              { type: 'title' },
+              { type: 'paragraph' },
+              { type: 'button' },
+              { type: 'button' },
+            ],
+          },
+        ],
+      };
+    case 'contentfull':
+      return {
+        slug: 'new-contentfull-page',
+        landingPage: false,
+        newPage: true,
+        assemblies: [
+          {
+            type: 'hero',
+            variant: 'secondary',
+            components: [
+              { type: 'title' },
+              { type: 'subtitle' },
+              { type: 'button' },
+              { type: 'button' },
+              { type: 'image' },
+            ],
+          },
+          {
+            type: 'textblock',
+            components: [
+              { type: 'title' },
+              { type: 'subtitle' },
+              { type: 'paragraph' },
+              { type: 'image' },
+            ],
+          },
+          {
+            type: 'textblock',
+            components: [
+              { type: 'title' },
+              { type: 'subtitle' },
+              { type: 'paragraph' },
+              { type: 'image' },
+            ],
+          },
+          {
+            type: 'cards',
+            components: [
+              { type: 'card' },
+              { type: 'card' },
+              { type: 'card' },
+            ],
+          },
+          {
+            type: 'cta',
+            components: [
+              { type: 'title' },
+              { type: 'paragraph' },
+              { type: 'button' },
+              { type: 'button' },
+            ],
+          },
+        ],
+      };
+    default:
+      return '';
+  }
+};

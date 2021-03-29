@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import Button from '../../components/buttons/ButtonWithArrow';
+import MainButton from '../../components/buttons/MainButton';
 import Input from '../../components/form/Input';
-import H1 from '../../components/headlines/H1';
+import Headline from '../../components/headlines/Headline';
 import Logo from '../../components/logo/Logo';
+import FlexColumnCenter from '../../components/structures/FlexColumnCenter';
+import FlexRowCenter from '../../components/structures/FlexRowCenter';
 import { useAuth } from '../../contexts/AuthProvider';
-import login from '../../services/private/loginApiService';
+import login from '../../services/api/private/loginApiService';
 
 export default function Login() {
   const { token, setToken } = useAuth();
@@ -33,7 +35,7 @@ export default function Login() {
     <Wrapper>
       <Container>
         <Logo />
-        <H1 size="l">Please login:</H1>
+        <Headline size="l">Please login:</Headline>
         <Form onSubmit={handleSubmit}>
           <Input
             placeholder="username..."
@@ -45,7 +47,7 @@ export default function Login() {
             type="password"
             value={password}
             onChange={({ target }) => setPassword(target.value)} />
-          <Button disabled={!username || !password}>Continue</Button>
+          <MainButton disabled={!username || !password}>Continue</MainButton>
         </Form>
       </Container>
     </Wrapper>
@@ -56,21 +58,17 @@ const Wrapper = styled.div`
   position: absolute;
   width: 100%;
   height: 100vh;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+  ${FlexRowCenter}
 `;
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  ${FlexColumnCenter}
   align-self: center;
   height: fit-content;
   margin-bottom: 20vh;
 
   // Logo
-  > span:first-of-type {
+  > a:first-of-type {
     margin: 30px;
   }
 
@@ -80,9 +78,7 @@ const Container = styled.div`
 `;
 
 const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  ${FlexColumnCenter}
 
   > * {
     align-self: center;

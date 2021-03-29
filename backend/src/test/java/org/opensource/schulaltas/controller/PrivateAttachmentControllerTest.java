@@ -66,6 +66,7 @@ class PrivateAttachmentControllerTest {
   attachmentDb.deleteAll();
   attachmentDb.save( getAttachment( "A" ) );
   attachmentDb.save( getAttachment( "B" ) );
+  attachmentDb.save( getAttachment( "A" ) );
  }
 
  private Attachment getAttachment (String name) {

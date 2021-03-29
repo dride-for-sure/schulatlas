@@ -24,9 +24,9 @@ import java.util.UUID;
 @Service
 public class AWSService {
 
+ private static final Logger logger = LoggerFactory.getLogger( AWSService.class );
  private final String awsS3AudioBucket;
  private final AmazonS3 amazonS3;
- private static final Logger logger = LoggerFactory.getLogger( AWSService.class );
 
  @Autowired
  public AWSService (Region awsRegion,
@@ -41,15 +41,16 @@ public class AWSService {
  @Async
  public Optional<String> uploadFileToS3 (MultipartFile multipartFile,
                                          boolean enablePublicReadAccess) {
-  String fileName = multipartFile.getOriginalFilename();
-  String pathOnS3 = UUID.randomUUID().toString() + "/" + fileName;
+  String originalFilename = multipartFile.getOriginalFilename();
+  String extension = originalFilename.substring( originalFilename.lastIndexOf( "." ) + 1 );
+  String fileName = UUID.randomUUID().toString() + "." + extension;
   try {
    File file = new File( fileName );
    FileOutputStream fileOutputStream = new FileOutputStream( file );
    fileOutputStream.write( multipartFile.getBytes() );
    fileOutputStream.close();
 
-   PutObjectRequest putObjectRequest = new PutObjectRequest( awsS3AudioBucket, pathOnS3, file );
+   PutObjectRequest putObjectRequest = new PutObjectRequest( awsS3AudioBucket, fileName, file );
 
    if ( enablePublicReadAccess ) {
     putObjectRequest.withCannedAcl( CannedAccessControlList.PublicRead );
@@ -57,7 +58,7 @@ public class AWSService {
 
    amazonS3.putObject( putObjectRequest );
    file.delete();
-   return Optional.of( pathOnS3 );
+   return Optional.of( fileName );
 
   } catch ( IOException | AmazonServiceException error ) {
    logger.error( error.getMessage() );

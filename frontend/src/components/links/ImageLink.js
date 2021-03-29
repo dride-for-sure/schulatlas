@@ -2,13 +2,11 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components/macro';
 
 const ImageLink = styled(Link)`
-  > a {
-    outline: none;
-    transition: var(--transition-opacity);
+  outline: none;
+  transition: var(--transition-opacity);
 
-    :hover {
-      opacity: var(--opacity-hover);
-    }
+  :hover {
+    opacity: var(--opacity-hover);
   }
 `;
 

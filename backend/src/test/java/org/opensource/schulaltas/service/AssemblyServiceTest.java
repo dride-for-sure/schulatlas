@@ -30,7 +30,7 @@ class AssemblyServiceTest {
   when( assemblyDb.findAll() ).thenReturn( List.of( getAssembly( "A" ), getAssembly( "B" ) ) );
 
   // WHEN
-  List<Assembly> actual = assemblyService.listComponents();
+  List<Assembly> actual = assemblyService.listAssemblies();
 
   // THEN
   assertThat( actual, containsInAnyOrder( getAssembly( "A" ), getAssembly( "B" ) ) );

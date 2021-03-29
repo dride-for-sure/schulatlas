@@ -1,27 +1,20 @@
-import { array } from 'prop-types';
-import styled from 'styled-components/macro';
-import H1 from '../../../headlines/H1';
+import { array, func } from 'prop-types';
+import UnorderedList from '../../UnorderedList';
 import SideBarListItem from './SideBarListItem';
 
-export default function SideBar({ pages, types }) {
+export default function SideBarList({ pages, types, setLandingPage }) {
   return (
-    <Container>
-      <H1>{pages ? 'Pages' : 'Schools'}</H1>
-      <List>
-        {pages && pages.map((page) =>
-          <SideBarListItem key={page.name} page={page} />)}
-        {types && types.map((type) =>
-          <SideBarListItem key={type.name} type={type} />)}
-      </List>
-    </Container>
+    <UnorderedList>
+      {pages && pages.map((page) =>
+        <SideBarListItem key={page.slug} page={page} setLandingPage={setLandingPage} />)}
+      {types && types.map((type) =>
+        <SideBarListItem key={type.slug} type={type} />)}
+    </UnorderedList>
   );
 }
 
-const Container = styled.div``;
-
-const List = styled.ol``;
-
-SideBar.propTypes = {
+SideBarList.propTypes = {
   pages: array,
   types: array,
+  setLandingPage: func,
 };

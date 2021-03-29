@@ -22,9 +22,9 @@ class PageServiceTest {
  private final AssemblyService assemblyService = mock( AssemblyService.class );
  private final PageService pageService = new PageService( pageDb, timeUTC, assemblyService );
 
- private Page getPage (String name) {
+ private Page getPage (String slug) {
   return Page.builder()
-                 .name( name )
+                 .slug( slug )
                  .updated( 1L )
                  .userId( "B" )
                  .landingPage( false )
@@ -47,12 +47,12 @@ class PageServiceTest {
 
  @Test
  @DisplayName ("Get pages should return a specific page")
- void getPageByName () {
+ void getPageBySlug () {
   // GIVEN
   when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
 
   // WHEN
-  Optional<Page> actual = pageService.getPageByName( "A" );
+  Optional<Page> actual = pageService.getPageBySlug( "A" );
 
   // THEN
   assertThat( actual.get(), is( getPage( "A" ) ) );
@@ -60,12 +60,12 @@ class PageServiceTest {
 
  @Test
  @DisplayName ("Get pages should return an optional.empty for a non existing page")
- void getNotExistingPageByName () {
+ void getNotExistingPageBySlug () {
   // GIVEN
   when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
 
   // WHEN
-  Optional<Page> actual = pageService.getPageByName( "A" );
+  Optional<Page> actual = pageService.getPageBySlug( "A" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
@@ -76,7 +76,7 @@ class PageServiceTest {
  void addPage () {
   // GIVEN
   PageDto pageDto = PageDto.builder()
-                            .name( "A" )
+                            .slug( "A" )
                             .userId( "B" )
                             .assemblies( List.of() )
                             .build();
@@ -98,7 +98,7 @@ class PageServiceTest {
  void addPageWithInvalidAssembly () {
   // GIVEN
   PageDto pageDto = PageDto.builder()
-                            .name( "A" )
+                            .slug( "A" )
                             .userId( "B" )
                             .assemblies( List.of() )
                             .build();
@@ -118,7 +118,7 @@ class PageServiceTest {
  void addExistingPage () {
   // GIVEN
   PageDto pageDto = PageDto.builder()
-                            .name( "A" )
+                            .slug( "A" )
                             .userId( "B" )
                             .assemblies( List.of() )
                             .build();
@@ -140,7 +140,7 @@ class PageServiceTest {
  void updatePage () {
   // GIVEN
   PageDto pageDto = PageDto.builder()
-                            .name( "A" )
+                            .slug( "A" )
                             .userId( "B" )
                             .assemblies( List.of() )
                             .build();
@@ -150,7 +150,7 @@ class PageServiceTest {
   when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( true );
 
   // WHEN
-  Optional<Page> actual = pageService.updatePage( pageDto );
+  Optional<Page> actual = pageService.updatePage( pageDto, "A" );
 
   // THEN
   assertThat( actual.get(), is( getPage( "A" ) ) );
@@ -162,7 +162,7 @@ class PageServiceTest {
  void updatePageWithInvalidAssembly () {
   // GIVEN
   PageDto pageDto = PageDto.builder()
-                            .name( "A" )
+                            .slug( "A" )
                             .userId( "B" )
                             .assemblies( List.of() )
                             .build();
@@ -170,7 +170,7 @@ class PageServiceTest {
   when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( false );
 
   // WHEN
-  Optional<Page> actual = pageService.updatePage( pageDto );
+  Optional<Page> actual = pageService.updatePage( pageDto, "A" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
@@ -182,7 +182,7 @@ class PageServiceTest {
  void updateNotExistingPage () {
   // GIVEN
   PageDto pageDto = PageDto.builder()
-                            .name( "A" )
+                            .slug( "A" )
                             .userId( "B" )
                             .assemblies( List.of() )
                             .build();
@@ -191,7 +191,7 @@ class PageServiceTest {
   when( timeUTC.now() ).thenReturn( 1L );
 
   // WHEN
-  Optional<Page> actual = pageService.updatePage( pageDto );
+  Optional<Page> actual = pageService.updatePage( pageDto, "A" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
@@ -199,9 +199,54 @@ class PageServiceTest {
  }
 
  @Test
+ @DisplayName ("Update slug of existing page should return page with new slug")
+ void updatePagesSlug () {
+  // GIVEN
+  PageDto pageDto = PageDto.builder()
+                            .slug( "NEWSLUG" )
+                            .userId( "B" )
+                            .assemblies( List.of() )
+                            .build();
+  String originalSlug = "A";
+  when( pageDb.findById( originalSlug ) ).thenReturn( Optional.of( getPage( originalSlug ) ) );
+  when( pageDb.save( getPage( "NEWSLUG" ) ) ).thenReturn( getPage( "NEWSLUG" ) );
+  when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( true );
+  when( timeUTC.now() ).thenReturn( 1L );
+
+  // WHEN
+  Optional<Page> actual = pageService.updatePage( pageDto, originalSlug );
+
+  // THEN
+  assertThat( actual.get(), is( getPage( "NEWSLUG" ) ) );
+  verify( pageDb ).save( getPage( "NEWSLUG" ) );
+  verify( pageDb ).deleteById( "A" );
+ }
+
+ @Test
+ @DisplayName ("Update slug of not existing page should return optional empty")
+ void updateNotExistingPagesSlug () {
+  // GIVEN
+  PageDto pageDto = PageDto.builder()
+                            .slug( "NOTEXISTING" )
+                            .userId( "B" )
+                            .assemblies( List.of() )
+                            .build();
+  String originalSlug = "A";
+  when( pageDb.findById( originalSlug ) ).thenReturn( Optional.empty() );
+  when( timeUTC.now() ).thenReturn( 1L );
+
+  // WHEN
+  Optional<Page> actual = pageService.updatePage( pageDto, originalSlug );
+
+  // THEN
+  assertThat( actual.isEmpty(), is( true ) );
+  verify( pageDb, never() ).save( getPage( "NOTEXISTING" ) );
+ }
+
+ @Test
  @DisplayName ("Set landing page should set landingPage to true, remove all other landingPages " +
                        "and return it as an optional")
- void setLandingPageByName () {
+ void setLandingPageBySlug () {
   // GIVEN
   when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
   when( pageDb.findByLandingPageIs( true ) )
@@ -210,7 +255,7 @@ class PageServiceTest {
   when( pageDb.save( getPage( "B" ).toBuilder().landingPage( false ).build() ) ).then( returnsFirstArg() );
 
   // WHEN
-  Optional<Page> actual = pageService.setLandingPageByName( "A" );
+  Optional<Page> actual = pageService.setLandingPageBySlug( "A" );
 
   // THEN
   assertThat( actual.get(), is( getPage( "A" ).toBuilder().landingPage( true ).build() ) );
@@ -219,7 +264,7 @@ class PageServiceTest {
 
  @Test
  @DisplayName ("Set landing page as landing page again should return it as optional")
- void setLandingPageAgainAsLandingPageByName () {
+ void setLandingPageAgainAsLandingPageBySlug () {
   // GIVEN
   when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ).toBuilder().landingPage( true ).build() ) );
   when( pageDb.findByLandingPageIs( true ) )
@@ -227,7 +272,7 @@ class PageServiceTest {
   when( pageDb.save( getPage( "A" ).toBuilder().landingPage( true ).build() ) ).then( returnsFirstArg() );
 
   // WHEN
-  Optional<Page> actual = pageService.setLandingPageByName( "A" );
+  Optional<Page> actual = pageService.setLandingPageBySlug( "A" );
 
   // THEN
   assertThat( actual.get(), is( getPage( "A" ).toBuilder().landingPage( true ).build() ) );
@@ -236,12 +281,12 @@ class PageServiceTest {
 
  @Test
  @DisplayName ("Set a non existing landing page should return optional empty")
- void setNotExistingPageAsLandingPageByName () {
+ void setNotExistingPageAsLandingPageBySlug () {
   // GIVEN
   when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
 
   // WHEN
-  Optional<Page> actual = pageService.setLandingPageByName( "NOTEXISTING" );
+  Optional<Page> actual = pageService.setLandingPageBySlug( "NOTEXISTING" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
@@ -250,10 +295,10 @@ class PageServiceTest {
 
  @Test
  @DisplayName ("Delete page should call deleteById on the db")
- void deletePageByName () {
+ void deletePageBySlug () {
   // GIVEN
   // WHEN
-  pageService.deletePageByName( "A" );
+  pageService.deletePageBySlug( "A" );
 
   // THEN
   verify( pageDb ).deleteById( "A" );

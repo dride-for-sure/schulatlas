@@ -1,0 +1,275 @@
+{
+  "_id": "landing-page",
+  "updated": { "$numberLong": "1616342263125" },
+  "userId": "dennis",
+  "assemblies": [
+    {
+      "_id": "hero",
+      "variant": "primary",
+      "components": [
+        {
+          "type": "title",
+          "content": "Wie lernen Kinder heute?",
+          "_class": "org.opensource.schulaltas.model.page.component.Text"
+        },
+        {
+          "type": "subtitle",
+          "content": "Erfahre mehr über deine Schule...",
+          "_class": "org.opensource.schulaltas.model.page.component.Text"
+        },
+        { 
+          "type": "button",
+          "variant": "primary",
+          "target": "/entdeckeninnnen",
+          "description": "Entdecke alle Schulen auf der Karte vom Schulatlas",
+          "content": "Entdecker*Innen",
+          "_class": "org.opensource.schulaltas.model.page.component.Button"
+        },
+        {
+          "type": "button",
+          "variant": "secondary",
+          "target": "/zahlenjunkies",
+          "description": "Als Zahlenjunkie erkunde eigenständig alle Daten",
+          "content": "Entdecker*Innen",
+          "_class": "org.opensource.schulaltas.model.page.component.Button"
+        },
+        {
+          "type": "image",
+          "url": "https://schulatlas.s3.amazonaws.com/a71d2d73-7132-4959-b8ba-b139a2b43580/sampleImage.jpg",
+          "description": "SampleImage",
+          "_class": "org.opensource.schulaltas.model.page.component.Image"
+        }
+      ],
+      "_class": "org.opensource.schulaltas.model.page.Assembly"
+    },
+    {
+      "_id": "sponsors",
+      "components": [
+        {
+          "type": "title",
+          "content": "Wir werden unterstützt durch:",
+          "_class": "org.opensource.schulaltas.model.page.component.Text"
+        },
+        {
+          "type": "image",
+          "url": "https://schulatlas.s3.amazonaws.com/a71d2d73-7132-4959-b8ba-b139a2b43580/sampleImage.jpg",
+          "description": "SampleImage",
+          "_class": "org.opensource.schulaltas.model.page.component.Image"
+        },
+        {
+          "type": "image",
+          "url": "https://schulatlas.s3.amazonaws.com/a71d2d73-7132-4959-b8ba-b139a2b43580/sampleImage.jpg",
+          "description": "SampleImage",
+          "_class": "org.opensource.schulaltas.model.page.component.Image"
+        },
+        {
+          "type": "image",
+          "url": "https://schulatlas.s3.amazonaws.com/a71d2d73-7132-4959-b8ba-b139a2b43580/sampleImage.jpg",
+          "description": "SampleImage",
+          "_class": "org.opensource.schulaltas.model.page.component.Image"
+        }
+      ],
+      "_class": "org.opensource.schulaltas.model.page.Assembly"
+    },
+    {
+      "_id": "feature-card",
+      "variant": "image-left",
+      "components": [
+        {
+          "type": "image",
+          "url": "https://schulatlas.s3.amazonaws.com/a71d2d73-7132-4959-b8ba-b139a2b43580/sampleImage.jpg",
+          "description": "SampleImage",
+          "_class": "org.opensource.schulaltas.model.page.component.Image"
+        },
+        {
+          "type": "title",
+          "content": "Digitale Wüste",
+          "_class": "org.opensource.schulaltas.model.page.component.Text"
+        },
+        {
+          "type": "subtitle",
+          "content": "Momentaufnahme deutscher Schulen",
+          "_class": "org.opensource.schulaltas.model.page.component.Text"
+        },
+        {
+          "type": "paragraph",
+          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+          "_class": "org.opensource.schulaltas.model.page.component.Text"
+        }
+      ],
+      "_class": "org.opensource.schulaltas.model.page.Assembly"
+    },
+    {
+      "_id": "feature-card",
+      "variant": "image-right",
+      "components": [
+        {
+          "type": "image",
+          "url": "https://schulatlas.s3.amazonaws.com/a71d2d73-7132-4959-b8ba-b139a2b43580/sampleImage.jpg",
+          "description": "SampleImage",
+          "_class": "org.opensource.schulaltas.model.page.component.Image"
+        },
+        {
+          "type": "title",
+          "content": "Digitale Wüste",
+          "_class": "org.opensource.schulaltas.model.page.component.Text"
+        },
+        {
+          "type": "subtitle",
+          "content": "Momentaufnahme deutscher Schulen",
+          "_class": "org.opensource.schulaltas.model.page.component.Text"
+        },
+        {
+          "type": "paragraph",
+          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+          "_class": "org.opensource.schulaltas.model.page.component.Text"
+        }
+      ],
+      "_class": "org.opensource.schulaltas.model.page.Assembly"
+    },
+    {
+      "_id": "cards",
+      "components": [
+        {
+          "type": "card",
+          "components": [
+            {
+              "type": "image",
+              "url": "https://schulatlas.s3.amazonaws.com/a71d2d73-7132-4959-b8ba-b139a2b43580/sampleImage.jpg",
+              "description": "SampleImage",
+              "_class": "org.opensource.schulaltas.model.page.component.Image"
+            },
+            {
+              "type": "title",
+              "content": "Digitale Wüste",
+              "_class": "org.opensource.schulaltas.model.page.component.Text"
+            },
+            {
+              "type": "subtitle",
+              "content": "Momentaufnahme deutscher Schulen",
+              "_class": "org.opensource.schulaltas.model.page.component.Text"
+            },
+            {
+              "type": "paragraph",
+              "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+              "_class": "org.opensource.schulaltas.model.page.component.Text"
+            },
+            { 
+              "type": "button",
+              "variant": "arrow",
+              "target": "/entdeckeninnnen",
+              "description": "Entdecke alle Schulen auf der Karte vom Schulatlas",
+              "content": "Entdecker*Innen",
+              "_class": "org.opensource.schulaltas.model.page.component.Button"
+            }
+          ],
+          "_class": "org.opensource.schulaltas.model.page.component.Card"
+        },
+        {
+          "type": "card",
+          "components": [
+            {
+              "type": "image",
+              "url": "https://schulatlas.s3.amazonaws.com/a71d2d73-7132-4959-b8ba-b139a2b43580/sampleImage.jpg",
+              "description": "SampleImage",
+              "_class": "org.opensource.schulaltas.model.page.component.Image"
+            },
+            {
+              "type": "title",
+              "content": "Digitale Wüste",
+              "_class": "org.opensource.schulaltas.model.page.component.Text"
+            },
+            {
+              "type": "subtitle",
+              "content": "Momentaufnahme deutscher Schulen",
+              "_class": "org.opensource.schulaltas.model.page.component.Text"
+            },
+            {
+              "type": "paragraph",
+              "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+              "_class": "org.opensource.schulaltas.model.page.component.Text"
+            },
+            { 
+              "type": "button",
+              "variant": "arrow",
+              "target": "/entdeckeninnnen",
+              "description": "Entdecke alle Schulen auf der Karte vom Schulatlas",
+              "content": "Entdecker*Innen",
+              "_class": "org.opensource.schulaltas.model.page.component.Button"
+            }
+          ],
+          "_class": "org.opensource.schulaltas.model.page.component.Card"
+        },
+        {
+          "type": "card",
+          "components": [
+            {
+              "type": "image",
+              "url": "https://schulatlas.s3.amazonaws.com/a71d2d73-7132-4959-b8ba-b139a2b43580/sampleImage.jpg",
+              "description": "SampleImage",
+              "_class": "org.opensource.schulaltas.model.page.component.Image"
+            },
+            {
+              "type": "title",
+              "content": "Digitale Wüste",
+              "_class": "org.opensource.schulaltas.model.page.component.Text"
+            },
+            {
+              "type": "subtitle",
+              "content": "Momentaufnahme deutscher Schulen",
+              "_class": "org.opensource.schulaltas.model.page.component.Text"
+            },
+            {
+              "type": "paragraph",
+              "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+              "_class": "org.opensource.schulaltas.model.page.component.Text"
+            },
+            { 
+              "type": "button",
+              "variant": "arrow",
+              "target": "/entdeckeninnnen",
+              "description": "Entdecke alle Schulen auf der Karte vom Schulatlas",
+              "content": "Entdecker*Innen",
+              "_class": "org.opensource.schulaltas.model.page.component.Button"
+            }
+          ],
+          "_class": "org.opensource.schulaltas.model.page.component.Card"
+        }
+      ],
+      "_class": "org.opensource.schulaltas.model.page.Assembly"
+    },
+    {
+      "_id": "cta",
+      "components": [
+        {
+          "type": "title",
+          "content": "Füllt mit uns die Lücken",
+          "_class": "org.opensource.schulaltas.model.page.component.Text"
+        },
+        {
+          "type": "paragraph",
+          "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+          "_class": "org.opensource.schulaltas.model.page.component.Text"
+        },
+        { 
+          "type": "button",
+          "variant": "primary",
+          "target": "/entdeckeninnnen",
+          "description": "Entdecke alle Schulen auf der Karte vom Schulatlas",
+          "content": "Entdecker*Innen",
+          "_class": "org.opensource.schulaltas.model.page.component.Button"
+        },
+        {
+          "type": "button",
+          "variant": "secondary",
+          "target": "/zahlenjunkies",
+          "description": "Als Zahlenjunkie erkunde eigenständig alle Daten",
+          "content": "Entdecker*Innen",
+          "_class": "org.opensource.schulaltas.model.page.component.Button"
+        }
+      ],
+      "_class": "org.opensource.schulaltas.model.page.Assembly"
+    }
+  ],
+  "_class": "org.opensource.schulaltas.model.page.Page"
+}
