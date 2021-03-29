@@ -5,12 +5,11 @@ import ArrowRightLight from '../../resources/images/ArrowRightLight.png';
 
 export default function ArrowRight({ dark }) {
   return (
-    <Arrow src={!dark ? ArrowRightLight : ArrowRightDark} alt="Fortfahren" />
+    <Arrow src={!dark ? ArrowRightLight : ArrowRightDark} alt="Next" />
   );
 }
 
 const Arrow = styled.img`
-  margin: 0.15rem 0 0 0.6rem;
   height: 11px;
   width: 7px;
 `;
