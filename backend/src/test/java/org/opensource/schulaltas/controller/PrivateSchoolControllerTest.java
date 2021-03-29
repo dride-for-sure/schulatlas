@@ -139,7 +139,7 @@ class PrivateSchoolControllerTest {
  @Test
  @DisplayName ("List schools paginated sorted desc by number order should return a page of " +
                        "schools sorted by number in desc order")
- void listSchoolsPaginatedAsc () {
+ void listSchoolsPaginatedDescByNumber () {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
