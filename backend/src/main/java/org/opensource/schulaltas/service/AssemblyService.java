@@ -1,6 +1,6 @@
 package org.opensource.schulaltas.service;
 
-import org.opensource.schulaltas.model.page.Assembly;
+import org.opensource.schulaltas.model.website.Assembly;
 import org.opensource.schulaltas.repository.AssemblyDb;
 import org.springframework.stereotype.Service;
 

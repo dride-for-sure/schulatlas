@@ -1,6 +1,6 @@
 package org.opensource.schulaltas.controller;
 
-import org.opensource.schulaltas.model.page.Attachment;
+import org.opensource.schulaltas.model.website.Attachment;
 import org.opensource.schulaltas.service.AttachmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

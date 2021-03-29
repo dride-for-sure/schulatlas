@@ -3,7 +3,7 @@ package org.opensource.schulaltas.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.opensource.schulaltas.controller.model.PageDto;
-import org.opensource.schulaltas.model.page.Page;
+import org.opensource.schulaltas.model.website.Website;
 import org.opensource.schulaltas.repository.PageDb;
 
 import java.util.List;
@@ -15,15 +15,15 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.Mockito.*;
 
-class PageServiceTest {
+class WebsiteServiceTest {
 
  private final PageDb pageDb = mock( PageDb.class );
  private final TimeUTC timeUTC = mock( TimeUTC.class );
  private final AssemblyService assemblyService = mock( AssemblyService.class );
  private final PageService pageService = new PageService( pageDb, timeUTC, assemblyService );
 
- private Page getPage (String slug) {
-  return Page.builder()
+ private Website getPage (String slug) {
+  return Website.builder()
                  .slug( slug )
                  .updated( 1L )
                  .userId( "B" )
@@ -39,7 +39,7 @@ class PageServiceTest {
   when( pageDb.findAll() ).thenReturn( List.of( getPage( "A" ), getPage( "B" ) ) );
 
   // WHEN
-  List<Page> actual = pageService.listPages();
+  List<Website> actual = pageService.listPages();
 
   // THEN
   assertThat( actual, containsInAnyOrder( getPage( "A" ), getPage( "B" ) ) );
@@ -52,7 +52,7 @@ class PageServiceTest {
   when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
 
   // WHEN
-  Optional<Page> actual = pageService.getPageBySlug( "A" );
+  Optional<Website> actual = pageService.getPageBySlug( "A" );
 
   // THEN
   assertThat( actual.get(), is( getPage( "A" ) ) );
@@ -65,7 +65,7 @@ class PageServiceTest {
   when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
 
   // WHEN
-  Optional<Page> actual = pageService.getPageBySlug( "A" );
+  Optional<Website> actual = pageService.getPageBySlug( "A" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
@@ -86,7 +86,7 @@ class PageServiceTest {
   when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( true );
 
   // WHEN
-  Optional<Page> actual = pageService.addPage( pageDto );
+  Optional<Website> actual = pageService.addPage( pageDto );
 
   // THEN
   assertThat( actual.get(), is( getPage( "A" ) ) );
@@ -106,7 +106,7 @@ class PageServiceTest {
   when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( false );
 
   // WHEN
-  Optional<Page> actual = pageService.addPage( pageDto );
+  Optional<Website> actual = pageService.addPage( pageDto );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
@@ -128,7 +128,7 @@ class PageServiceTest {
   when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( true );
 
   // WHEN
-  Optional<Page> actual = pageService.addPage( pageDto );
+  Optional<Website> actual = pageService.addPage( pageDto );
 
   // THEN
   assertThat( actual.get(), is( getPage( "A" ) ) );
@@ -150,7 +150,7 @@ class PageServiceTest {
   when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( true );
 
   // WHEN
-  Optional<Page> actual = pageService.updatePage( pageDto, "A" );
+  Optional<Website> actual = pageService.updatePage( pageDto, "A" );
 
   // THEN
   assertThat( actual.get(), is( getPage( "A" ) ) );
@@ -170,7 +170,7 @@ class PageServiceTest {
   when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( false );
 
   // WHEN
-  Optional<Page> actual = pageService.updatePage( pageDto, "A" );
+  Optional<Website> actual = pageService.updatePage( pageDto, "A" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
@@ -191,7 +191,7 @@ class PageServiceTest {
   when( timeUTC.now() ).thenReturn( 1L );
 
   // WHEN
-  Optional<Page> actual = pageService.updatePage( pageDto, "A" );
+  Optional<Website> actual = pageService.updatePage( pageDto, "A" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
@@ -214,7 +214,7 @@ class PageServiceTest {
   when( timeUTC.now() ).thenReturn( 1L );
 
   // WHEN
-  Optional<Page> actual = pageService.updatePage( pageDto, originalSlug );
+  Optional<Website> actual = pageService.updatePage( pageDto, originalSlug );
 
   // THEN
   assertThat( actual.get(), is( getPage( "NEWSLUG" ) ) );
@@ -236,7 +236,7 @@ class PageServiceTest {
   when( timeUTC.now() ).thenReturn( 1L );
 
   // WHEN
-  Optional<Page> actual = pageService.updatePage( pageDto, originalSlug );
+  Optional<Website> actual = pageService.updatePage( pageDto, originalSlug );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
@@ -255,7 +255,7 @@ class PageServiceTest {
   when( pageDb.save( getPage( "B" ).toBuilder().landingPage( false ).build() ) ).then( returnsFirstArg() );
 
   // WHEN
-  Optional<Page> actual = pageService.setLandingPageBySlug( "A" );
+  Optional<Website> actual = pageService.setLandingPageBySlug( "A" );
 
   // THEN
   assertThat( actual.get(), is( getPage( "A" ).toBuilder().landingPage( true ).build() ) );
@@ -272,7 +272,7 @@ class PageServiceTest {
   when( pageDb.save( getPage( "A" ).toBuilder().landingPage( true ).build() ) ).then( returnsFirstArg() );
 
   // WHEN
-  Optional<Page> actual = pageService.setLandingPageBySlug( "A" );
+  Optional<Website> actual = pageService.setLandingPageBySlug( "A" );
 
   // THEN
   assertThat( actual.get(), is( getPage( "A" ).toBuilder().landingPage( true ).build() ) );
@@ -286,7 +286,7 @@ class PageServiceTest {
   when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
 
   // WHEN
-  Optional<Page> actual = pageService.setLandingPageBySlug( "NOTEXISTING" );
+  Optional<Website> actual = pageService.setLandingPageBySlug( "NOTEXISTING" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );

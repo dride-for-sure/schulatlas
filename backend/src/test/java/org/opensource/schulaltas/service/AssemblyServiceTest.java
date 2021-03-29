@@ -2,7 +2,7 @@ package org.opensource.schulaltas.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.opensource.schulaltas.model.page.Assembly;
+import org.opensource.schulaltas.model.website.Assembly;
 import org.opensource.schulaltas.repository.AssemblyDb;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.opensource.schulaltas.model.page;
+package org.opensource.schulaltas.model.website;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

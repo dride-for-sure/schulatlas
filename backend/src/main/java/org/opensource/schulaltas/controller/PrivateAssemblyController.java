@@ -1,6 +1,6 @@
 package org.opensource.schulaltas.controller;
 
-import org.opensource.schulaltas.model.page.Assembly;
+import org.opensource.schulaltas.model.website.Assembly;
 import org.opensource.schulaltas.service.AssemblyService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

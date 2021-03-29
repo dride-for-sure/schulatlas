@@ -1,7 +1,7 @@
 package org.opensource.schulaltas.service;
 
 import org.opensource.schulaltas.controller.model.PageDto;
-import org.opensource.schulaltas.model.page.Page;
+import org.opensource.schulaltas.model.website.Website;
 import org.opensource.schulaltas.repository.PageDb;
 import org.springframework.stereotype.Service;
 
@@ -21,58 +21,58 @@ public class PageService {
   this.assemblyService = assemblyService;
  }
 
- public List<Page> listPages () {
+ public List<Website> listPages () {
   return pageDb.findAll();
  }
 
- public Optional<Page> getPageBySlug (String slug) {
+ public Optional<Website> getPageBySlug (String slug) {
   return pageDb.findById( slug );
  }
 
- public Optional<Page> addPage (PageDto pageDto) {
-  Optional<Page> page = pageDb.findById( pageDto.getSlug() );
+ public Optional<Website> addPage (PageDto pageDto) {
+  Optional<Website> page = pageDb.findById( pageDto.getSlug() );
   if ( page.isEmpty() ) {
    if ( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ) {
-    Page newPage = Page.builder()
-                           .slug( pageDto.getSlug() )
-                           .updated( timeUTC.now() )
-                           .userId( pageDto.getUserId() )
-                           .landingPage( false )
-                           .assemblies( pageDto.getAssemblies() )
-                           .build();
-    return Optional.of( pageDb.save( newPage ) );
+    Website newWebsite = Website.builder()
+                                 .slug( pageDto.getSlug() )
+                                 .updated( timeUTC.now() )
+                                 .userId( pageDto.getUserId() )
+                                 .landingPage( false )
+                                 .assemblies( pageDto.getAssemblies() )
+                                 .build();
+    return Optional.of( pageDb.save( newWebsite ) );
    }
    return Optional.empty();
   }
   return page;
  }
 
- public Optional<Page> updatePage (PageDto pageDto, String slug) {
-  Optional<Page> pageToUpdate = pageDb.findById( slug );
+ public Optional<Website> updatePage (PageDto pageDto, String slug) {
+  Optional<Website> pageToUpdate = pageDb.findById( slug );
   if ( pageToUpdate.isPresent() && assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ) {
-   Page updatedPage = pageToUpdate.get()
-                              .toBuilder()
-                              .slug( pageDto.getSlug() )
-                              .updated( timeUTC.now() )
-                              .userId( pageDto.getUserId() )
-                              .assemblies( pageDto.getAssemblies() )
-                              .build();
+   Website updatedWebsite = pageToUpdate.get()
+                                    .toBuilder()
+                                    .slug( pageDto.getSlug() )
+                                    .updated( timeUTC.now() )
+                                    .userId( pageDto.getUserId() )
+                                    .assemblies( pageDto.getAssemblies() )
+                                    .build();
    pageDb.deleteById( slug );
-   return Optional.of( pageDb.save( updatedPage ) );
+   return Optional.of( pageDb.save( updatedWebsite ) );
   }
   return Optional.empty();
  }
 
- public Optional<Page> setLandingPageBySlug (String slug) {
-  Optional<Page> pageToSetLandingPage = pageDb.findById( slug );
+ public Optional<Website> setLandingPageBySlug (String slug) {
+  Optional<Website> pageToSetLandingPage = pageDb.findById( slug );
   if ( pageToSetLandingPage.isPresent() ) {
-   List<Page> landingPages = pageDb.findByLandingPageIs( true );
-   landingPages.forEach( page -> pageDb.save( page.toBuilder().landingPage( false ).build() ) );
-   Page newLandingPage = pageToSetLandingPage.get()
-                                 .toBuilder()
-                                 .landingPage( true )
-                                 .build();
-   return Optional.of( pageDb.save( newLandingPage ) );
+   List<Website> landingWebsites = pageDb.findByLandingPageIs( true );
+   landingWebsites.forEach( page -> pageDb.save( page.toBuilder().landingPage( false ).build() ) );
+   Website newLandingWebsite = pageToSetLandingPage.get()
+                                       .toBuilder()
+                                       .landingPage( true )
+                                       .build();
+   return Optional.of( pageDb.save( newLandingWebsite ) );
   }
   return Optional.empty();
  }

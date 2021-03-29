@@ -1,4 +1,4 @@
-package org.opensource.schulaltas.model.page;
+package org.opensource.schulaltas.model.website;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,11 +13,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder (toBuilder = true)
-@Document (collection = "assemblies")
-public class Assembly {
+@Document (collection = "pages")
+public class Website {
 
  @Id
- private String type;
- private String variant;
- private List<Component> components;
+ private String slug;
+ private Long updated;
+ private String userId;
+ private boolean landingPage;
+ private List<Assembly> assemblies;
+
 }
