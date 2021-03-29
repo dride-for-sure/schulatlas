@@ -2,11 +2,10 @@ package org.opensource.schulaltas.controller;
 
 import org.opensource.schulaltas.model.school.School;
 import org.opensource.schulaltas.service.SchoolService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
 
 @RestController
 @RequestMapping ("/api/v1/school")
@@ -19,8 +18,12 @@ public class PublicSchoolController {
  }
 
  @GetMapping
- public List<School> listSchools () {
-  return schoolService.listSchools();
+ public Page<School> listSchools (
+         @RequestParam (defaultValue = "0") int page,
+         @RequestParam (defaultValue = "30") int size,
+         @RequestParam (defaultValue = "number") String sort,
+         @RequestParam (defaultValue = "asc") String direction) {
+  return schoolService.listSchools( page, size, sort, direction );
  }
 
  @GetMapping ("/number/{number}")

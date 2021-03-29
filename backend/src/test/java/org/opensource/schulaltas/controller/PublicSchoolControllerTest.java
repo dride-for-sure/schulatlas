@@ -9,13 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.arrayContainingInAnyOrder;
 import static org.hamcrest.Matchers.is;
 
 @SpringBootTest (webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -56,16 +57,43 @@ class PublicSchoolControllerTest {
  }
 
  @Test
- @DisplayName ("List school should return all schools within the db")
- void listSchools () {
+ @DisplayName ("List all schools should return a page of all schools in asc order")
+ void listAllSchoolsAsc () {
   // WHEN
-  ResponseEntity<School[]> response = testRestTemplate.getForEntity( getUrl(), School[].class );
+  ResponseEntity<RestPage<School>> response = testRestTemplate.exchange(
+          getUrl() + "?page=0&size=1000", HttpMethod.GET, null,
+          new ParameterizedTypeReference<RestPage<School>>() {} );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
-  assertThat( response.getBody(), arrayContainingInAnyOrder(
-          getSchool( "1" ),
-          getSchool( "2" ) ) );
+  assertThat( response.getBody().getContent(), is( List.of( getSchool( "1" ), getSchool( "2" ) ) ) );
+ }
+
+ @Test
+ @DisplayName ("List schools paginated in desc order should return a page of schools in desc order")
+ void listSchoolsPaginatedDesc () {
+  // WHEN
+  ResponseEntity<RestPage<School>> response = testRestTemplate.exchange(
+          getUrl() + "?page=0&size=2&direction=desc", HttpMethod.GET, null,
+          new ParameterizedTypeReference<RestPage<School>>() {} );
+
+  // THEN
+  assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
+  assertThat( response.getBody().getContent(), is( List.of( getSchool( "2" ), getSchool( "1" ) ) ) );
+ }
+
+ @Test
+ @DisplayName ("List schools paginated sorted desc by number order should return a page of " +
+                       "schools sorted by number in desc order")
+ void listSchoolsPaginatedAsc () {
+  // WHEN
+  ResponseEntity<RestPage<School>> response = testRestTemplate.exchange(
+          getUrl() + "?page=0&size=2&direction=desc&sort=number", HttpMethod.GET, null,
+          new ParameterizedTypeReference<RestPage<School>>() {} );
+
+  // THEN
+  assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
+  assertThat( response.getBody().getContent(), is( List.of( getSchool( "2" ), getSchool( "1" ) ) ) );
  }
 
  @Test
