@@ -1,13 +1,13 @@
 import { array, func, object } from 'prop-types';
 import styled from 'styled-components/macro';
-import { prettifySlug } from '../../../../common/slugHelper';
+import { prettifySlug } from '../../../../common/slug';
 import Button from '../../../assemblies/Button';
 import Card from '../../../assemblies/Card';
 import Image from '../../../assemblies/Image';
 import Paragraph from '../../../assemblies/Paragraph';
 import Title from '../../../assemblies/Title';
 import Variant from '../../../assemblies/Variant';
-import GridEditDetails from '../../../grid/cms/GridEditDetails';
+import GridEditDetails from '../../../grid/cms/_GridEditDetails';
 import Headline from '../../../headlines/Headline';
 
 export default function Assembly({ assembly, onChange, onFileUpload, pages }) {

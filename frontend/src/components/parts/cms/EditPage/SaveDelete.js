@@ -1,6 +1,7 @@
 import { func } from 'prop-types';
 import styled from 'styled-components';
-import MainButton from '../../../buttons/MainButton';
+import MainButton from '../../../buttons/BrandButton';
+import FlexRowEnd from '../../../structures/_FlexRowEnd';
 
 export default function SaveDelete({ onDelete }) {
   return (
@@ -12,10 +13,8 @@ export default function SaveDelete({ onDelete }) {
 }
 
 const Container = styled.div`
+  ${FlexRowEnd}
   grid-area: submit;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
 
   button + button {
     margin-left: var(--container-padding);
