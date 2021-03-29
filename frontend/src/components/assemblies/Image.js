@@ -1,7 +1,7 @@
 import { func, object } from 'prop-types';
 import styled from 'styled-components/macro';
-import MainButton from '../buttons/MainButton';
-import MainButtonAsSpan from '../buttons/MainButtonAsSpan';
+import BrandButton from '../buttons/BrandButton';
+import BrandButtonAsSpan from '../buttons/BrandButtonAsSpan';
 import Input from '../form/Input';
 import Label from '../form/Label';
 import GridOneTwo from '../grid/cms/GridOneTwo';
@@ -12,7 +12,7 @@ export default function Image({ component, onChange, onFileDelete, onFileUpload 
     <>
       <Label>{component.type}</Label>
       <GridOneTwo>
-        <Container>
+        <Left>
           {component.url && <CustomImage src={component.url} alt="" />}
           <Input
             align="left"
@@ -21,8 +21,8 @@ export default function Image({ component, onChange, onFileDelete, onFileUpload 
             placeholder="Image description..."
             value={component.description || ''}
             onChange={onChange} />
-        </Container>
-        <Container>
+        </Left>
+        <Right>
           <Input
             align="left"
             id={`${component.id}-'fileUpload'`}
@@ -30,33 +30,32 @@ export default function Image({ component, onChange, onFileDelete, onFileUpload 
             accept="image/jpg, image/jpeg"
             style={{ display: 'none' }}
             onChange={onFileUpload} />
-          <MainButtonAsSpan
+          <BrandButtonAsSpan
             htmlFor={`${component.id}-'fileUpload'`}
             variant="secondary">
             Upload Image
-          </MainButtonAsSpan>
-          <MainButton
+          </BrandButtonAsSpan>
+          <BrandButton
             type="button"
             id="delete"
             variant="monochrome"
             onClick={() => onFileDelete(component.id, component.url)}>
             Delete Image
-          </MainButton>
-        </Container>
+          </BrandButton>
+        </Right>
       </GridOneTwo>
     </>
   );
 }
 
-const Container = styled.div`
-  display:flex;
-  flex-direction:column;
-
+const Left = styled.div`
   > img {
     margin-bottom: var(--container-padding);
   }
+`;
 
-  > label span {
+const Right = styled.div`
+   > label span {
     margin: 0;
   }
 
