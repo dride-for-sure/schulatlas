@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 
-const Grid = styled.main`
+const GridSideBar = styled.main`
   display: grid;
   grid-template-columns: max-content 1.5fr;
   grid-template-rows: 1fr;
@@ -19,4 +19,4 @@ const Grid = styled.main`
   }
 `;
 
-export default Grid;
+export default GridSideBar;
