@@ -31,7 +31,7 @@ const Container = styled.div`
   }
 
   > button+button {
-    margin-top: calc(var(--default-margin) * 0.5);
+    margin-top: var(--container-padding);
   }
 `;
 
