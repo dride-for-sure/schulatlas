@@ -4,6 +4,7 @@ import org.opensource.schulaltas.controller.model.SchoolDto;
 import org.opensource.schulaltas.controller.model.TypeDto;
 import org.opensource.schulaltas.model.school.School;
 import org.opensource.schulaltas.service.SchoolService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,8 +22,12 @@ public class PrivateSchoolController {
  }
 
  @GetMapping
- public List<School> listSchools () {
-  return schoolService.listSchools();
+ public Page<School> listSchools (
+         @RequestParam (defaultValue = "0") int page,
+         @RequestParam (defaultValue = "30") int size,
+         @RequestParam (defaultValue = "number") String sort,
+         @RequestParam (defaultValue = "asc") String direction) {
+  return schoolService.listSchools( page, size, sort, direction );
  }
 
  @GetMapping ("/type")
@@ -31,8 +36,13 @@ public class PrivateSchoolController {
  }
 
  @GetMapping ("/type/{type}")
- public List<School> listSchoolsByType (@PathVariable String type) {
-  return schoolService.listSchoolsByType( type );
+ public Page<School> listSchoolsByType (
+         @PathVariable String type,
+         @RequestParam (defaultValue = "0") int page,
+         @RequestParam (defaultValue = "30") int size,
+         @RequestParam (defaultValue = "number") String sort,
+         @RequestParam (defaultValue = "asc") String direction) {
+  return schoolService.listSchoolsByType( type, page, size, sort, direction );
  }
 
  @GetMapping ("/number/{number}")

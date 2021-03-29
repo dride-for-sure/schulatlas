@@ -6,6 +6,9 @@ import org.opensource.schulaltas.controller.model.TypeDto;
 import org.opensource.schulaltas.model.school.Coordinates;
 import org.opensource.schulaltas.model.school.School;
 import org.opensource.schulaltas.repository.SchoolDb;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -27,8 +30,11 @@ public class SchoolService {
   this.propertyService = propertyService;
  }
 
- public List<School> listSchools () {
-  return schoolDb.findAll();
+ public Page<School> listSchools (int page, int size, String sort, String direction) {
+  if ( direction.equals( "desc" ) ) {
+   return schoolDb.findAll( PageRequest.of( page, size, Sort.by( sort ).descending() ) );
+  }
+  return schoolDb.findAll( PageRequest.of( page, size, Sort.by( sort ).ascending() ) );
  }
 
  public List<TypeDto> listTypes () {
@@ -41,8 +47,11 @@ public class SchoolService {
                  .collect( Collectors.toList() );
  }
 
- public List<School> listSchoolsByType (String type) {
-  return schoolDb.findAllByType( type );
+ public Page<School> listSchoolsByType (String type, int page, int size, String sort, String direction) {
+  if ( direction.equals( "desc" ) ) {
+   return schoolDb.findAllByType( type, PageRequest.of( page, size, Sort.by( sort ).descending() ) );
+  }
+  return schoolDb.findAllByType( type, PageRequest.of( page, size, Sort.by( sort ).ascending() ) );
  }
 
  public Optional<School> getSchoolByNumber (String number) {
