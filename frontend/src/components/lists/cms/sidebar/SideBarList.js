@@ -1,17 +1,31 @@
 import { array, func } from 'prop-types';
-import UnorderedList from '../../UnorderedList';
+import styled from 'styled-components/macro';
+import UnorderedList from '../../_UnorderedList';
+import SideBarListHeader from './SideBarListHeader';
 import SideBarListItem from './SideBarListItem';
 
 export default function SideBarList({ pages, types, setLandingPage }) {
+  if (pages) {
+    return (
+      <List>
+        {pages.map((page) =>
+          <SideBarListItem key={page.slug} page={page} setLandingPage={setLandingPage} />)}
+      </List>
+    );
+  }
+
   return (
-    <UnorderedList>
-      {pages && pages.map((page) =>
-        <SideBarListItem key={page.slug} page={page} setLandingPage={setLandingPage} />)}
-      {types && types.map((type) =>
+    <List>
+      <SideBarListHeader types={types} />
+      {types.map((type) =>
         <SideBarListItem key={type.slug} type={type} />)}
-    </UnorderedList>
+    </List>
   );
 }
+
+const List = styled.ul`
+  ${UnorderedList};
+`;
 
 SideBarList.propTypes = {
   pages: array,

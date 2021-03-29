@@ -1,7 +1,7 @@
 import { func, object } from 'prop-types';
 import styled from 'styled-components/macro';
-import { prettifySlug } from '../../../../common/slugHelper';
-import LandingPageButton from '../../../buttons/LandingPageButton';
+import { prettifySlug } from '../../../../common/slug';
+import HomeButton from '../../../buttons/HomeButton';
 import RegularLink from '../../../links/RegularLink';
 
 export default function SideBarListItem({ type, page, setLandingPage }) {
@@ -10,7 +10,7 @@ export default function SideBarListItem({ type, page, setLandingPage }) {
       {page && (
         <>
           <RegularLink to={`/cms/page/${page.slug}`}>{prettifySlug(page.slug)}</RegularLink>
-          <LandingPageButton
+          <HomeButton
             onClick={() => setLandingPage(page.slug)}
             inactive={!page.landingPage} />
         </>
