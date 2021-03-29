@@ -1,6 +1,6 @@
 package org.opensource.schulaltas.service;
 
-import org.opensource.schulaltas.model.page.Attachment;
+import org.opensource.schulaltas.model.website.Attachment;
 import org.opensource.schulaltas.repository.AttachmentDb;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

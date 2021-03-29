@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.opensource.schulaltas.config.AWSConfig;
-import org.opensource.schulaltas.model.page.Attachment;
+import org.opensource.schulaltas.model.website.Attachment;
 import org.opensource.schulaltas.repository.AttachmentDb;
 import org.opensource.schulaltas.repository.SchoolUserDb;
 import org.opensource.schulaltas.security.model.AuthenticationRequest;

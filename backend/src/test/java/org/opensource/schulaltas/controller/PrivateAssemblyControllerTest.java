@@ -3,7 +3,7 @@ package org.opensource.schulaltas.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.opensource.schulaltas.model.page.Assembly;
+import org.opensource.schulaltas.model.website.Assembly;
 import org.opensource.schulaltas.repository.AssemblyDb;
 import org.opensource.schulaltas.repository.SchoolUserDb;
 import org.opensource.schulaltas.security.model.AuthenticationRequest;

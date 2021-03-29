@@ -4,8 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.opensource.schulaltas.controller.model.PageDto;
-import org.opensource.schulaltas.model.page.Assembly;
-import org.opensource.schulaltas.model.page.Page;
+import org.opensource.schulaltas.model.website.Assembly;
+import org.opensource.schulaltas.model.website.Website;
 import org.opensource.schulaltas.repository.AssemblyDb;
 import org.opensource.schulaltas.repository.PageDb;
 import org.opensource.schulaltas.repository.SchoolUserDb;
@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest (webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-class PrivatePageControllerTest {
+class PrivateWebsiteControllerTest {
 
  @LocalServerPort
  private int port;
@@ -64,8 +64,8 @@ class PrivatePageControllerTest {
   return "http://localhost:" + port;
  }
 
- private Page getPage (String slug) {
-  return Page.builder()
+ private Website getPage (String slug) {
+  return Website.builder()
                  .slug( slug )
                  .updated( 1L )
                  .userId( "1" )
@@ -115,8 +115,8 @@ class PrivatePageControllerTest {
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
-  ResponseEntity<Page[]> actual = testRestTemplate.exchange( getUrl() + "/auth/v1/page",
-          HttpMethod.GET, entity, Page[].class );
+  ResponseEntity<Website[]> actual = testRestTemplate.exchange( getUrl() + "/auth/v1/page",
+          HttpMethod.GET, entity, Website[].class );
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
@@ -130,8 +130,8 @@ class PrivatePageControllerTest {
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
-  ResponseEntity<Page> actual = testRestTemplate.exchange( getUrl() + "/auth/v1/page/slug/A",
-          HttpMethod.GET, entity, Page.class );
+  ResponseEntity<Website> actual = testRestTemplate.exchange( getUrl() + "/auth/v1/page/slug/A",
+          HttpMethod.GET, entity, Website.class );
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
@@ -145,9 +145,9 @@ class PrivatePageControllerTest {
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<Void> entity = new HttpEntity<>( headers );
-  ResponseEntity<Page> actual =
+  ResponseEntity<Website> actual =
           testRestTemplate.exchange( getUrl() + "/auth/v1/page/slug/NOTEXISTING",
-                  HttpMethod.GET, entity, Page.class );
+                  HttpMethod.GET, entity, Website.class );
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.BAD_REQUEST ) );
@@ -163,9 +163,9 @@ class PrivatePageControllerTest {
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<PageDto> entity = new HttpEntity<>( getPageDto( "NEW" ), headers );
-  ResponseEntity<Page> actual =
+  ResponseEntity<Website> actual =
           testRestTemplate.exchange( getUrl() + "/auth/v1/page/",
-                  HttpMethod.POST, entity, Page.class );
+                  HttpMethod.POST, entity, Website.class );
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
@@ -180,9 +180,9 @@ class PrivatePageControllerTest {
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
   HttpEntity<PageDto> entity = new HttpEntity<>( getPageDto( "A" ), headers );
-  ResponseEntity<Page> actual =
+  ResponseEntity<Website> actual =
           testRestTemplate.exchange( getUrl() + "/auth/v1/page/",
-                  HttpMethod.POST, entity, Page.class );
+                  HttpMethod.POST, entity, Website.class );
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
@@ -202,9 +202,9 @@ class PrivatePageControllerTest {
   HttpEntity<PageDto> entity =
           new HttpEntity<>( getPageDto( "A" ).toBuilder().userId( "UPDATED" ).build(),
                   headers );
-  ResponseEntity<Page> actual =
+  ResponseEntity<Website> actual =
           testRestTemplate.exchange( getUrl() + "/auth/v1/page/slug/A",
-                  HttpMethod.PUT, entity, Page.class );
+                  HttpMethod.PUT, entity, Website.class );
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
@@ -220,9 +220,9 @@ class PrivatePageControllerTest {
   HttpEntity<PageDto> entity =
           new HttpEntity<>( getPageDto( "NOTEXISTING" ),
                   headers );
-  ResponseEntity<Page> actual =
+  ResponseEntity<Website> actual =
           testRestTemplate.exchange( getUrl() + "/auth/v1/page/slug/NOTEXISTING",
-                  HttpMethod.PUT, entity, Page.class );
+                  HttpMethod.PUT, entity, Website.class );
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.BAD_REQUEST ) );
@@ -241,9 +241,9 @@ class PrivatePageControllerTest {
   HttpEntity<PageDto> entity =
           new HttpEntity<>( getPageDto( "NEWSLUG" ).toBuilder().userId( "UPDATED" ).build(),
                   headers );
-  ResponseEntity<Page> actual =
+  ResponseEntity<Website> actual =
           testRestTemplate.exchange( getUrl() + "/auth/v1/page/slug/A",
-                  HttpMethod.PUT, entity, Page.class );
+                  HttpMethod.PUT, entity, Website.class );
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
@@ -264,9 +264,9 @@ class PrivatePageControllerTest {
   HttpEntity<PageDto> entity =
           new HttpEntity<>( getPageDto( "NEWSLUG" ).toBuilder().userId( "UPDATED" ).build(),
                   headers );
-  ResponseEntity<Page> actual =
+  ResponseEntity<Website> actual =
           testRestTemplate.exchange( getUrl() + "/auth/v1/page/slug/NOTEXISTING",
-                  HttpMethod.PUT, entity, Page.class );
+                  HttpMethod.PUT, entity, Website.class );
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.BAD_REQUEST ) );
@@ -282,9 +282,9 @@ class PrivatePageControllerTest {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
-  HttpEntity<Page> entity = new HttpEntity<>( headers );
-  ResponseEntity<Page> actual = testRestTemplate.exchange(
-          getUrl() + "/auth/v1/page/slug/A/landingpage", HttpMethod.PUT, entity, Page.class );
+  HttpEntity<Website> entity = new HttpEntity<>( headers );
+  ResponseEntity<Website> actual = testRestTemplate.exchange(
+          getUrl() + "/auth/v1/page/slug/A/landingpage", HttpMethod.PUT, entity, Website.class );
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
@@ -303,9 +303,9 @@ class PrivatePageControllerTest {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
-  HttpEntity<Page> entity = new HttpEntity<>( headers );
-  ResponseEntity<Page> actual = testRestTemplate.exchange(
-          getUrl() + "/auth/v1/page/slug/A/landingpage", HttpMethod.PUT, entity, Page.class );
+  HttpEntity<Website> entity = new HttpEntity<>( headers );
+  ResponseEntity<Website> actual = testRestTemplate.exchange(
+          getUrl() + "/auth/v1/page/slug/A/landingpage", HttpMethod.PUT, entity, Website.class );
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
@@ -321,10 +321,10 @@ class PrivatePageControllerTest {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
-  HttpEntity<Page> entity = new HttpEntity<>( headers );
-  ResponseEntity<Page> actual =
+  HttpEntity<Website> entity = new HttpEntity<>( headers );
+  ResponseEntity<Website> actual =
           testRestTemplate.exchange( getUrl() + "/auth/v1/page/slug/NOTEXISTING/landingpage",
-                  HttpMethod.PUT, entity, Page.class );
+                  HttpMethod.PUT, entity, Website.class );
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.BAD_REQUEST ) );

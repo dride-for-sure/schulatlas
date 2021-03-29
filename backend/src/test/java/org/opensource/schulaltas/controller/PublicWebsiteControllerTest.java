@@ -3,8 +3,8 @@ package org.opensource.schulaltas.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.opensource.schulaltas.model.page.Assembly;
-import org.opensource.schulaltas.model.page.Page;
+import org.opensource.schulaltas.model.website.Assembly;
+import org.opensource.schulaltas.model.website.Website;
 import org.opensource.schulaltas.repository.PageDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 @SpringBootTest (webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class PublicPageControllerTest {
+class PublicWebsiteControllerTest {
 
  @LocalServerPort
  private int port;
@@ -43,10 +43,10 @@ class PublicPageControllerTest {
   return "http://localhost:" + port + "/api/v1/page";
  }
 
- private Page getPage (String slug) {
+ private Website getPage (String slug) {
   Map<String, List<Object>> components = new HashMap<>();
   components.put( "Header", List.of() );
-  return Page.builder()
+  return Website.builder()
                  .slug( slug )
                  .updated( 1L )
                  .userId( "1" )
@@ -62,8 +62,8 @@ class PublicPageControllerTest {
  @DisplayName ("Get page should return an specific existing page from the db")
  void getPageBySlug () {
   // WHEN
-  ResponseEntity<Page> response = testRestTemplate.getForEntity(
-          getUrl() + "/slug/page1", Page.class );
+  ResponseEntity<Website> response = testRestTemplate.getForEntity(
+          getUrl() + "/slug/page1", Website.class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
@@ -74,8 +74,8 @@ class PublicPageControllerTest {
  @DisplayName ("Get page should throw an exception for a not existing page")
  void getNotExistingPageBySlug () {
   // WHEN
-  ResponseEntity<Page> response = testRestTemplate.getForEntity(
-          getUrl() + "/slug/XXX", Page.class );
+  ResponseEntity<Website> response = testRestTemplate.getForEntity(
+          getUrl() + "/slug/XXX", Website.class );
 
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.BAD_REQUEST ) );

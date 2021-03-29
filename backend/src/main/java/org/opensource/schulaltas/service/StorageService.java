@@ -1,7 +1,7 @@
 package org.opensource.schulaltas.service;
 
 import org.opensource.schulaltas.config.AWSConfig;
-import org.opensource.schulaltas.model.page.Attachment;
+import org.opensource.schulaltas.model.website.Attachment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

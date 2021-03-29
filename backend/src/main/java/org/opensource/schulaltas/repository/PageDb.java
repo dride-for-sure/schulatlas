@@ -1,16 +1,16 @@
 package org.opensource.schulaltas.repository;
 
-import org.opensource.schulaltas.model.page.Page;
+import org.opensource.schulaltas.model.website.Website;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface PageDb extends PagingAndSortingRepository<Page, String> {
+public interface PageDb extends PagingAndSortingRepository<Website, String> {
 
  @Override
- List<Page> findAll ();
+ List<Website> findAll ();
 
- List<Page> findByLandingPageIs (boolean landingPage);
+ List<Website> findByLandingPageIs (boolean landingPage);
 }

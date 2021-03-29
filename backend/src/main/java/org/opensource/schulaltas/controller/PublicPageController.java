@@ -1,6 +1,6 @@
 package org.opensource.schulaltas.controller;
 
-import org.opensource.schulaltas.model.page.Page;
+import org.opensource.schulaltas.model.website.Website;
 import org.opensource.schulaltas.service.PageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ public class PublicPageController {
  }
 
  @GetMapping ("/slug/{slug}")
- public Page getPageBySlug (@PathVariable String slug) {
+ public Website getPageBySlug (@PathVariable String slug) {
   return pageService.getPageBySlug( slug )
                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
                          "Page: " + slug + " is not available" ) );

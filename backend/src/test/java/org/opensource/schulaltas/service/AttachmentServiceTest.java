@@ -2,7 +2,7 @@ package org.opensource.schulaltas.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.opensource.schulaltas.model.page.Attachment;
+import org.opensource.schulaltas.model.website.Attachment;
 import org.opensource.schulaltas.repository.AttachmentDb;
 import org.springframework.mock.web.MockMultipartFile;
 
