@@ -6,7 +6,7 @@ import GridSideBar from '../../components/grid/cms/GridSideBar';
 import Header from '../../components/header/cms/Header';
 import EditPage from '../../components/parts/cms/EditPage/EditPage';
 import SideBar from '../../components/parts/cms/SideBar';
-import FlexRowCenter from '../../components/structures/FlexRowCenter';
+import FlexRowCenter from '../../components/structures/_FlexRowCenter';
 import { getPageTemplate } from '../../config/schulatlasConfig';
 import { addPage, deletePageBySlug, getPageBySlug, listPages, setLandingPageBySlug, updatePage } from '../../services/api/private/pageApiService';
 
@@ -86,19 +86,20 @@ export default function PageDetails() {
       <Header />
       <Container>
         <GridSideBar>
+          {pages && (
           <SideBar
             pages={pages}
             onAddPage={addNewPage}
             setLandingPage={setLandingPage} />
-          {(page || newPage)
-            && (
+          )}
+          {(page || newPage) && (
             <EditPage
               page={page}
               pages={pages}
               newPage={newPage}
               savePage={handleSave}
               deletePage={handleDelete} />
-            )}
+          )}
         </GridSideBar>
       </Container>
     </>
