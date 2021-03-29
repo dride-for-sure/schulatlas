@@ -1,6 +1,6 @@
 import { array, func } from 'prop-types';
 import styled from 'styled-components/macro';
-import MainButton from '../../buttons/MainButton';
+import MainButton from '../../buttons/BrandButton';
 import HeadlineWithSubtitle from '../../headlines/HeadlineWithSubtitle';
 import SideBarList from '../../lists/cms/sidebar/SideBarList';
 
@@ -30,6 +30,10 @@ const Container = styled.div`
     margin-bottom:0;
   }
 
+  > button:last-of-type{
+    margin-bottom: var(--default-margin);
+  }
+  
   > button+button {
     margin-top: var(--container-padding);
   }
