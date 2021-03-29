@@ -1,5 +1,7 @@
 import styled from 'styled-components/macro';
 import NavigationLink from '../../links/NavigationLink';
+import OrderedList from '../../lists/_OrderedList';
+import FlexRowEnd from '../../structures/_FlexRowEnd';
 
 export default function Navigation() {
   return (
@@ -11,11 +13,8 @@ export default function Navigation() {
 }
 
 const List = styled.ol`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  list-style: none;
-  
+  ${OrderedList}
+  ${FlexRowEnd}
   color: white;
   font-family: var(--font-family-navigation);
   font-size: var(--font-size-navigation);
