@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-import arrow from '../../resources/images/ArrowDownDark.png';
+import Arrow from '../../resources/images/ArrowDownDark.png';
 
 const Select = styled.select`
   width: 180px;
@@ -14,7 +14,7 @@ const Select = styled.select`
   -moz-appearance: none; 
   -webkit-appearance: none; 
   appearance: none;
-  background: url(${arrow});
+  background: url(${Arrow});
   background-repeat: no-repeat;
   background-size: 10px;
   background-position: 90% center;
