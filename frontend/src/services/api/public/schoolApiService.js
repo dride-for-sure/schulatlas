@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const SCHOOL_API_BASE_URL = '/api/v1/school';
 
-export const listSchools = () => axios
-  .get(SCHOOL_API_BASE_URL)
+export const listSchools = (page = '', size = '', sort = '', direction = '') => axios
+  .get(`${SCHOOL_API_BASE_URL}?page=${page}&size=${size}&sort=${sort}&direction=${direction}`)
   .then((response) => response.data);
 
 export const getSchoolByNumber = (number) => axios

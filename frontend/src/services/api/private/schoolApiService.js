@@ -2,8 +2,8 @@ import axiosConfig from '../../../config/axiosConfig';
 
 const SCHOOL_API_BASE_URL = '/auth/v1/school';
 
-export const listSchools = () => axiosConfig.instance
-  .get(SCHOOL_API_BASE_URL)
+export const listSchools = (page = '', size = '', sort = '', direction = '') => axiosConfig.instance
+  .get(`${SCHOOL_API_BASE_URL}?page=${page}&size=${size}&sort=${sort}&direction=${direction}`)
   .then((response) => response.data);
 
 export const listTypes = () => axiosConfig.instance
@@ -14,8 +14,8 @@ export const getSchoolByNumber = (number) => axiosConfig.instance
   .get(`${SCHOOL_API_BASE_URL}/number/${number}`)
   .then((response) => response.data);
 
-export const getSchoolByType = (type) => axiosConfig.instance
-  .get(`${SCHOOL_API_BASE_URL}/type/${type}`)
+export const getSchoolsByType = (type, page = '', size = '', sort = '', direction = '') => axiosConfig.instance
+  .get(`${SCHOOL_API_BASE_URL}/type/${type}?page=${page}&size=${size}&sort=${sort}&direction=${direction}`)
   .then((response) => response.data);
 
 export const addSchool = (school) => axiosConfig.instance
