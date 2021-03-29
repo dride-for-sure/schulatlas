@@ -7,11 +7,11 @@ import { escapeSlug, prettifySlug } from '../../../../common/slugHelper';
 import { useAuth } from '../../../../contexts/AuthProvider';
 import { addAttachment } from '../../../../services/api/private/attachmentApiService';
 import Slug from '../../../assemblies/Slug';
-import MainButton from '../../../buttons/MainButton';
 import GridEditDetails from '../../../grid/cms/GridEditDetails';
 import Headline from '../../../headlines/Headline';
 import Loading from '../../../loading/Loading';
 import Assembly from './Assembly';
+import SaveDelete from './SaveDelete';
 
 export default function EditPage({ page, savePage, pages, newPage, deletePage }) {
   const { token } = useAuth();
@@ -91,11 +91,9 @@ export default function EditPage({ page, savePage, pages, newPage, deletePage })
     <Grid onSubmit={submit}>
       <Headline size="l">{prettifySlug(tmpPage.slug)}</Headline>
       <Form>
-        <InnerGrid>
-          <Slug
-            slug={tmpPage.slug}
-            onChange={updateSlug} />
-        </InnerGrid>
+        <Slug
+          slug={tmpPage.slug}
+          onChange={updateSlug} />
         {assemblies && assemblies.map((assembly) => (
           <Assembly
             key={assembly.id}
@@ -105,18 +103,10 @@ export default function EditPage({ page, savePage, pages, newPage, deletePage })
             pages={pages} />
         ))}
       </Form>
-      <Container>
-        <MainButton type="button" variant="monochrome" onClick={() => deletePage(page.slug)}>Delete</MainButton>
-        <MainButton>Save</MainButton>
-      </Container>
+      <SaveDelete onDelete={() => deletePage(page.slug)} />
     </Grid>
   );
 }
-
-const InnerGrid = styled.div`
-  ${GridEditDetails};
-  grid-gap: var(--container-padding);
-`;
 
 const Grid = styled.form`
   ${GridEditDetails};
@@ -124,25 +114,13 @@ const Grid = styled.form`
     ". headline"
     "fields fields"
     ". submit";
-    
-`;
-
-const Container = styled.div`
-  grid-area: submit;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-
-  button + button {
-    margin-left: var(--container-padding);
-  }
 `;
 
 const Form = styled.div`
   grid-area: fields;
 
   > div + div {
-    margin-top: calc(var(--container-padding) * 1);
+    margin-top: var(--container-padding);
   }
 `;
 
