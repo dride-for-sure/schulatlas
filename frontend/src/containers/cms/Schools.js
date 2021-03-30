@@ -47,7 +47,7 @@ export default function SchoolsOverview() {
       .catch((error) => console.log(error));
   };
 
-  const handlPagination = (whichWay) => {
+  const handlePagination = (whichWay) => {
     const params = getSearchParams(search);
     let targetPage = 0;
     if (whichWay === 'last') {
@@ -86,7 +86,7 @@ export default function SchoolsOverview() {
           <SchoolList
             type={type}
             schools={schools}
-            onPagination={handlPagination}
+            onPagination={handlePagination}
             toggleSort={toggleSort}
              />
           )}
