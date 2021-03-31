@@ -1,33 +1,62 @@
 import { object } from 'prop-types';
 import styled, { css } from 'styled-components/macro';
 import convertTimeStampToDate from '../../../../common/timeStamp';
-import GridSchoolList from '../../../grid/cms/_GridSchoolList';
 import RegularLink from '../../../links/RegularLink';
 
 export default function SchoolListItem({ school }) {
   return (
-    <ListItem markedOutdated={school.markedOutdated}>
+    <>
       <RegularLink to={`/cms/school/${school.number}`}>
-        <span>{school.number}</span>
-        <span>{school.name}</span>
-        <span>{school.address.city}</span>
-        <span>{convertTimeStampToDate(school.updated)}</span>
-        <span>{school.markedOutdated}</span>
+        <AlignRightItalic markedOutdated={school.markedOutdated}>
+          {school.number}
+        </AlignRightItalic>
       </RegularLink>
-    </ListItem>
+      <RegularLink to={`/cms/school/${school.number}`}>
+        <AlignLeft markedOutdated={school.markedOutdated}>
+          {school.name}
+        </AlignLeft>
+      </RegularLink>
+      <RegularLink to={`/cms/school/${school.number}`}>
+        <AlignRight markedOutdated={school.markedOutdated}>
+          {school.address.city}
+        </AlignRight>
+      </RegularLink>
+      <RegularLink to={`/cms/school/${school.number}`}>
+        <AlignRight markedOutdated={school.markedOutdated}>
+          {convertTimeStampToDate(school.updated)}
+        </AlignRight>
+      </RegularLink>
+      <RegularLink to={`/cms/school/${school.number}`}>
+        <AlignRight markedOutdated={school.markedOutdated}>
+          {school.markedOutdated}
+        </AlignRight>
+      </RegularLink>
+    </>
   );
 }
 
-const ListItem = styled.li`
-
+const ListItem = css`
   ${(props) => props.markedOutdated >= 5 && css`
     color: var(--color-paradise-pink);
     font-weight: 600;
   `}
-  
-  > a {
-    ${GridSchoolList};
-  }
+`;
+
+const AlignLeft = styled.span`
+  ${ListItem};
+`;
+
+const AlignRight = styled.span`
+  ${ListItem};
+  display:block;
+  text-align: right;
+`;
+
+const AlignRightItalic = styled.span`
+  ${ListItem};
+  display:block;
+  text-align: right;
+  font-style: italic;
 `;
 
 SchoolListItem.propTypes = {
