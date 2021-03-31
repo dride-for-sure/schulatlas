@@ -3,6 +3,7 @@ import Arrow from '../../resources/images/ArrowDownDark.png';
 
 const Select = styled.select`
   width: 180px;
+  height: fit-content;
   padding: 0.45rem 2.2rem 0.4rem 0.95rem;
   outline: 0;
   border: 1px solid var(--color-light-silver);

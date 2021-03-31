@@ -9,6 +9,8 @@ const Input = styled.input`
   font-size: var(--font-size-input);
   text-align: ${(props) => (props.align || 'center')};
   width: 100%;
+  height: fit-content;
+  min-height: 32px;
   box-sizing: border-box;
 `;
 
