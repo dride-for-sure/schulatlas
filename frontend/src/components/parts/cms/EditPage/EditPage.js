@@ -3,11 +3,11 @@ import { array, func, object } from 'prop-types';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components/macro';
 import { v4 as uuid } from 'uuid';
-import { escapeSlug, prettifySlug } from '../../../../common/slugHelper';
+import { escapeSlug, prettifySlug } from '../../../../common/slug';
 import { useAuth } from '../../../../contexts/AuthProvider';
 import { addAttachment } from '../../../../services/api/private/attachmentApiService';
 import Slug from '../../../assemblies/Slug';
-import GridEditDetails from '../../../grid/cms/GridEditDetails';
+import GridEditDetails from '../../../grid/cms/_GridEditDetails';
 import Headline from '../../../headlines/Headline';
 import Loading from '../../../loading/Loading';
 import Assembly from './Assembly';
@@ -88,9 +88,9 @@ export default function EditPage({ page, savePage, pages, newPage, deletePage })
   }
 
   return (
-    <Grid onSubmit={submit}>
+    <Form onSubmit={submit}>
       <Headline size="l">{prettifySlug(tmpPage.slug)}</Headline>
-      <Form>
+      <Container>
         <Slug
           slug={tmpPage.slug}
           onChange={updateSlug} />
@@ -102,21 +102,17 @@ export default function EditPage({ page, savePage, pages, newPage, deletePage })
             onFileUpload={uploadFile}
             pages={pages} />
         ))}
-      </Form>
+      </Container>
       <SaveDelete onDelete={() => deletePage(page.slug)} />
-    </Grid>
+    </Form>
   );
 }
 
-const Grid = styled.form`
+const Form = styled.form`
   ${GridEditDetails};
-  grid-template-areas:
-    ". headline"
-    "fields fields"
-    ". submit";
 `;
 
-const Form = styled.div`
+const Container = styled.div`
   grid-area: fields;
 
   > div + div {

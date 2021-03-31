@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import MainButton from './MainButton';
+import MainButton from './BrandButton';
 
 const createTestProps = (disabled, variant) => ({
   children: 'String',

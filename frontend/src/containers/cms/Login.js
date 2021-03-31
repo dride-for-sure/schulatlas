@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import MainButton from '../../components/buttons/MainButton';
+import MainButton from '../../components/buttons/BrandButton';
 import Input from '../../components/form/Input';
 import Headline from '../../components/headlines/Headline';
-import Logo from '../../components/logo/Logo';
-import FlexColumnCenter from '../../components/structures/FlexColumnCenter';
-import FlexRowCenter from '../../components/structures/FlexRowCenter';
+import Logo from '../../components/icons/Logo';
+import FlexColumnCenter from '../../components/structures/_FlexColumnCenter';
+import FlexRowCenter from '../../components/structures/_FlexRowCenter';
 import { useAuth } from '../../contexts/AuthProvider';
 import login from '../../services/api/private/loginApiService';
 

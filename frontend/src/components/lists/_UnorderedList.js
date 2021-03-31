@@ -1,8 +1,7 @@
-import styled from 'styled-components/macro';
+import { css } from 'styled-components/macro';
 
-const UnorderedList = styled.ul`
+const UnorderedList = css`
   list-style-position: inside;
-  margin: var(--default-margin) 0;
   text-transform: capitalize;
 
   > li + li {

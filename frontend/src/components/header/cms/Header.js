@@ -1,10 +1,10 @@
 import styled from 'styled-components/macro';
 import Image from '../../../resources/images/HeaderBackgroundSmall.jpg';
-import Logo from '../../logo/Logo';
+import Logo from '../../icons/Logo';
 import Navigation from '../../navigation/cms/Navigation';
-import FlexRowCenter from '../../structures/FlexRowCenter';
-import FlexRowSpaceBetween from '../../structures/FlexRowSpaceBetween';
-import MaxWidth from '../../structures/MaxWidth';
+import FlexRowCenter from '../../structures/_FlexRowCenter';
+import FlexRowSpaceBetween from '../../structures/_FlexRowSpaceBetween';
+import MaxWidth from '../../structures/_MaxWidth';
 
 export default function Header() {
   return (

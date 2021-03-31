@@ -1,16 +1,34 @@
 import { object } from 'prop-types';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components/macro';
+import styled, { css } from 'styled-components/macro';
+import convertTimeStampToDate from '../../../../common/timeStamp';
+import GridSchoolList from '../../../grid/cms/_GridSchoolList';
+import RegularLink from '../../../links/RegularLink';
 
 export default function SchoolListItem({ school }) {
   return (
-    <ListItem>
-      <Link to={`/cms/school/${school.number}`}>{school.name}</Link>
+    <ListItem markedOutdated={school.markedOutdated}>
+      <RegularLink to={`/cms/school/${school.number}`}>
+        <span>{school.number}</span>
+        <span>{school.name}</span>
+        <span>{school.address.city}</span>
+        <span>{convertTimeStampToDate(school.updated)}</span>
+        <span>{school.markedOutdated}</span>
+      </RegularLink>
     </ListItem>
   );
 }
 
-const ListItem = styled.li``;
+const ListItem = styled.li`
+
+  ${(props) => props.markedOutdated >= 5 && css`
+    color: var(--color-paradise-pink);
+    font-weight: 600;
+  `}
+  
+  > a {
+    ${GridSchoolList};
+  }
+`;
 
 SchoolListItem.propTypes = {
   school: object.isRequired,

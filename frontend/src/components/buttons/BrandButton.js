@@ -1,9 +1,9 @@
 import { bool, func, string } from 'prop-types';
 import styled from 'styled-components/macro';
 import ArrowRight from '../icons/ArrowRight';
-import Button from './Button';
+import Button from './_Button';
 
-export default function MainButton({ children, variant, disabled, type, onClick }) {
+export default function BrandButton({ children, variant, disabled, type, onClick }) {
   return (
     <CustomButton type={type || 'submit'} variant={variant} disabled={disabled} onClick={onClick}>
       <span>{children}</span>
@@ -14,9 +14,13 @@ export default function MainButton({ children, variant, disabled, type, onClick 
 
 const CustomButton = styled.button`
   ${Button};
+
+  > img {
+    margin: 0.125rem 0 0 0.8rem;
+  }
 `;
 
-MainButton.propTypes = {
+BrandButton.propTypes = {
   children: string.isRequired,
   variant: string,
   disabled: bool,
