@@ -18,6 +18,10 @@ const Headline = styled.h1`
 
   margin: var(--margin-title);
   text-transform: capitalize;
+
+  > i {
+    font-weight: 400;
+  }
 `;
 
 export default Headline;
