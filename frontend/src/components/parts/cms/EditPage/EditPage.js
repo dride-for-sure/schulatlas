@@ -1,13 +1,12 @@
 import decode from 'jwt-decode';
 import { array, func, object } from 'prop-types';
 import { useEffect, useState } from 'react';
-import styled from 'styled-components/macro';
-import { v4 as uuid } from 'uuid';
+import { addIndizesToNestedData, updateNestedData } from '../../../../common/indexData';
 import { escapeSlug, prettifySlug } from '../../../../common/slug';
 import { useAuth } from '../../../../contexts/AuthProvider';
 import { addAttachment } from '../../../../services/api/private/attachmentApiService';
 import Slug from '../../../assemblies/Slug';
-import GridEditDetails from '../../../grid/cms/_GridEditDetails';
+import GridForm from '../../../grid/cms/GridForm';
 import Headline from '../../../headlines/Headline';
 import Loading from '../../../loading/Loading';
 import Assembly from './Assembly';
@@ -16,22 +15,28 @@ import SaveDelete from './SaveDelete';
 export default function EditPage({ page, savePage, pages, newPage, deletePage }) {
   const { token } = useAuth();
   const [tmpPage, setTmpPage] = useState('');
-  const [assemblies, setAssemblies] = useState('');
 
   const submit = (event) => {
     event.preventDefault();
     if (tmpPage) { savePage(tmpPage); }
   };
 
-  const uploadFile = (file) =>
-    addAttachment(file)
-      .then((response) => response.url)
+  const updateTmpPage = (id, entry) => {
+    const user = decode(token);
+    const updatedTmpPage = {
+      ...updateNestedData(tmpPage, id, entry),
+      updated: Date.now(),
+      userId: user.sub };
+    setTmpPage(updatedTmpPage);
+  };
+
+  const uploadFile = (id, event) =>
+    addAttachment(event.target.files[0])
+      .then((response) => updateTmpPage(id, { url: response.url }))
       .catch((error) => console.error(error));
 
-  const updateTmpPage = () => {
-    const user = decode(token);
-    const updatedPage = { ...tmpPage, updated: Date.now(), userId: user.sub, assemblies };
-    setTmpPage(updatedPage);
+  const deleteFile = (id) => {
+    updateTmpPage(id, { url: '' });
   };
 
   const updateSlug = (event) => {
@@ -41,84 +46,41 @@ export default function EditPage({ page, savePage, pages, newPage, deletePage })
     setTmpPage(updatedPage);
   };
 
-  const updateAssemblies = (updatedAssembly) => {
-    const updatedAssemblies = assemblies.map((assembly) =>
-      (assembly.id === updatedAssembly.id ? updatedAssembly : assembly));
-    setAssemblies(updatedAssemblies);
-  };
-
-  const addUuidsToAssemblies = (incomingAssemblies) =>
-    incomingAssemblies.map((assembly) =>
-      ({ ...assembly,
-        id: uuid(),
-        components: assembly.components.map((comp) =>
-          (comp.components
-            ? ({ ...comp,
-              id: uuid(),
-              components: comp.components.map((sub) => ({ ...sub, id: uuid() })),
-            })
-            : ({ ...comp,
-              id: uuid(),
-            })
-          )),
-      }));
-
   useEffect(() => {
     if (page) {
-      setTmpPage(page);
-      setAssemblies(addUuidsToAssemblies(page.assemblies));
+      setTmpPage(addIndizesToNestedData(page));
     }
   }, [page]);
 
   useEffect(() => {
-    if (assemblies) {
-      updateTmpPage();
-    }
-  }, [assemblies]);
-
-  useEffect(() => {
     if (newPage) {
-      setTmpPage(newPage);
-      setAssemblies(addUuidsToAssemblies(newPage.assemblies));
+      setTmpPage(addIndizesToNestedData(newPage));
     }
   }, [newPage]);
 
-  if (!assemblies) {
+  if (!tmpPage) {
     return <Loading />;
   }
 
   return (
-    <Form onSubmit={submit}>
+    <GridForm onSubmit={submit}>
       <Headline size="l">{prettifySlug(tmpPage.slug)}</Headline>
-      <Container>
-        <Slug
-          slug={tmpPage.slug}
-          onChange={updateSlug} />
-        {assemblies && assemblies.map((assembly) => (
-          <Assembly
-            key={assembly.id}
-            assembly={assembly}
-            onChange={updateAssemblies}
-            onFileUpload={uploadFile}
-            pages={pages} />
-        ))}
-      </Container>
+      <Slug
+        slug={tmpPage.slug}
+        onChange={updateSlug} />
+      {tmpPage.assemblies.map((assembly) => (
+        <Assembly
+          key={assembly.id}
+          assembly={assembly}
+          onChange={updateTmpPage}
+          onFileUpload={uploadFile}
+          onFileDelete={deleteFile}
+          pages={pages} />
+      ))}
       <SaveDelete onDelete={() => deletePage(page.slug)} />
-    </Form>
+    </GridForm>
   );
 }
-
-const Form = styled.form`
-  ${GridEditDetails};
-`;
-
-const Container = styled.div`
-  grid-area: fields;
-
-  > div + div {
-    margin-top: var(--container-padding);
-  }
-`;
 
 EditPage.propTypes = {
   page: object.isRequired,
