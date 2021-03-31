@@ -21,10 +21,11 @@ public class School {
  private String name;
  private Address address;
  private Contact contact;
+ private String image;
  private String type;
  private Coordinates coordinates;
  private Long updated;
  private String userId;
  private Integer markedOutdated;
- List<Property> properties;
+ private List<Property> properties;
 }
