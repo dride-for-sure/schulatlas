@@ -25,6 +25,9 @@ export default function SideBarList({ pages, types, setLandingPage }) {
 
 const List = styled.ul`
   ${UnorderedList};
+  > li {
+    height: 1rem;
+  }
 `;
 
 SideBarList.propTypes = {
