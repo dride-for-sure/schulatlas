@@ -3,13 +3,13 @@ import { prettifySlug } from '../../common/slug';
 import Input from '../form/Input';
 import Label from '../form/Label';
 import Select from '../form/Select';
-import GridOneTwo from '../grid/cms/GridOneTwo';
+import GridTwoOne from '../grid/cms/GridTwoOne';
 
 export default function Button({ component, onChange, pages }) {
   return (
     <>
       <Label>{component.type}</Label>
-      <GridOneTwo>
+      <GridTwoOne>
         <Input
           align="left"
           id="content"
@@ -25,7 +25,7 @@ export default function Button({ component, onChange, pages }) {
           {pages && pages.map((page) =>
             <option key={page.slug} value={page.slug}>{prettifySlug(page.slug)}</option>)}
         </Select>
-      </GridOneTwo>
+      </GridTwoOne>
     </>
   );
 }

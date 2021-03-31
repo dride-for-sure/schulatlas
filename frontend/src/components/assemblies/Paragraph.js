@@ -8,6 +8,7 @@ export default function Paragraph({ component, onChange }) {
       <Label>{component.type}</Label>
       <Textarea
         id="content"
+        placeholder="Enter the content..."
         value={component.content}
         onChange={onChange} />
     </>
