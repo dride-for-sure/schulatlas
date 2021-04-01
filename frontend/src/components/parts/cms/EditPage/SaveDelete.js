@@ -14,7 +14,6 @@ export default function SaveDelete({ onDelete }) {
 
 const Container = styled.div`
   ${FlexRowEnd}
-  grid-area: submit;
 
   button + button {
     margin-left: var(--container-padding);

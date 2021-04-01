@@ -28,10 +28,6 @@ const AlignRight = styled.div`
   > button + button {
     margin: 0.3rem;
   }
-
-  > button:last-of-type {
-    margin-right: calc(var(--container-padding) * 0.5);
-  }
 `;
 
 const Button = styled.button`

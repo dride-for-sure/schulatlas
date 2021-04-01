@@ -4,15 +4,15 @@ import BrandButton from '../buttons/BrandButton';
 import BrandButtonAsSpan from '../buttons/BrandButtonAsSpan';
 import Input from '../form/Input';
 import Label from '../form/Label';
-import GridOneTwo from '../grid/cms/GridOneTwo';
+import GridTwoOne from '../grid/cms/GridTwoOne';
 import CustomImage from '../image/Image';
 
 export default function Image({ component, onChange, onFileDelete, onFileUpload }) {
   return (
     <>
       <Label>{component.type}</Label>
-      <GridOneTwo>
-        <Left>
+      <GridTwoOne>
+        <ColumnLeft>
           {component.url && <CustomImage src={component.url} alt="" />}
           <Input
             align="left"
@@ -21,8 +21,8 @@ export default function Image({ component, onChange, onFileDelete, onFileUpload 
             placeholder="Image description..."
             value={component.description || ''}
             onChange={onChange} />
-        </Left>
-        <Right>
+        </ColumnLeft>
+        <ColumnRight>
           <Input
             align="left"
             id={`${component.id}-'fileUpload'`}
@@ -42,19 +42,19 @@ export default function Image({ component, onChange, onFileDelete, onFileUpload 
             onClick={() => onFileDelete(component.id, component.url)}>
             Delete Image
           </BrandButton>
-        </Right>
-      </GridOneTwo>
+        </ColumnRight>
+      </GridTwoOne>
     </>
   );
 }
 
-const Left = styled.div`
+const ColumnLeft = styled.div`
   > img {
     margin-bottom: var(--container-padding);
   }
 `;
 
-const Right = styled.div`
+const ColumnRight = styled.div`
    > label span {
     margin: 0;
   }
