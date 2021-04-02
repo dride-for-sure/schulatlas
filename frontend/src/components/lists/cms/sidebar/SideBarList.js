@@ -4,7 +4,7 @@ import UnorderedList from '../../_UnorderedList';
 import SideBarListHeader from './SideBarListHeader';
 import SideBarListItem from './SideBarListItem';
 
-export default function SideBarList({ pages, types, setLandingPage }) {
+export default function SideBarList({ pages, usedTypes, setLandingPage }) {
   if (pages) {
     return (
       <List>
@@ -16,9 +16,8 @@ export default function SideBarList({ pages, types, setLandingPage }) {
 
   return (
     <List>
-      <SideBarListHeader types={types} />
-      {types.map((type) =>
-        <SideBarListItem key={type.slug} type={type} />)}
+      <SideBarListHeader usedTypes={usedTypes} />
+      {usedTypes.map((type) => type.name && <SideBarListItem key={type.slug} type={type} />)}
     </List>
   );
 }
@@ -37,6 +36,6 @@ const List = styled.ul`
 
 SideBarList.propTypes = {
   pages: array,
-  types: array,
+  usedTypes: array,
   setLandingPage: func,
 };

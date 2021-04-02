@@ -1,12 +1,12 @@
 import { array } from 'prop-types';
 import styled from 'styled-components';
-import getSumOfTypes from '../../../../common/types';
+import { getSumOfTypes } from '../../../../common/types';
 import RegularLink from '../../../links/RegularLink';
 
-export default function SideBarListHeader({ types }) {
+export default function SideBarListHeader({ usedTypes }) {
   return (
     <ListItem>
-      <RegularLink to="/cms/schools">{`All Types (${getSumOfTypes(types)})`}</RegularLink>
+      <RegularLink to="/cms/schools">{`All Types (${getSumOfTypes(usedTypes)})`}</RegularLink>
     </ListItem>
   );
 }
@@ -16,5 +16,5 @@ const ListItem = styled.li`
 `;
 
 SideBarListHeader.propTypes = {
-  types: array.isRequired,
+  usedTypes: array.isRequired,
 };
