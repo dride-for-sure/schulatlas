@@ -25,8 +25,13 @@ export default function SideBarList({ pages, types, setLandingPage }) {
 
 const List = styled.ul`
   ${UnorderedList};
+  list-style: none;
+  
   > li {
     height: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 `;
 

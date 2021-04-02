@@ -9,10 +9,10 @@ export default function SideBarListItem({ type, page, setLandingPage }) {
     <ListItem>
       {page && (
         <>
-          <RegularLink to={`/cms/page/${page.slug}`}>{prettifySlug(page.slug)}</RegularLink>
           <HomeButton
             onClick={() => setLandingPage(page.slug)}
             inactive={!page.landingPage} />
+          <RegularLink to={`/cms/page/${page.slug}`}>{prettifySlug(page.slug)}</RegularLink>
         </>
       )}
       {type && (<RegularLink to={`/cms/type/${type.name}`}>{`${type.name} (${type.count})`}</RegularLink>)}
