@@ -12,10 +12,10 @@ export default function SchoolImage({ imageUrl, onFileUpload, onFileDelete }) {
   const uniqueFieldId = uuid();
   return (
     <>
-      <Label>School Image</Label>
+      <Label>Image</Label>
       <GridTwoOne>
         <Left>
-          {imageUrl && <CustomImage src={imageUrl} alt="" />}
+          {imageUrl && <CustomImage src={imageUrl} alt="Image of this school" />}
         </Left>
         <Right>
           <Input
