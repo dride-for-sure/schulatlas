@@ -2,7 +2,6 @@ package org.opensource.schulaltas.service;
 
 
 import org.opensource.schulaltas.controller.model.SchoolDto;
-import org.opensource.schulaltas.controller.model.TypeDto;
 import org.opensource.schulaltas.model.school.Coordinates;
 import org.opensource.schulaltas.model.school.School;
 import org.opensource.schulaltas.repository.SchoolDb;
@@ -11,8 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class SchoolService {
@@ -35,16 +33,6 @@ public class SchoolService {
    return schoolDb.findAll( PageRequest.of( page, size, Sort.by( sort ).descending() ) );
   }
   return schoolDb.findAll( PageRequest.of( page, size, Sort.by( sort ).ascending() ) );
- }
-
- public List<TypeDto> listTypes () {
-  List<String> types = schoolDb.findAll().stream()
-                               .map( school -> school.getType() )
-                               .collect( Collectors.toList() );
-  List<String> uniqueTypes = new ArrayList<>( new HashSet<>( types ) );
-  return uniqueTypes.stream()
-                 .map( type -> TypeDto.builder().name( type ).count( Collections.frequency( types, type ) ).build() )
-                 .collect( Collectors.toList() );
  }
 
  public Page<School> listSchoolsByType (String type, int page, int size, String sort, String direction) {
