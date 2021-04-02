@@ -6,16 +6,12 @@ export const listSchools = (queryString) => axiosConfig.instance
   .get(`${SCHOOL_API_BASE_URL}${queryString}`)
   .then((response) => response.data);
 
-export const listTypes = () => axiosConfig.instance
-  .get(`${SCHOOL_API_BASE_URL}/type`)
-  .then((response) => response.data);
-
 export const getSchoolByNumber = (number) => axiosConfig.instance
   .get(`${SCHOOL_API_BASE_URL}/number/${number}`)
   .then((response) => response.data);
 
-export const getSchoolsByType = (queryString) => axiosConfig.instance
-  .get(`${SCHOOL_API_BASE_URL}/type/${queryString}`)
+export const getSchoolsByType = (type, queryString) => axiosConfig.instance
+  .get(`${SCHOOL_API_BASE_URL}/type/${type}${queryString}`)
   .then((response) => response.data);
 
 export const addSchool = (school) => axiosConfig.instance

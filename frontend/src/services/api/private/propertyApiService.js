@@ -2,7 +2,7 @@ import axiosConfig from '../../../config/axiosConfig';
 
 const PROPS_API_BASE_URL = '/auth/v1/property';
 
-export const listPropertes = () => axiosConfig.instance
+export const listProperties = () => axiosConfig.instance
   .get(PROPS_API_BASE_URL)
   .then((response) => response.data);
 
