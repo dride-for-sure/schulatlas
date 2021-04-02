@@ -1,12 +1,14 @@
-import { string } from 'prop-types';
+import { bool, string } from 'prop-types';
 import styled, { css } from 'styled-components/macro';
 
-const HeadlineWithSubtitle = ({ title, subtitle, size }) => (
-  <>
+const HeadlineWithSubtitle = ({ title, subtitle, size, margin }) => (
+  <Container>
     <Title size={size}>{title}</Title>
-    <Subtitle size={size}>{subtitle}</Subtitle>
-  </>
+    <Subtitle size={size} margin={margin}>{subtitle}</Subtitle>
+  </Container>
 );
+
+const Container = styled.div``;
 
 const Title = styled.h2`
   font-family: var(--font-family-title);
@@ -24,17 +26,20 @@ const Subtitle = styled.span`
   font-size: var(--font-size-subtitle-m);
   font-style: var(--font-style-subtitle);
 
+  ${(props) => props.margin === false && css`
+    margin: var(--margin-subtitle);
+  `}
+  
   ${(props) => props.size === 'l' && css`
     font-size: var(--font-size-subtitle-l);
   `}
-
-  margin: var(--margin-subtitle);
 `;
 
 HeadlineWithSubtitle.propTypes = {
   title: string.isRequired,
   subtitle: string.isRequired,
   size: string,
+  margin: bool,
 };
 
 export default HeadlineWithSubtitle;
