@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 
-const GridForm = styled.form`
+const GridEdit = styled.div`
   display:grid;
   grid-template-columns: minmax(auto, 6rem) 1fr;
   grid-template-rows: repeat();
@@ -29,9 +29,10 @@ const GridForm = styled.form`
     grid-column: 1 / span 1;
   }
 
-  > div:last-of-type {
-    grid-column: 2 / span 1;
+  > div:last-of-type,
+  > button:last-of-type {
+   justify-self: end;
   }
 `;
 
-export default GridForm;
+export default GridEdit;
