@@ -11,6 +11,28 @@ export const getAssemblyVariants = (type) => {
   }
 };
 
+export const getSchoolTemplate = () => ({
+  number: 'new-school',
+  newSchool: true,
+  name: 'New School',
+  address: {
+    street: '',
+    number: '',
+    postcode: '',
+    city: '',
+  },
+  contact: {
+    phone: '',
+    email: '',
+    url: '',
+  },
+  image: '',
+  type: '',
+  updated: Date.now(),
+  userId: '',
+  properties: [],
+});
+
 export const getPageTemplate = (name) => {
   switch (name) {
     case 'highlights':
