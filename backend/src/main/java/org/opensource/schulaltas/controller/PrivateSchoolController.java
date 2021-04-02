@@ -1,15 +1,12 @@
 package org.opensource.schulaltas.controller;
 
 import org.opensource.schulaltas.controller.model.SchoolDto;
-import org.opensource.schulaltas.controller.model.TypeDto;
 import org.opensource.schulaltas.model.school.School;
 import org.opensource.schulaltas.service.SchoolService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
 
 @RestController
 @RequestMapping ("/auth/v1/school")
@@ -28,11 +25,6 @@ public class PrivateSchoolController {
          @RequestParam (defaultValue = "number") String sort,
          @RequestParam (defaultValue = "asc") String direction) {
   return schoolService.listSchools( page, size, sort, direction );
- }
-
- @GetMapping ("/type")
- public List<TypeDto> listTypes () {
-  return schoolService.listTypes();
  }
 
  @GetMapping ("/type/{type}")

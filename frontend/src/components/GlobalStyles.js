@@ -28,7 +28,7 @@ const GlobalStyle = createGlobalStyle`
   --font-family-subtitle: 'Source Serif Pro', serif;
   --font-style-subtitle: italic;
   --font-size-subtitle-m: .8rem;
-  --font-size-subtitle-l: 1.5rem;
+  --font-size-subtitle-l: 1rem;
   --margin-subtitle: 0 0 1.5rem;
 
   /* Navigation */

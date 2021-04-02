@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.opensource.schulaltas.controller.model.SchoolDto;
-import org.opensource.schulaltas.controller.model.TypeDto;
 import org.opensource.schulaltas.model.school.*;
 import org.opensource.schulaltas.repository.AvailablePropertyDb;
 import org.opensource.schulaltas.repository.SchoolDb;
@@ -27,7 +26,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.arrayContainingInAnyOrder;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -151,23 +149,6 @@ class PrivateSchoolControllerTest {
   // THEN
   assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
   assertThat( response.getBody().getContent(), is( List.of( getSchool( "2" ), getSchool( "1" ) ) ) );
- }
-
- @Test
- @DisplayName ("List types should return all types existing within the schoolDb")
- void listTypes () {
-  // WHEN
-  HttpHeaders headers = new HttpHeaders();
-  headers.setBearerAuth( getJWTToken() );
-  HttpEntity<Void> entity = new HttpEntity<>( headers );
-  ResponseEntity<TypeDto[]> response = testRestTemplate.exchange(
-          getUrl() + "/auth/v1/school/type", HttpMethod.GET, entity, TypeDto[].class );
-
-  // THEN
-  assertThat( response.getStatusCode(), is( HttpStatus.OK ) );
-  assertThat( response.getBody(), arrayContainingInAnyOrder(
-          TypeDto.builder().name( "A" ).count( 2 ).build()
-  ) );
  }
 
  @Test

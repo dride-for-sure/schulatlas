@@ -3,7 +3,6 @@ package org.opensource.schulaltas.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.opensource.schulaltas.controller.model.SchoolDto;
-import org.opensource.schulaltas.controller.model.TypeDto;
 import org.opensource.schulaltas.model.school.*;
 import org.opensource.schulaltas.repository.SchoolDb;
 import org.springframework.data.domain.Page;
@@ -67,25 +66,6 @@ class SchoolServiceTest {
 
   // THEN
   assertThat( actual.getContent(), is( List.of( getSchool( "2" ) ) ) );
- }
-
- @Test
- @DisplayName ("List types should filter all schools for unique types")
- void listTypes () {
-  // GIVEN
-  when( schoolDb.findAll() ).thenReturn( List.of(
-          getSchool( "A" ).toBuilder().type( "A" ).build(),
-          getSchool( "B" ).toBuilder().type( "B" ).build(),
-          getSchool( "C" ).toBuilder().type( "A" ).build() ) );
-
-  // WHEN
-  List<TypeDto> actual = schoolService.listTypes();
-
-  // THEN
-  assertThat( actual, is( List.of(
-          TypeDto.builder().name( "A" ).count( 2 ).build(),
-          TypeDto.builder().name( "B" ).count( 1 ).build()
-  ) ) );
  }
 
  @Test

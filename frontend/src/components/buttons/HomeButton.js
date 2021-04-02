@@ -13,7 +13,7 @@ export default function HomeButton({ inactive, onClick }) {
 
 const Button = styled.button`
   ${EnvelopeButton}
-  margin-left: .3rem;
+  margin-right: .4rem;
 
   :hover {
     opacity: 1;

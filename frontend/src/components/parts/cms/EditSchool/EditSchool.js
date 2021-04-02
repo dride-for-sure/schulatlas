@@ -1,78 +1,93 @@
-import { func, object } from 'prop-types';
-import { useEffect, useState } from 'react';
+import { array, func, object } from 'prop-types';
+import styled from 'styled-components';
 import { prettifySlug } from '../../../../common/slug';
-import { addAttachment } from '../../../../services/api/private/attachmentApiService';
-import GridForm from '../../../grid/cms/GridForm';
-import Headline from '../../../headlines/Headline';
+import convertTimeStampToDate from '../../../../common/timeStamp';
+import BrandButton from '../../../buttons/BrandButton';
+import GridEdit from '../../../grid/cms/GridEdit';
+import HeadlineWithSubtitle from '../../../headlines/HeadlineWithSubtitle';
 import Loading from '../../../loading/Loading';
-import SaveDelete from '../EditPage/SaveDelete';
+import FlexColumnStart from '../../../structures/_FlexColumnStart';
+import SchoolAddress from './SchoolAddress';
+import SchoolContact from './SchoolContact.js';
 import SchoolImage from './SchoolImage';
+import SchoolNumber from './SchoolNumber';
 import SchoolProperty from './SchoolProperty';
-import SchoolSummary from './SchoolSummary';
+import SchoolType from './SchoolTypes';
 
-export default function EditSchool({ school, saveSchool, deleteSchool }) {
-  const [tmpSchool, setTmpSchool] = useState();
-
-  const submit = (event) => {
-    event.preventDefault();
-    if (tmpSchool) { saveSchool(tmpSchool); }
-  };
-
-  const updateProperty = (name, value) => {
-    if (tmpSchool[name]) {
-      setTmpSchool({ ...tmpSchool, [name]: value });
-    } else {
-      const updatedProperties = tmpSchool.properties.map((property) =>
-        (property.name === name ? { ...property, value } : property));
-      setTmpSchool({ ...tmpSchool, properties: updatedProperties });
-    }
-  };
-
-  const handlePropertyChange = (event) => {
-    updateProperty(event.target.id, event.target.value);
-  };
-
-  const handleFileUpload = (event) => {
-    addAttachment(event.target.files[0])
-      .then((response) => updateProperty('image', response.url))
-      .catch((error) => console.error(error));
-  };
-
-  const handleFileDelete = (id) => {
-    updateProperty(id, 'url', '');
-  };
-
-  useEffect(() => {
-    if (school) {
-      setTmpSchool(school);
-    }
-  }, [school]);
-
+export default function EditSchool({
+  tmpSchool,
+  availableTypes,
+  availableProperties,
+  onChange,
+  onAddProperty,
+  onDeleteProperty,
+  onSchoolDelete,
+  onFileUpload,
+  onFileDelete }) {
   if (!tmpSchool) {
     return <Loading />;
   }
 
   return (
-    <GridForm onSubmit={submit}>
-      <Headline size="l">{prettifySlug(tmpSchool.name)}</Headline>
-      <SchoolSummary school={school} />
+    <GridEdit>
+      <HeadlineWithSubtitle
+        size="l"
+        title={prettifySlug(tmpSchool.name)}
+        subtitle={`Updated: ${convertTimeStampToDate(tmpSchool.updated)}, MarkOutdated: ${tmpSchool.markedOutdated}`}
+        />
+      <SchoolNumber
+        school={tmpSchool}
+        onChange={onChange} />
+      <SchoolType
+        school={tmpSchool}
+        availableTypes={availableTypes}
+        onChange={onChange} />
+      <SchoolAddress
+        address={tmpSchool.address}
+        onChange={onChange} />
+      <SchoolContact
+        contact={tmpSchool.contact}
+        onChange={onChange} />
       <SchoolImage
         imageUrl={tmpSchool.image}
-        onFileUpload={handleFileUpload}
-        onFileDelete={handleFileDelete} />
+        onFileUpload={onFileUpload}
+        onFileDelete={onFileDelete} />
       {tmpSchool.properties.map((property) => (
         <SchoolProperty
           key={property.name}
+          availableProperties={availableProperties}
+          onDeleteProperty={onDeleteProperty}
           property={property}
-          onChange={handlePropertyChange} />
+          onChange={onChange} />
       ))}
-      <SaveDelete onDelete={() => deleteSchool(tmpSchool.number)} />
-    </GridForm>
+      <BottomButtons>
+        <BrandButton onClick={onAddProperty}>Add Property</BrandButton>
+        <BrandButton variant="monochrome" onClick={() => onSchoolDelete(tmpSchool.number)}>Delete School</BrandButton>
+      </BottomButtons>
+    </GridEdit>
   );
 }
 
+const BottomButtons = styled.div`
+  ${FlexColumnStart};
+
+  > button {
+    margin: 0;
+
+    + button {
+      margin-top: var(--container-padding);
+    }
+  }
+`;
+
 EditSchool.propTypes = {
-  school: object.isRequired,
-  saveSchool: func.isRequired,
-  deleteSchool: func.isRequired,
+  tmpSchool: object.isRequired,
+  availableTypes: array.isRequired,
+  availableProperties: array.isRequired,
+  onAddProperty: func.isRequired,
+  onDeleteProperty: func.isRequired,
+  onChange: func.isRequired,
+  onSchoolDelete: func.isRequired,
+  onFileUpload: func.isRequired,
+  onFileDelete: func.isRequired,
 };
