@@ -8,6 +8,7 @@ import Loading from '../../../loading/Loading';
 import SchoolAddress from './SchoolAddress';
 import SchoolContact from './SchoolContact.js';
 import SchoolImage from './SchoolImage';
+import SchoolName from './SchoolName';
 import SchoolNumber from './SchoolNumber';
 import SchoolProperty from './SchoolProperty';
 import SchoolType from './SchoolTypes';
@@ -33,6 +34,9 @@ export default function EditSchool({
         title={prettifySlug(school.name)}
         subtitle={`Updated on ${convertTimeStampToDate(school.updated)} by ${school.userId}, MarkOutdated: ${school.markedOutdated}`}
         />
+      <SchoolName
+        school={school}
+        onChange={onChange} />
       <SchoolNumber
         school={school}
         onChange={onChange} />
