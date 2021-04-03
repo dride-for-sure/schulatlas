@@ -1,12 +1,10 @@
 import { array, func, object } from 'prop-types';
-import styled from 'styled-components';
 import { prettifySlug } from '../../../../common/slug';
 import convertTimeStampToDate from '../../../../common/timeStamp';
 import BrandButton from '../../../buttons/BrandButton';
 import GridEdit from '../../../grid/cms/GridEdit';
 import HeadlineWithSubtitle from '../../../headlines/HeadlineWithSubtitle';
 import Loading from '../../../loading/Loading';
-import FlexColumnStart from '../../../structures/_FlexColumnStart';
 import SchoolAddress from './SchoolAddress';
 import SchoolContact from './SchoolContact.js';
 import SchoolImage from './SchoolImage';
@@ -60,25 +58,11 @@ export default function EditSchool({
           property={property}
           onChange={onChange} />
       ))}
-      <BottomButtons>
-        <BrandButton onClick={onAddProperty}>Add Property</BrandButton>
-        <BrandButton variant="monochrome" onClick={() => onSchoolDelete(school.number)}>Delete School</BrandButton>
-      </BottomButtons>
+      <BrandButton onClick={onAddProperty}>Add Property</BrandButton>
+      <BrandButton variant="monochrome" onClick={() => onSchoolDelete(school.number)}>Delete School</BrandButton>
     </GridEdit>
   );
 }
-
-const BottomButtons = styled.div`
-  ${FlexColumnStart};
-
-  > button {
-    margin: 0;
-
-    + button {
-      margin-top: var(--container-padding);
-    }
-  }
-`;
 
 EditSchool.propTypes = {
   school: object.isRequired,
