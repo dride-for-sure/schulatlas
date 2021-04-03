@@ -19,7 +19,6 @@ import { addPage, deletePageBySlug, getPageBySlug, listPages, setLandingPageBySl
 export default function PageDetails() {
   const [page, setPage] = useState('');
   const [pages, setPages] = useState('');
-  const [newPage, setNewPage] = useState('');
   const [timer, setTimer] = useState('');
   const [currentSlug, setCurrentSlug] = useState('');
   const pageRef = useRef(page);
@@ -60,7 +59,7 @@ export default function PageDetails() {
   const handleSave = () => {
     const save = () => {
       const pageToSave = pageRef.current;
-      if (pageToSave.newPage) {
+      if (pageToSave.newPage && pageToSave.slug) {
         const clearedPage = {
           slug: pageToSave.slug,
           updated: pageToSave.updated,
@@ -69,6 +68,8 @@ export default function PageDetails() {
           assemblies: pageToSave.assemblies };
         addPage(clearedPage)
           .then(setPage)
+          .then(getPageList())
+          .then(setCurrentSlug(clearedPage.slug))
           .catch((error) => console.log(error));
       } else if (pageToSave.slug) {
         updatePage(pageToSave, currentSlug)
@@ -102,7 +103,7 @@ export default function PageDetails() {
   const addNewPage = (template) => {
     const pageFromTemplate = getPageTemplate(template);
     const randomIndex = Math.floor(Math.random() * 1000);
-    setNewPage({ ...pageFromTemplate, slug: `${pageFromTemplate.slug}-${randomIndex}` });
+    setPage(addIndicesToNestedData({ ...pageFromTemplate, slug: `${pageFromTemplate.slug}-${randomIndex}` }));
   };
 
   const uploadFile = (id, event) =>
@@ -117,12 +118,6 @@ export default function PageDetails() {
   useEffect(() => {
     pageRef.current = page;
   }, [page]);
-
-  useEffect(() => {
-    if (newPage) {
-      setPage(addIndicesToNestedData(newPage));
-    }
-  }, [newPage]);
 
   useEffect(() => {
     handleParamsUpdate();
@@ -143,7 +138,7 @@ export default function PageDetails() {
             onAddPage={addNewPage}
             setLandingPage={setLandingPage} />
           )}
-          {(page || newPage) && (
+          {page && (
             <EditPage
               page={page}
               pages={pages}
