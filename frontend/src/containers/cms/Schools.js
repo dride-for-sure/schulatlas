@@ -7,11 +7,11 @@ import { addIndicesToNestedData, deleteNestedData, updateNestedData } from '../.
 import removeUsedProperties from '../../common/properties';
 import { getBackendQueryString, getQueryStringForPaginate, getQueryStringForToggleSort, getSearchParams } from '../../common/searchParams';
 import { removeTypeless } from '../../common/types';
-import GridSideBar from '../../components/grid/cms/GridSideBar';
 import Header from '../../components/header/cms/Header';
 import SchoolList from '../../components/lists/cms/school/SchoolList';
 import EditSchool from '../../components/parts/cms/EditSchool/EditSchool';
 import SideBar from '../../components/parts/cms/SideBar';
+import GridSideBar from '../../components/structures/GridSideBar';
 import FlexRowCenter from '../../components/structures/_FlexRowCenter';
 import { getSchoolTemplate } from '../../config/schulatlasConfig';
 import { useAuth } from '../../contexts/AuthProvider';
@@ -110,8 +110,13 @@ export default function SchoolsOverview() {
           .then(setTimeout(getUsedTypes, 1000))
           .catch((error) => console.log(error));
       } else if (schoolToSave.newSchool) {
-        addSchool(schoolToSave)
+        const clearedSchool = {
+          ...schoolToSave,
+          newSchool: false,
+        };
+        addSchool(clearedSchool)
           .then(setTimeout(getUsedTypes, 1000))
+          .then(setSchool(clearedSchool))
           .catch((error) => console.log(error));
       } else {
         updateSchool(schoolToSave, schoolToSave.number)

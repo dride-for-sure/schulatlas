@@ -6,10 +6,10 @@ import debounce from '../../common/debounceChanges';
 import { addIndicesToNestedData, updateNestedData } from '../../common/indexData';
 import { escapeSlug } from '../../common/slug';
 import sortPages from '../../common/sortPages';
-import GridSideBar from '../../components/grid/cms/GridSideBar';
 import Header from '../../components/header/cms/Header';
 import EditPage from '../../components/parts/cms/EditPage/EditPage';
 import SideBar from '../../components/parts/cms/SideBar';
+import GridSideBar from '../../components/structures/GridSideBar';
 import FlexRowCenter from '../../components/structures/_FlexRowCenter';
 import { getPageTemplate } from '../../config/schulatlasConfig';
 import { useAuth } from '../../contexts/AuthProvider';
@@ -68,6 +68,7 @@ export default function PageDetails() {
           assemblies: pageToSave.assemblies };
         addPage(clearedPage)
           .then(setCurrentSlug(clearedPage.slug))
+          .then(setPage(clearedPage))
           .then(setTimeout(getPageList, 1000))
           .catch((error) => console.log(error));
       } else if (pageToSave.slug) {

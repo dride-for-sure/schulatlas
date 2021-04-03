@@ -12,6 +12,14 @@ const Input = styled.input`
   height: fit-content;
   min-height: 32px;
   box-sizing: border-box;
+  
+  &[type=number]::-webkit-inner-spin-button,
+  &[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
 `;
 
 export default Input;

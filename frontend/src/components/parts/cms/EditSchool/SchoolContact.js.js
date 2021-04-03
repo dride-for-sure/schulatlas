@@ -1,7 +1,7 @@
 import { func, object } from 'prop-types';
 import Input from '../../../form/Input';
 import Label from '../../../form/Label';
-import GridTwoOne from '../../../grid/cms/GridTwoOne';
+import GridTwoOne from '../../../structures/GridTwoOne';
 
 export default function SchoolContact({ contact, onChange }) {
   return (
@@ -18,14 +18,14 @@ export default function SchoolContact({ contact, onChange }) {
         <Input
           align="left"
           id="email"
-          type="text"
+          type="email"
           placeholder="Please enter an email"
           value={contact.email}
           onChange={(event) => onChange(contact.id, { email: event.target.value })} />
         <Input
           align="left"
           id="url"
-          type="text"
+          type="url"
           placeholder="Please enter an url"
           value={contact.url}
           onChange={(event) => onChange(contact.id, { url: event.target.value })} />

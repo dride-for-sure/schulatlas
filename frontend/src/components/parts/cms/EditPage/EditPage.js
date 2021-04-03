@@ -3,9 +3,9 @@ import { prettifySlug } from '../../../../common/slug';
 import convertTimeStampToDate from '../../../../common/timeStamp';
 import Slug from '../../../assemblies/Slug';
 import BrandButton from '../../../buttons/BrandButton';
-import GridEdit from '../../../grid/cms/GridEdit';
 import HeadlineWithSubtitle from '../../../headlines/HeadlineWithSubtitle';
 import Loading from '../../../loading/Loading';
+import GridEdit from '../../../structures/GridEdit';
 import Assembly from './Assembly';
 
 export default function EditPage({

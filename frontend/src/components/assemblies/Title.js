@@ -1,13 +1,12 @@
-import { func, object, string } from 'prop-types';
+import { func, object } from 'prop-types';
 import Input from '../form/Input';
 import Label from '../form/Label';
 
-export default function Title({ id, component, onChange }) {
+export default function Title({ component, onChange }) {
   return (
     <>
-      <Label key={`${id}-1`}>{component.type === 'title' ? 'title' : 'subtitle'}</Label>
+      <Label>{component.type === 'title' ? 'title' : 'subtitle'}</Label>
       <Input
-        key={`${id}-2`}
         align="left"
         id="content"
         type="text"
@@ -19,7 +18,6 @@ export default function Title({ id, component, onChange }) {
 }
 
 Title.propTypes = {
-  id: string.isRequired,
   component: object.isRequired,
   onChange: func.isRequired,
 };

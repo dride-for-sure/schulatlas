@@ -1,17 +1,17 @@
-import { func, object, string } from 'prop-types';
+import { func, object } from 'prop-types';
 import styled from 'styled-components/macro';
 import BrandButton from '../buttons/BrandButton';
 import BrandButtonAsSpan from '../buttons/BrandButtonAsSpan';
 import Input from '../form/Input';
 import Label from '../form/Label';
-import GridTwoOne from '../grid/cms/GridTwoOne';
 import CustomImage from '../image/Image';
+import GridTwoOne from '../structures/GridTwoOne';
 
-export default function Image({ id, component, onChange, onFileDelete, onFileUpload }) {
+export default function Image({ component, onChange, onFileDelete, onFileUpload }) {
   return (
     <>
-      <Label key={`${id}-1`}>{component.type}</Label>
-      <GridTwoOne key={`${id}-2`}>
+      <Label>{component.type}</Label>
+      <GridTwoOne>
         <ColumnLeft>
           {component.url && <CustomImage src={component.url} alt="" />}
           <Input
@@ -65,7 +65,6 @@ const ColumnRight = styled.div`
 `;
 
 Image.propTypes = {
-  id: string.isRequired,
   component: object.isRequired,
   onChange: func.isRequired,
   onFileDelete: func.isRequired,

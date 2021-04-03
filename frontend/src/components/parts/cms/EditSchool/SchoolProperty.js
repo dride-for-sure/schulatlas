@@ -3,7 +3,7 @@ import DeleteButton from '../../../buttons/DeleteButton';
 import Input from '../../../form/Input';
 import Label from '../../../form/Label';
 import Select from '../../../form/Select';
-import GridMaxOne from '../../../grid/cms/GridMaxOne';
+import GridMaxOne from '../../../structures/GridMaxOne';
 
 export default function SchoolProperty({
   property,

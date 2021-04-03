@@ -1,13 +1,12 @@
-import { func, object, string } from 'prop-types';
+import { func, object } from 'prop-types';
 import Label from '../form/Label';
 import Textarea from '../form/Textarea';
 
-export default function Paragraph({ id, component, onChange }) {
+export default function Paragraph({ component, onChange }) {
   return (
     <>
-      <Label key={`${id}-1`}>{component.type}</Label>
+      <Label>{component.type}</Label>
       <Textarea
-        key={`${id}-2`}
         id="content"
         placeholder="Add some content..."
         value={component.content || ''}
@@ -17,7 +16,6 @@ export default function Paragraph({ id, component, onChange }) {
 }
 
 Paragraph.propTypes = {
-  id: string.isRequired,
   component: object.isRequired,
   onChange: func.isRequired,
 };

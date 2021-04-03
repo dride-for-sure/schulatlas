@@ -1,6 +1,6 @@
 import { func, object, string } from 'prop-types';
-import GridSchoolList from '../../../grid/cms/GridSchoolList';
 import Headline from '../../../headlines/Headline';
+import GridSchoolList from '../../../structures/GridSchoolList';
 import Pagination from './Pagination';
 import SchoolListHeader from './SchoolListHeader';
 import SchoolListItem from './SchoolListItem';

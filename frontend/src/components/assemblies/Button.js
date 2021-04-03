@@ -1,15 +1,15 @@
-import { array, func, object, string } from 'prop-types';
+import { array, func, object } from 'prop-types';
 import { prettifySlug } from '../../common/slug';
 import Input from '../form/Input';
 import Label from '../form/Label';
 import Select from '../form/Select';
-import GridTwoOne from '../grid/cms/GridTwoOne';
+import GridTwoOne from '../structures/GridTwoOne';
 
-export default function Button({ id, component, onChange, pages }) {
+export default function Button({ component, onChange, pages }) {
   return (
     <>
-      <Label key={`${id}-1`}>{component.type}</Label>
-      <GridTwoOne key={`${id}-2`}>
+      <Label>{component.type}</Label>
+      <GridTwoOne>
         <Input
           align="left"
           id="content"
@@ -31,7 +31,6 @@ export default function Button({ id, component, onChange, pages }) {
 }
 
 Button.propTypes = {
-  id: string.isRequired,
   component: object.isRequired,
   onChange: func.isRequired,
   pages: array.isRequired,

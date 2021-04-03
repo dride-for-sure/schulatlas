@@ -16,14 +16,14 @@ export default function Assembly({ assembly, onChange, onFileUpload, onFileDelet
       case 'subtitle':
         return (
           <Title
-            id={`${id}-${component.type}`}
+            key={`${id}-${component.type}`}
             component={component}
             onChange={(event) => onChange(id, { [event.target.id]: event.target.value })} />
         );
       case 'button':
         return (
           <Button
-            id={id}
+            key={id}
             component={component}
             pages={pages}
             onChange={(event) => onChange(id, { [event.target.id]: event.target.value })} />
@@ -31,14 +31,14 @@ export default function Assembly({ assembly, onChange, onFileUpload, onFileDelet
       case 'paragraph':
         return (
           <Paragraph
-            id={id}
+            key={id}
             component={component}
             onChange={(event) => onChange(id, { [event.target.id]: event.target.value })} />
         );
       case 'image':
         return (
           <Image
-            id={id}
+            key={id}
             component={component}
             onFileDelete={onFileDelete}
             onFileUpload={(event) => onFileUpload(id, event)}
@@ -47,7 +47,7 @@ export default function Assembly({ assembly, onChange, onFileUpload, onFileDelet
       case 'card':
         return (
           <Card
-            id={id}
+            key={id}
             component={component}
             pages={pages}
             onChange={(event) => onChange(id, { [event.target.id]: event.target.value })} />
