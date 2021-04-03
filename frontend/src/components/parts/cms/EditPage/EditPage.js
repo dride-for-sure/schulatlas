@@ -19,7 +19,6 @@ export default function EditPage({
   if (!page) {
     return <Loading />;
   }
-  console.log(page);
   return (
     <GridEdit>
       <HeadlineWithSubtitle
