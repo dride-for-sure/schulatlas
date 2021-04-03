@@ -26,7 +26,7 @@ const AlignRight = styled.div`
   text-align: right;
 
   > button + button {
-    margin: 0.3rem;
+    margin-left: 1rem;
   }
 `;
 
