@@ -1,13 +1,14 @@
-import { array, func, object } from 'prop-types';
+import { array, func, object, string } from 'prop-types';
 import { prettifySlug } from '../../common/slug';
 import Label from '../form/Label';
 import Select from '../form/Select';
 
-export default function Card({ component, pages, onChange }) {
+export default function Card({ id, component, pages, onChange }) {
   return (
     <>
-      <Label>{component.type}</Label>
+      <Label key={`${id}-1`}>{component.type}</Label>
       <Select
+        key={`${id}-2`}
         id="target"
         value={component.target || 'default'}
         onChange={onChange}>
@@ -20,6 +21,7 @@ export default function Card({ component, pages, onChange }) {
 }
 
 Card.propTypes = {
+  id: string.isRequired,
   component: object.isRequired,
   pages: array.isRequired,
   onChange: func.isRequired,

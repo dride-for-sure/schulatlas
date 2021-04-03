@@ -10,20 +10,21 @@ import Headline from '../../../headlines/Headline';
 
 export default function Assembly({ assembly, onChange, onFileUpload, onFileDelete, pages }) {
   const getComponentForm = (component) => {
+    console.log(component);
     const { id } = component;
     switch (component.type) {
       case 'title':
       case 'subtitle':
         return (
           <Title
-            key={id}
+            id={`${id}-${component.type}`}
             component={component}
             onChange={(event) => onChange(id, { [event.target.id]: event.target.value })} />
         );
       case 'button':
         return (
           <Button
-            key={id}
+            id={id}
             component={component}
             pages={pages}
             onChange={(event) => onChange(id, { [event.target.id]: event.target.value })} />
@@ -31,14 +32,14 @@ export default function Assembly({ assembly, onChange, onFileUpload, onFileDelet
       case 'paragraph':
         return (
           <Paragraph
-            key={id}
+            id={id}
             component={component}
             onChange={(event) => onChange(id, { [event.target.id]: event.target.value })} />
         );
       case 'image':
         return (
           <Image
-            key={id}
+            id={id}
             component={component}
             onFileDelete={onFileDelete}
             onFileUpload={(event) => onFileUpload(id, event)}
@@ -47,7 +48,7 @@ export default function Assembly({ assembly, onChange, onFileUpload, onFileDelet
       case 'card':
         return (
           <Card
-            key={id}
+            id={id}
             component={component}
             pages={pages}
             onChange={(event) => onChange(id, { [event.target.id]: event.target.value })} />
