@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -17,11 +18,16 @@ import java.util.List;
 public class School {
 
  @Id
+ @Indexed
  private String number;
+ @Indexed
  private String name;
+ @Indexed
  private Address address;
+ @Indexed
  private Contact contact;
  private String image;
+ @Indexed
  private String type;
  private Coordinates coordinates;
  private Long updated;
