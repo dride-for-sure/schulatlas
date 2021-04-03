@@ -8,24 +8,24 @@ import Loading from '../../../loading/Loading';
 import Assembly from './Assembly';
 
 export default function EditPage({
-  tmpPage,
+  page,
   pages,
   onChange,
   onUpdateSlug,
   onDeletePage,
   onUploadFile,
   onDeleteFile }) {
-  if (!tmpPage) {
+  if (!page) {
     return <Loading />;
   }
 
   return (
     <GridEdit>
-      <Headline size="l">{prettifySlug(tmpPage.slug)}</Headline>
+      <Headline size="l">{prettifySlug(page.slug)}</Headline>
       <Slug
-        slug={tmpPage.slug}
+        slug={page.slug}
         onChange={onUpdateSlug} />
-      {tmpPage.assemblies.map((assembly) => (
+      {page.assemblies.map((assembly) => (
         <Assembly
           key={assembly.id}
           assembly={assembly}
@@ -40,7 +40,7 @@ export default function EditPage({
 }
 
 EditPage.propTypes = {
-  tmpPage: object.isRequired,
+  page: object.isRequired,
   onChange: func.isRequired,
   pages: array.isRequired,
   onUpdateSlug: func.isRequired,

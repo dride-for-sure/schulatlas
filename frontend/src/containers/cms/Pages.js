@@ -18,11 +18,11 @@ import { addPage, deletePageBySlug, getPageBySlug, listPages, setLandingPageBySl
 
 export default function PageDetails() {
   const [page, setPage] = useState('');
-  const [tmpPage, setTmpPage] = useState('');
   const [pages, setPages] = useState('');
   const [newPage, setNewPage] = useState('');
   const [timer, setTimer] = useState('');
-  const tmpPageRef = useRef(tmpPage);
+  const [currentSlug, setCurrentSlug] = useState('');
+  const pageRef = useRef(page);
   const history = useHistory();
   const { slug } = useParams();
   const { token } = useAuth();
@@ -42,7 +42,8 @@ export default function PageDetails() {
   const handleParamsUpdate = () => {
     if (slug) {
       getPageBySlug(slug)
-        .then(setPage)
+        .then((incomingPage) => setPage(addIndicesToNestedData(incomingPage)))
+        .then(setCurrentSlug(slug))
         .catch((error) => console.log(error));
     } else {
       setPage('');
@@ -50,16 +51,15 @@ export default function PageDetails() {
   };
 
   const handleDelete = () => {
-    deletePageBySlug(page.slug);
+    deletePageBySlug(slug);
     setPage('');
-    setTmpPage('');
     getPageList();
     history.push('/cms/pages');
   };
 
   const handleSave = () => {
     const save = () => {
-      const pageToSave = tmpPageRef.current;
+      const pageToSave = pageRef.current;
       if (pageToSave.newPage) {
         const clearedPage = {
           slug: pageToSave.slug,
@@ -70,9 +70,11 @@ export default function PageDetails() {
         addPage(clearedPage)
           .then(setPage)
           .catch((error) => console.log(error));
-      } else {
-        updatePage(pageToSave, page.slug)
+      } else if (pageToSave.slug) {
+        updatePage(pageToSave, currentSlug)
           .then(setPage)
+          .then(getPageList())
+          .then(setCurrentSlug(pageToSave.slug))
           .catch((error) => console.log(error));
       }
     };
@@ -81,19 +83,19 @@ export default function PageDetails() {
 
   const updateEntry = (id, entry) => {
     const user = decode(token);
-    const updatedTmpPage = {
-      ...updateNestedData(tmpPage, id, entry),
+    const updatedPage = {
+      ...updateNestedData(page, id, entry),
       updated: Date.now(),
       userId: user.sub };
-    setTmpPage(updatedTmpPage);
+    setPage(updatedPage);
     handleSave();
   };
 
   const updateSlug = (event) => {
     const escapedSlug = escapeSlug(event.target.value);
     const user = decode(token);
-    const updatedTmpPage = { ...tmpPage, updated: Date.now(), userId: user.sub, slug: escapedSlug };
-    setTmpPage(updatedTmpPage);
+    const updatedPage = { ...page, updated: Date.now(), userId: user.sub, slug: escapedSlug };
+    setPage(updatedPage);
     handleSave();
   };
 
@@ -113,19 +115,12 @@ export default function PageDetails() {
   };
 
   useEffect(() => {
-    tmpPageRef.current = tmpPage;
-  }, [tmpPage]);
-
-  useEffect(() => {
-    getPageList();
-    if (page) {
-      setTmpPage(addIndicesToNestedData(page));
-    }
+    pageRef.current = page;
   }, [page]);
 
   useEffect(() => {
     if (newPage) {
-      setTmpPage(addIndicesToNestedData(newPage));
+      setPage(addIndicesToNestedData(newPage));
     }
   }, [newPage]);
 
@@ -148,9 +143,9 @@ export default function PageDetails() {
             onAddPage={addNewPage}
             setLandingPage={setLandingPage} />
           )}
-          {(tmpPage || newPage) && (
+          {(page || newPage) && (
             <EditPage
-              tmpPage={tmpPage}
+              page={page}
               pages={pages}
               onChange={updateEntry}
               onUpdateSlug={updateSlug}
