@@ -1,9 +1,10 @@
 import { array, func, object } from 'prop-types';
 import { prettifySlug } from '../../../../common/slug';
+import convertTimeStampToDate from '../../../../common/timeStamp';
 import Slug from '../../../assemblies/Slug';
 import BrandButton from '../../../buttons/BrandButton';
 import GridEdit from '../../../grid/cms/GridEdit';
-import Headline from '../../../headlines/Headline';
+import HeadlineWithSubtitle from '../../../headlines/HeadlineWithSubtitle';
 import Loading from '../../../loading/Loading';
 import Assembly from './Assembly';
 
@@ -18,10 +19,13 @@ export default function EditPage({
   if (!page) {
     return <Loading />;
   }
-
+  console.log(page);
   return (
     <GridEdit>
-      <Headline size="l">{prettifySlug(page.slug)}</Headline>
+      <HeadlineWithSubtitle
+        size="l"
+        title={prettifySlug(page.slug)}
+        subtitle={`Updated on ${convertTimeStampToDate(page.updated)} by ${page.userId}`} />
       <Slug
         slug={page.slug}
         onChange={onUpdateSlug} />

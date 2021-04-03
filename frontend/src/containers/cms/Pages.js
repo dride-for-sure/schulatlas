@@ -67,15 +67,13 @@ export default function PageDetails() {
           landingPage: false,
           assemblies: pageToSave.assemblies };
         addPage(clearedPage)
-          .then(setPage)
-          .then(getPageList())
           .then(setCurrentSlug(clearedPage.slug))
+          .then(setTimeout(getPageList, 1000))
           .catch((error) => console.log(error));
       } else if (pageToSave.slug) {
         updatePage(pageToSave, currentSlug)
-          .then(setPage)
-          .then(getPageList())
           .then(setCurrentSlug(pageToSave.slug))
+          .then(setTimeout(getPageList, 1000))
           .catch((error) => console.log(error));
       }
     };

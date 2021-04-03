@@ -26,11 +26,9 @@ export default function SchoolsOverview() {
   const [availableProperties, setAvailableProperties] = useState('');
   const [schools, setSchools] = useState('');
   const [school, setSchool] = useState('');
-  const [newSchool, setNewSchool] = useState('');
-  const [tmpSchool, setTmpSchool] = useState();
   const [timer, setTimer] = useState('');
   const history = useHistory();
-  const tmpSchoolRef = useRef(tmpSchool);
+  const schoolRef = useRef(school);
   const { type, number } = useParams();
   const { search } = useLocation();
   const { token } = useAuth();
@@ -38,7 +36,6 @@ export default function SchoolsOverview() {
   const clearStates = () => {
     setSchools('');
     setSchool('');
-    setNewSchool('');
   };
 
   const getUsedTypes = () => {
@@ -56,7 +53,7 @@ export default function SchoolsOverview() {
   const getAvailableProperties = () => {
     listProperties()
       .then((incomingProperties) =>
-        setAvailableProperties(removeUsedProperties(incomingProperties, tmpSchool.properties)))
+        setAvailableProperties(removeUsedProperties(incomingProperties, school.properties)))
       .catch((error) => console.log(error));
   };
 
@@ -70,32 +67,31 @@ export default function SchoolsOverview() {
 
   const addProperty = () => {
     const updatedSchool = {
-      ...tmpSchool,
+      ...school,
       properties: [
-        ...tmpSchool.properties,
+        ...school.properties,
         { name: '', unit: '', value: '' },
       ] };
-    setTmpSchool(addIndicesToNestedData(updatedSchool));
+    setSchool(addIndicesToNestedData(updatedSchool));
   };
 
   const addNewSchool = () => {
     history.push('/cms/school/new-school');
-    const newSchoolFromTemplate = getSchoolTemplate();
-    setNewSchool(newSchoolFromTemplate);
   };
 
   const handleParamUpdates = () => {
     clearStates();
     if (type) {
       getSchoolsByType(type, getBackendQueryString(search))
-        .then(setSchools)
+        .then((incomingSchool) => setSchools(addIndicesToNestedData(incomingSchool)))
         .catch((error) => console.log(error));
     } else if (number && number !== 'new-school') {
       getSchoolByNumber(number)
-        .then(setSchool)
+        .then((incomingSchool) => setSchool(addIndicesToNestedData(incomingSchool)))
         .catch((error) => console.log(error));
     } else if (number && number === 'new-school') {
-      addNewSchool();
+      const newSchoolFromTemplate = getSchoolTemplate();
+      setSchool(newSchoolFromTemplate);
     } else {
       listSchools(getBackendQueryString(search))
         .then(setSchools)
@@ -105,21 +101,21 @@ export default function SchoolsOverview() {
 
   const handleSave = () => {
     const save = () => {
-      const schoolToSave = tmpSchoolRef.current;
+      const schoolToSave = schoolRef.current;
       if (school.number !== schoolToSave.number) {
         if (!schoolToSave.newSchool) {
           deleteSchoolByNumber(school.number);
         }
         addSchool(schoolToSave)
-          .then(setSchool)
+          .then(setTimeout(getUsedTypes, 1000))
           .catch((error) => console.log(error));
       } else if (schoolToSave.newSchool) {
         addSchool(schoolToSave)
-          .then(setSchool)
+          .then(setTimeout(getUsedTypes, 1000))
           .catch((error) => console.log(error));
       } else {
         updateSchool(schoolToSave, schoolToSave.number)
-          .then(setSchool)
+          .then(setTimeout(getUsedTypes, 1000))
           .catch((error) => console.log(error));
       }
     };
@@ -129,73 +125,52 @@ export default function SchoolsOverview() {
   const updateEntry = (id, entry) => {
     const user = decode(token);
     const updatedTmpSchool = {
-      ...updateNestedData(tmpSchool, id, entry),
+      ...updateNestedData(school, id, entry),
       updated: Date.now(),
       userId: user.sub };
-    setTmpSchool(updatedTmpSchool);
+    setSchool(updatedTmpSchool);
     handleSave();
   };
 
   const deleteProperty = (id) => {
     const user = decode(token);
     const updatedTmpSchool = {
-      ...deleteNestedData(tmpSchool, id),
+      ...deleteNestedData(school, id),
       updated: Date.now(),
       userId: user.sub };
-    setTmpSchool(updatedTmpSchool);
+    setSchool(updatedTmpSchool);
     handleSave();
   };
 
   const deleteSchool = (num) => {
     deleteSchoolByNumber(num);
     setSchool('');
-    setTmpSchool('');
     history.push('/cms/schools');
   };
 
   const deleteFile = (url) => {
     deleteAttachmentByUrl(console.log(url));
-    updateEntry(tmpSchool.id, { image: '' });
+    updateEntry(school.id, { image: '' });
   };
 
   const uploadFile = (event) => {
     addAttachment(event.target.files[0])
-      .then((response) => updateEntry(tmpSchool.id, { image: response.url }))
+      .then((response) => updateEntry(school.id, { image: response.url }))
       .catch((error) => console.error(error));
   };
-
-  useEffect(() => {
-    tmpSchoolRef.current = tmpSchool;
-    if (tmpSchool) {
-      getAvailableProperties();
-    } else {
-      getUsedTypes();
-    }
-  }, [tmpSchool]);
 
   useEffect(() => {
     handleParamUpdates();
   }, [type, number, search]);
 
   useEffect(() => {
-    if (newSchool) {
-      setTmpSchool(addIndicesToNestedData(newSchool));
-    }
-  }, [newSchool]);
-
-  useEffect(() => {
-    if (school) {
-      setTmpSchool(addIndicesToNestedData(school));
-      getUsedTypes();
-    }
+    schoolRef.current = school;
   }, [school]);
 
   useEffect(() => {
+    getAvailableProperties();
     getAvailableTypes();
-  }, [usedTypes]);
-
-  useEffect(() => {
-    getAvailableTypes();
+    getUsedTypes();
   }, []);
 
   return (
@@ -217,9 +192,9 @@ export default function SchoolsOverview() {
             searchParams={getSearchParams(search)}
              />
           )}
-          {(school || newSchool) && (
+          {school && (
             <EditSchool
-              tmpSchool={tmpSchool}
+              school={school}
               availableTypes={availableTypes}
               availableProperties={availableProperties}
               onChange={updateEntry}

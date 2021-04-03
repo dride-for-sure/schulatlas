@@ -8,7 +8,13 @@ const HeadlineWithSubtitle = ({ title, subtitle, size, margin }) => (
   </Container>
 );
 
-const Container = styled.div``;
+const Container = styled.div`
+  > * {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+`;
 
 const Title = styled.h2`
   font-family: var(--font-family-title);
