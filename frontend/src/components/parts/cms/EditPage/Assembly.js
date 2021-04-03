@@ -10,7 +10,6 @@ import Headline from '../../../headlines/Headline';
 
 export default function Assembly({ assembly, onChange, onFileUpload, onFileDelete, pages }) {
   const getComponentForm = (component) => {
-    console.log(component);
     const { id } = component;
     switch (component.type) {
       case 'title':
