@@ -1,5 +1,6 @@
 import styled from 'styled-components/macro';
 import Image from '../../../resources/images/HeaderBackgroundSmall.jpg';
+import BrandBar from '../../brandBar/BrandBar';
 import Logo from '../../icons/Logo';
 import Navigation from '../../navigation/cms/Navigation';
 import FlexRowCenter from '../../structures/_FlexRowCenter';
@@ -8,12 +9,15 @@ import MaxWidth from '../../structures/_MaxWidth';
 
 export default function Header() {
   return (
-    <Wrapper background={Image}>
-      <Container>
-        <Logo />
-        <Navigation />
-      </Container>
-    </Wrapper>
+    <>
+      <Wrapper background={Image}>
+        <Container>
+          <Logo />
+          <Navigation />
+        </Container>
+      </Wrapper>
+      <BrandBar />
+    </>
   );
 }
 
