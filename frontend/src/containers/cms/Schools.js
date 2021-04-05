@@ -94,7 +94,9 @@ export default function SchoolsOverview() {
   const getAvailableProperties = () => {
     listProperties()
       .then((incomingProperties) =>
-        setAvailableProperties(removeUsedProperties(incomingProperties, school.properties)))
+        setAvailableProperties(
+          removeUsedProperties(incomingProperties, school ? school.properties : null),
+        ))
       .catch((error) => console.log(error));
   };
 
@@ -149,6 +151,9 @@ export default function SchoolsOverview() {
   const handleSave = () => {
     const save = () => {
       const schoolToSave = schoolRef.current;
+      if (!schoolToSave.number.length) {
+        return;
+      }
       if (school.number !== schoolToSave.number) {
         if (!schoolToSave.newSchool) {
           deleteSchoolByNumber(school.number);
@@ -217,6 +222,7 @@ export default function SchoolsOverview() {
 
   useEffect(() => {
     schoolRef.current = school;
+    getAvailableProperties();
   }, [school]);
 
   useEffect(() => {

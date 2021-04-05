@@ -57,6 +57,8 @@ const AlignRightItalic = styled.span`
   display:block;
   text-align: right;
   font-style: italic;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 SchoolListItem.propTypes = {
