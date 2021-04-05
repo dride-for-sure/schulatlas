@@ -24,7 +24,6 @@ public class School {
  private String name;
  @Indexed
  private Address address;
- @Indexed
  private Contact contact;
  private String image;
  @Indexed
