@@ -18,4 +18,8 @@ public interface SchoolDb extends PagingAndSortingRepository<School, String> {
  Page<School> findAll (Pageable pageable);
 
  Page<School> findAllByType (String type, Pageable pageable);
+
+ Page<School> findAllByTypeContainingIgnoreCaseOrNameContainingIgnoreCaseOrAddress_CityContainingIgnoreCaseOrAddress_StreetContainingIgnoreCaseOrAddress_PostcodeContainingIgnoreCaseOrNumberContainingIgnoreCase (
+         String type, String name, String address_city, String address_street,
+         String address_postcode, String number, Pageable pageable);
 }
