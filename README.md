@@ -1,5 +1,5 @@
 <p align=center>
-  <img src="Logo.png"/>
+  <img src="Logo.png" alt="Schulatlas Logo"/>
 </p>
 
 <h1 align=center>
@@ -9,7 +9,7 @@ SCHULATLAS
 <p align=center><i>To increase transparency within the education sector</i></p>
 
 <p align=center>
-  <img alt="Status Beta" src="https://img.shields.io/badge/Status-Draft-green.svg?style=flat"/>  
+  <img alt="Status Beta" src="https://img.shields.io/badge/Status-Beta-green.svg?style=flat"/>  
 <img alt="GPL v3" src="https://img.shields.io/badge/License-GPL%20v3-orange.svg"/>  
 <img alt="React" src="https://img.shields.io/badge/-React-blue?logo=react&style=flat"/>  
 <img alt="Java" src="https://img.shields.io/badge/-Java-brown?logo=java&style=flat"/> 
@@ -18,6 +18,7 @@ SCHULATLAS
 <img alt="MongoDb" src="https://img.shields.io/badge/-MongoDb-green?logo=mongodb&style=flat"/>
 <img alt="AWS S3" src="https://img.shields.io/badge/-AWSS3-yellow?logo=amazon-aws&style=flat"/>
 <img alt="Google Geocode API" src="https://img.shields.io/badge/-Google-silver?logo=google&style=flat"/>
+<img alt="Backend TestCoverage" src="https://img.shields.io/badge/J--Unit%20Coverage-92%25-brightgreen&style=flat" />
 </p>
 
 Germany is known worldwide, among other things, for its sustained success in the education sector.
@@ -67,6 +68,13 @@ npm start
 ```
 
 To install the backend use `maven` and launch a local development server with the help of `spring`.
+
+#### API Architecture
+
+This is an overview of all existing endpoints. Details can be found in the API documentation and in
+the Postman Collections.
+
+<img src="/documentation/api-endpoints.png" alt="Api Overview"/>
 
 #### Postman Collections
 
