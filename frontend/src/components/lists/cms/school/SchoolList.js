@@ -5,13 +5,13 @@ import Pagination from './Pagination';
 import SchoolListHeader from './SchoolListHeader';
 import SchoolListItem from './SchoolListItem';
 
-export default function SchoolList({ type, schools, onPagination, toggleSort, searchParams }) {
+export default function SchoolList({ prefix, schools, onPagination, toggleSort, searchParams }) {
   return (
     <GridSchoolList>
       <Headline size="l">
-        Filter:
+        Search:
         {' '}
-        <i>{type || 'All Types'}</i>
+        <i>{prefix || 'All Types'}</i>
       </Headline>
       <SchoolListHeader toggleSort={toggleSort} searchParams={searchParams} />
       {schools.content.map((school) => <SchoolListItem key={school.number} school={school} />)}
@@ -21,7 +21,7 @@ export default function SchoolList({ type, schools, onPagination, toggleSort, se
 }
 
 SchoolList.propTypes = {
-  type: string.isRequired,
+  prefix: string.isRequired,
   schools: object.isRequired,
   toggleSort: func.isRequired,
   onPagination: func.isRequired,

@@ -28,10 +28,15 @@ const AlignRight = styled.div`
   > button + button {
     margin-left: 1rem;
   }
+
+  > button:last-of-type {
+    padding-right: 0;
+  }
 `;
 
 const Button = styled.button`
   ${EnvelopeButton}
+  padding: 0.3rem 0.5rem;
 `;
 
 Pagination.propTypes = {
