@@ -1,21 +1,20 @@
 import { array, func, object } from 'prop-types';
-import styled from 'styled-components';
 import { prettifySlug } from '../../../../common/slug';
 import convertTimeStampToDate from '../../../../common/timeStamp';
 import BrandButton from '../../../buttons/BrandButton';
-import GridEdit from '../../../grid/cms/GridEdit';
 import HeadlineWithSubtitle from '../../../headlines/HeadlineWithSubtitle';
 import Loading from '../../../loading/Loading';
-import FlexColumnStart from '../../../structures/_FlexColumnStart';
+import GridEdit from '../../../structures/GridEdit';
 import SchoolAddress from './SchoolAddress';
 import SchoolContact from './SchoolContact.js';
 import SchoolImage from './SchoolImage';
+import SchoolName from './SchoolName';
 import SchoolNumber from './SchoolNumber';
 import SchoolProperty from './SchoolProperty';
 import SchoolType from './SchoolTypes';
 
 export default function EditSchool({
-  tmpSchool,
+  school,
   availableTypes,
   availableProperties,
   onChange,
@@ -24,7 +23,7 @@ export default function EditSchool({
   onSchoolDelete,
   onFileUpload,
   onFileDelete }) {
-  if (!tmpSchool) {
+  if (!school) {
     return <Loading />;
   }
 
@@ -32,27 +31,30 @@ export default function EditSchool({
     <GridEdit>
       <HeadlineWithSubtitle
         size="l"
-        title={prettifySlug(tmpSchool.name)}
-        subtitle={`Updated: ${convertTimeStampToDate(tmpSchool.updated)}, MarkOutdated: ${tmpSchool.markedOutdated}`}
+        title={prettifySlug(school.name)}
+        subtitle={`Updated on ${convertTimeStampToDate(school.updated)} by ${school.userId}, MarkOutdated: ${school.markedOutdated}`}
         />
+      <SchoolName
+        school={school}
+        onChange={onChange} />
       <SchoolNumber
-        school={tmpSchool}
+        school={school}
         onChange={onChange} />
       <SchoolType
-        school={tmpSchool}
+        school={school}
         availableTypes={availableTypes}
         onChange={onChange} />
       <SchoolAddress
-        address={tmpSchool.address}
+        address={school.address}
         onChange={onChange} />
       <SchoolContact
-        contact={tmpSchool.contact}
+        contact={school.contact}
         onChange={onChange} />
       <SchoolImage
-        imageUrl={tmpSchool.image}
+        imageUrl={school.image}
         onFileUpload={onFileUpload}
         onFileDelete={onFileDelete} />
-      {tmpSchool.properties.map((property) => (
+      {school.properties.map((property) => (
         <SchoolProperty
           key={property.name}
           availableProperties={availableProperties}
@@ -60,28 +62,14 @@ export default function EditSchool({
           property={property}
           onChange={onChange} />
       ))}
-      <BottomButtons>
-        <BrandButton onClick={onAddProperty}>Add Property</BrandButton>
-        <BrandButton variant="monochrome" onClick={() => onSchoolDelete(tmpSchool.number)}>Delete School</BrandButton>
-      </BottomButtons>
+      <BrandButton onClick={onAddProperty}>Add Property</BrandButton>
+      <BrandButton variant="monochrome" onClick={() => onSchoolDelete(school.number)}>Delete School</BrandButton>
     </GridEdit>
   );
 }
 
-const BottomButtons = styled.div`
-  ${FlexColumnStart};
-
-  > button {
-    margin: 0;
-
-    + button {
-      margin-top: var(--container-padding);
-    }
-  }
-`;
-
 EditSchool.propTypes = {
-  tmpSchool: object.isRequired,
+  school: object.isRequired,
   availableTypes: array.isRequired,
   availableProperties: array.isRequired,
   onAddProperty: func.isRequired,

@@ -29,9 +29,9 @@ const GridEdit = styled.div`
     grid-column: 1 / span 1;
   }
 
-  > div:last-of-type,
-  > button:last-of-type {
-   justify-self: end;
+  > button {
+    margin: 0;
+    justify-self: end;
   }
 `;
 

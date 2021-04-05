@@ -2,16 +2,16 @@ import decode from 'jwt-decode';
 import { useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import debounce from '../../common/debounceChanges';
 import { addIndicesToNestedData, deleteNestedData, updateNestedData } from '../../common/indexData';
 import removeUsedProperties from '../../common/properties';
 import { getBackendQueryString, getQueryStringForPaginate, getQueryStringForToggleSort, getSearchParams } from '../../common/searchParams';
+import throttle from '../../common/throttle';
 import { removeTypeless } from '../../common/types';
-import GridSideBar from '../../components/grid/cms/GridSideBar';
-import Header from '../../components/header/cms/Header';
+import HeaderWithSearch from '../../components/header/cms/HeaderWithSearch';
 import SchoolList from '../../components/lists/cms/school/SchoolList';
 import EditSchool from '../../components/parts/cms/EditSchool/EditSchool';
 import SideBar from '../../components/parts/cms/SideBar';
+import GridSideBar from '../../components/structures/GridSideBar';
 import FlexRowCenter from '../../components/structures/_FlexRowCenter';
 import { getSchoolTemplate } from '../../config/schulatlasConfig';
 import { useAuth } from '../../contexts/AuthProvider';
@@ -19,26 +19,64 @@ import { addAttachment, deleteAttachmentByUrl } from '../../services/api/private
 import { listProperties } from '../../services/api/private/propertyApiService';
 import { addSchool, deleteSchoolByNumber, getSchoolByNumber, getSchoolsByType, listSchools, updateSchool } from '../../services/api/private/schoolApiService';
 import { listAvailableTypes, listUsedTypes } from '../../services/api/private/typeApiService';
+import { searchForSchools, searchForTypes } from '../../services/api/public/searchApiService';
 
 export default function SchoolsOverview() {
-  const [usedTypes, setUsedTypes] = useState('');
-  const [availableTypes, setAvailableTypes] = useState('');
-  const [availableProperties, setAvailableProperties] = useState('');
-  const [schools, setSchools] = useState('');
-  const [school, setSchool] = useState('');
-  const [newSchool, setNewSchool] = useState('');
-  const [tmpSchool, setTmpSchool] = useState();
+  const [usedTypes, setUsedTypes] = useState([]);
+  const [availableTypes, setAvailableTypes] = useState([]);
+  const [availableProperties, setAvailableProperties] = useState([]);
+  const [schools, setSchools] = useState(null);
+  const [school, setSchool] = useState(null);
   const [timer, setTimer] = useState('');
+  const [searchString, setSearchString] = useState('');
+  const [schoolSearchResults, setSchoolSearchResults] = useState(null);
+  const [typeSearchResults, setTypeSearchResults] = useState(null);
   const history = useHistory();
-  const tmpSchoolRef = useRef(tmpSchool);
-  const { type, number } = useParams();
+  const schoolRef = useRef(school);
+  const searchStringRef = useRef(searchString);
+  const { type, number, searchFor } = useParams();
   const { search } = useLocation();
   const { token } = useAuth();
 
   const clearStates = () => {
-    setSchools('');
-    setSchool('');
-    setNewSchool('');
+    setSchools(null);
+    setSchool(null);
+  };
+
+  const clearSearchStates = () => {
+    setTypeSearchResults(null);
+    setSchoolSearchResults(null);
+  };
+
+  const handleSearchBarLeave = () => {
+    clearSearchStates();
+    setSearchString('');
+  };
+
+  const redirectToSearchList = () => {
+    if (searchStringRef.current.length > 0) {
+      history.push(`/cms/schools/search/${searchStringRef.current}`);
+    }
+  };
+
+  const handleSearch = (event) => {
+    const string = event.target.value;
+    setSearchString(string);
+    if (string < 3) {
+      clearSearchStates();
+      return;
+    }
+    const searchRequest = () => {
+      if (searchStringRef.current) {
+        searchForSchools(searchStringRef.current)
+          .then(setSchoolSearchResults)
+          .catch((error) => console.log(error));
+        searchForTypes(searchStringRef.current)
+          .then(setTypeSearchResults)
+          .catch((error) => console.log(error));
+      }
+    };
+    throttle(() => searchRequest(), timer, setTimer);
   };
 
   const getUsedTypes = () => {
@@ -56,7 +94,7 @@ export default function SchoolsOverview() {
   const getAvailableProperties = () => {
     listProperties()
       .then((incomingProperties) =>
-        setAvailableProperties(removeUsedProperties(incomingProperties, tmpSchool.properties)))
+        setAvailableProperties(removeUsedProperties(incomingProperties, school.properties)))
       .catch((error) => console.log(error));
   };
 
@@ -70,32 +108,37 @@ export default function SchoolsOverview() {
 
   const addProperty = () => {
     const updatedSchool = {
-      ...tmpSchool,
+      ...school,
       properties: [
-        ...tmpSchool.properties,
+        ...school.properties,
         { name: '', unit: '', value: '' },
       ] };
-    setTmpSchool(addIndicesToNestedData(updatedSchool));
+    setSchool(addIndicesToNestedData(updatedSchool));
   };
 
   const addNewSchool = () => {
     history.push('/cms/school/new-school');
-    const newSchoolFromTemplate = getSchoolTemplate();
-    setNewSchool(newSchoolFromTemplate);
   };
 
   const handleParamUpdates = () => {
     clearStates();
+    clearSearchStates();
+    setSearchString('');
     if (type) {
       getSchoolsByType(type, getBackendQueryString(search))
+        .then((incomingSchool) => setSchools(addIndicesToNestedData(incomingSchool)))
+        .catch((error) => console.log(error));
+    } else if (searchFor) {
+      searchForSchools(searchFor, getBackendQueryString(search))
         .then(setSchools)
         .catch((error) => console.log(error));
     } else if (number && number !== 'new-school') {
       getSchoolByNumber(number)
-        .then(setSchool)
+        .then((incomingSchool) => setSchool(addIndicesToNestedData(incomingSchool)))
         .catch((error) => console.log(error));
     } else if (number && number === 'new-school') {
-      addNewSchool();
+      const newSchoolFromTemplate = getSchoolTemplate();
+      setSchool(newSchoolFromTemplate);
     } else {
       listSchools(getBackendQueryString(search))
         .then(setSchools)
@@ -105,102 +148,96 @@ export default function SchoolsOverview() {
 
   const handleSave = () => {
     const save = () => {
-      const schoolToSave = tmpSchoolRef.current;
+      const schoolToSave = schoolRef.current;
       if (school.number !== schoolToSave.number) {
         if (!schoolToSave.newSchool) {
           deleteSchoolByNumber(school.number);
         }
         addSchool(schoolToSave)
-          .then(setSchool)
+          .then(setTimeout(getUsedTypes, 1000))
           .catch((error) => console.log(error));
       } else if (schoolToSave.newSchool) {
-        addSchool(schoolToSave)
-          .then(setSchool)
+        const clearedSchool = {
+          ...schoolToSave,
+          newSchool: false,
+        };
+        addSchool(clearedSchool)
+          .then(setTimeout(getUsedTypes, 1000))
+          .then(setSchool(clearedSchool))
           .catch((error) => console.log(error));
       } else {
         updateSchool(schoolToSave, schoolToSave.number)
-          .then(setSchool)
+          .then(setTimeout(getUsedTypes, 1000))
           .catch((error) => console.log(error));
       }
     };
-    debounce(() => save(), timer, setTimer);
+    throttle(() => save(), timer, setTimer);
   };
 
   const updateEntry = (id, entry) => {
     const user = decode(token);
     const updatedTmpSchool = {
-      ...updateNestedData(tmpSchool, id, entry),
+      ...updateNestedData(school, id, entry),
       updated: Date.now(),
       userId: user.sub };
-    setTmpSchool(updatedTmpSchool);
+    setSchool(updatedTmpSchool);
     handleSave();
   };
 
   const deleteProperty = (id) => {
     const user = decode(token);
     const updatedTmpSchool = {
-      ...deleteNestedData(tmpSchool, id),
+      ...deleteNestedData(school, id),
       updated: Date.now(),
       userId: user.sub };
-    setTmpSchool(updatedTmpSchool);
+    setSchool(updatedTmpSchool);
     handleSave();
   };
 
   const deleteSchool = (num) => {
     deleteSchoolByNumber(num);
-    setSchool('');
-    setTmpSchool('');
+    setSchool(null);
     history.push('/cms/schools');
   };
 
   const deleteFile = (url) => {
     deleteAttachmentByUrl(console.log(url));
-    updateEntry(tmpSchool.id, { image: '' });
+    updateEntry(school.id, { image: '' });
   };
 
   const uploadFile = (event) => {
     addAttachment(event.target.files[0])
-      .then((response) => updateEntry(tmpSchool.id, { image: response.url }))
+      .then((response) => updateEntry(school.id, { image: response.url }))
       .catch((error) => console.error(error));
   };
 
   useEffect(() => {
-    tmpSchoolRef.current = tmpSchool;
-    if (tmpSchool) {
-      getAvailableProperties();
-    } else {
-      getUsedTypes();
-    }
-  }, [tmpSchool]);
-
-  useEffect(() => {
     handleParamUpdates();
-  }, [type, number, search]);
+  }, [type, number, search, searchFor]);
 
   useEffect(() => {
-    if (newSchool) {
-      setTmpSchool(addIndicesToNestedData(newSchool));
-    }
-  }, [newSchool]);
-
-  useEffect(() => {
-    if (school) {
-      setTmpSchool(addIndicesToNestedData(school));
-      getUsedTypes();
-    }
+    schoolRef.current = school;
   }, [school]);
 
   useEffect(() => {
-    getAvailableTypes();
-  }, [usedTypes]);
+    searchStringRef.current = searchString;
+  }, [searchString]);
 
   useEffect(() => {
+    getAvailableProperties();
     getAvailableTypes();
+    getUsedTypes();
   }, []);
 
   return (
     <>
-      <Header />
+      <HeaderWithSearch
+        searchString={searchString}
+        schoolSearchResults={schoolSearchResults}
+        typeSearchResults={typeSearchResults}
+        onSearchBarLeave={handleSearchBarLeave}
+        onSearchBarEnter={redirectToSearchList}
+        onSearch={handleSearch} />
       <Container>
         <GridSideBar>
           {usedTypes && (
@@ -210,16 +247,16 @@ export default function SchoolsOverview() {
           )}
           {schools && (
           <SchoolList
-            type={type}
+            prefix={type || searchFor || ''}
             schools={schools}
             onPagination={handlePagination}
             toggleSort={toggleSort}
             searchParams={getSearchParams(search)}
              />
           )}
-          {(school || newSchool) && (
+          {school && (
             <EditSchool
-              tmpSchool={tmpSchool}
+              school={school}
               availableTypes={availableTypes}
               availableProperties={availableProperties}
               onChange={updateEntry}

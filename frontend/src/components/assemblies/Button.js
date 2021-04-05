@@ -3,7 +3,7 @@ import { prettifySlug } from '../../common/slug';
 import Input from '../form/Input';
 import Label from '../form/Label';
 import Select from '../form/Select';
-import GridTwoOne from '../grid/cms/GridTwoOne';
+import GridTwoOne from '../structures/GridTwoOne';
 
 export default function Button({ component, onChange, pages }) {
   return (
@@ -15,7 +15,7 @@ export default function Button({ component, onChange, pages }) {
           id="content"
           type="text"
           placeholder="Button Text..."
-          value={component.content}
+          value={component.content || ''}
           onChange={onChange} />
         <Select
           id="target"

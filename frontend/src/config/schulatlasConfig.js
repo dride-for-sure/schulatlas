@@ -1,3 +1,5 @@
+import { v4 as uuid } from 'uuid';
+
 export const getAssemblyVariants = (type) => {
   switch (type) {
     case 'hero':
@@ -12,7 +14,7 @@ export const getAssemblyVariants = (type) => {
 };
 
 export const getSchoolTemplate = () => ({
-  number: 'new-school',
+  number: `new-school-${uuid()}`,
   newSchool: true,
   name: 'New School',
   address: {

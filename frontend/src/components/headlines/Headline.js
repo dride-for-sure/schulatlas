@@ -17,6 +17,11 @@ const Headline = styled.h1`
   `}
 
   margin: var(--margin-title);
+
+  ${(props) => props.size === 's' && css`
+    margin: var(--margin-title-s);
+  `}
+  
   text-transform: capitalize;
 
   > i {

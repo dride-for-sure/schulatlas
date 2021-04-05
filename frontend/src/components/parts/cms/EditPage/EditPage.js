@@ -1,31 +1,34 @@
 import { array, func, object } from 'prop-types';
 import { prettifySlug } from '../../../../common/slug';
+import convertTimeStampToDate from '../../../../common/timeStamp';
 import Slug from '../../../assemblies/Slug';
 import BrandButton from '../../../buttons/BrandButton';
-import GridEdit from '../../../grid/cms/GridEdit';
-import Headline from '../../../headlines/Headline';
+import HeadlineWithSubtitle from '../../../headlines/HeadlineWithSubtitle';
 import Loading from '../../../loading/Loading';
+import GridEdit from '../../../structures/GridEdit';
 import Assembly from './Assembly';
 
 export default function EditPage({
-  tmpPage,
+  page,
   pages,
   onChange,
   onUpdateSlug,
   onDeletePage,
   onUploadFile,
   onDeleteFile }) {
-  if (!tmpPage) {
+  if (!page) {
     return <Loading />;
   }
-
   return (
     <GridEdit>
-      <Headline size="l">{prettifySlug(tmpPage.slug)}</Headline>
+      <HeadlineWithSubtitle
+        size="l"
+        title={prettifySlug(page.slug)}
+        subtitle={`Updated on ${convertTimeStampToDate(page.updated)} by ${page.userId}`} />
       <Slug
-        slug={tmpPage.slug}
+        slug={page.slug}
         onChange={onUpdateSlug} />
-      {tmpPage.assemblies.map((assembly) => (
+      {page.assemblies.map((assembly) => (
         <Assembly
           key={assembly.id}
           assembly={assembly}
@@ -40,7 +43,7 @@ export default function EditPage({
 }
 
 EditPage.propTypes = {
-  tmpPage: object.isRequired,
+  page: object.isRequired,
   onChange: func.isRequired,
   pages: array.isRequired,
   onUpdateSlug: func.isRequired,

@@ -9,7 +9,7 @@ export default function SchoolNumber({ school, onChange }) {
       <Input
         align="left"
         id="number"
-        type="text"
+        type="number"
         placeholder="Please enter a school number"
         value={school.number}
         onChange={(event) => onChange(school.id, { number: event.target.value })} />

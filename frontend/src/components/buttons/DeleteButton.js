@@ -1,34 +1,28 @@
-import { func } from 'prop-types';
-import styled from 'styled-components';
+import { bool, func } from 'prop-types';
+import styled, { css } from 'styled-components/macro';
 import Delete from '../icons/Delete';
 import EnvelopeButton from './_EnvelopeButton';
 
-export default function DeleteButton({ onClick }) {
+export default function DeleteButton({ onClick, dark }) {
   return (
-    <StyledButton type="button" onClick={onClick}>
-      <Delete />
+    <StyledButton type="button" dark={dark} onClick={onClick}>
+      <Delete dark={dark} />
     </StyledButton>
   );
 }
 
 const StyledButton = styled.button`
   ${EnvelopeButton}
-  background: var( --color-medium-silver);
+  background: ${(props) => !props.dark && css`var( --color-medium-silver)`};
   border-radius: var(--border-radius);
   height: 32px;
-  margin: 0;
   width: 30px;
   display:flex;
   justify-content: center;
   align-items: center;
-  transition: var(--transition-opacity);
-  opacity: 1;
-
-  :hover {
-    opacity: var(--opacity-hover);
-  }
 `;
 
 DeleteButton.propTypes = {
   onClick: func.isRequired,
+  dark: bool.isRequired,
 };

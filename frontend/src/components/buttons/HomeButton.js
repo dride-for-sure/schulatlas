@@ -1,5 +1,5 @@
 import { bool, func } from 'prop-types';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import Home from '../icons/Home';
 import EnvelopeButton from './_EnvelopeButton';
 
@@ -14,10 +14,6 @@ export default function HomeButton({ inactive, onClick }) {
 const Button = styled.button`
   ${EnvelopeButton}
   margin-right: .4rem;
-
-  :hover {
-    opacity: 1;
-  }
 `;
 
 HomeButton.propTypes = {

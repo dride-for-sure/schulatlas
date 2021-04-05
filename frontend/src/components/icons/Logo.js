@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import logo from '../../resources/images/Logo.png';
 import ImageLink from '../links/ImageLink';
 

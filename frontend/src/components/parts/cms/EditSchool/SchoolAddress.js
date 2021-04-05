@@ -1,7 +1,7 @@
 import { func, object } from 'prop-types';
 import Input from '../../../form/Input';
 import Label from '../../../form/Label';
-import GridTwoOne from '../../../grid/cms/GridTwoOne';
+import GridTwoOne from '../../../structures/GridTwoOne';
 
 export default function SchoolAddress({ address, onChange }) {
   return (
@@ -18,14 +18,14 @@ export default function SchoolAddress({ address, onChange }) {
         <Input
           align="left"
           id="number"
-          type="text"
+          type="number"
           placeholder="Please enter a number"
           value={address.number}
           onChange={(event) => onChange(address.id, { number: event.target.value })} />
         <Input
           align="left"
           id="postcode"
-          type="text"
+          type="number"
           placeholder="Please enter a postcode"
           value={address.postcode}
           onChange={(event) => onChange(address.id, { postcode: event.target.value })} />

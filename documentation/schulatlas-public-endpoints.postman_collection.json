@@ -14,7 +14,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/school",
+							"raw": "http://localhost:8080/api/v1/school?page=0&size=20&sort=name&direction=asc",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -24,6 +24,24 @@
 								"api",
 								"v1",
 								"school"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "sort",
+									"value": "name"
+								},
+								{
+									"key": "direction",
+									"value": "asc"
+								}
 							]
 						}
 					},
@@ -82,33 +100,12 @@
 			"name": "Pages",
 			"item": [
 				{
-					"name": "List pages",
+					"name": "Get page by slug",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/page",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"page"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get page by name",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/page/name/{{name}}",
+							"raw": "http://localhost:8080/api/v1/page/slug/{{slug}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -118,8 +115,8 @@
 								"api",
 								"v1",
 								"page",
-								"name",
-								"{{name}}"
+								"slug",
+								"{{slug}}"
 							]
 						}
 					},
@@ -155,6 +152,93 @@
 								"api",
 								"v1",
 								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Search",
+			"item": [
+				{
+					"name": "Search schools (fulltext)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/search/school/{{searchString}}?page=0&size=20&sort=name&direction=asc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"school",
+								"{{searchString}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "sort",
+									"value": "name"
+								},
+								{
+									"key": "direction",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search schools by type",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/search/type/{{searchString}}?page=0&size=20&sort=name&direction=asc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"type",
+								"{{searchString}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "sort",
+									"value": "name"
+								},
+								{
+									"key": "direction",
+									"value": "asc"
+								}
 							]
 						}
 					},

@@ -14,7 +14,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/auth/v1/school",
+							"raw": "http://localhost:8080/auth/v1/school?page=0&size=20&sort=name&direction=asc",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -24,6 +24,65 @@
 								"auth",
 								"v1",
 								"school"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "sort",
+									"value": "name"
+								},
+								{
+									"key": "direction",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List schools by type",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/auth/v1/school/type/{{type}}?page=0&size=20&sort=name&direction=asc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"v1",
+								"school",
+								"type",
+								"{{type}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "sort",
+									"value": "name"
+								},
+								{
+									"key": "direction",
+									"value": "asc"
+								}
 							]
 						}
 					},
@@ -47,51 +106,6 @@
 								"school",
 								"number",
 								"{{number}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "List types",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/auth/v1/school/type",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"auth",
-								"v1",
-								"school",
-								"type"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get schools by type",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/auth/v1/school/type/{{type}}",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"auth",
-								"v1",
-								"school",
-								"type",
-								"{{type}}"
 							]
 						}
 					},
@@ -217,12 +231,12 @@
 					"response": []
 				},
 				{
-					"name": "Get page by name",
+					"name": "Get page by slug",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/auth/v1/page/name/{{name}}",
+							"raw": "http://localhost:8080/auth/v1/page/slug/{{slug}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -232,8 +246,8 @@
 								"auth",
 								"v1",
 								"page",
-								"name",
-								"{{name}}"
+								"slug",
+								"{{slug}}"
 							]
 						}
 					},
@@ -271,6 +285,39 @@
 					"response": []
 				},
 				{
+					"name": "Set LandingPage",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"\",\n    \"userId\": \"\",\n    \"assemblies\": [\n        {\n            \"type\": \"\",\n            \"components\": [\n                {\n                    \"type\": \"\",\n                    \"content\": \"\"\n                }\n            ]\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/v1/page/slug/{{slug}}/landingpage",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"v1",
+								"page",
+								"slug",
+								"{{slug}}",
+								"landingpage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Update page",
 					"request": {
 						"method": "PUT",
@@ -285,7 +332,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/auth/v1/page/name/{{name}}",
+							"raw": "http://localhost:8080/auth/v1/page/slug/{{slug}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -295,8 +342,8 @@
 								"auth",
 								"v1",
 								"page",
-								"name",
-								"{{name}}"
+								"slug",
+								"{{slug}}"
 							]
 						}
 					},
@@ -308,7 +355,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/auth/v1/page/name/{{name}}",
+							"raw": "http://localhost:8080/auth/v1/page/slug/{{slug}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -318,8 +365,8 @@
 								"auth",
 								"v1",
 								"page",
-								"name",
-								"{{name}}"
+								"slug",
+								"{{slug}}"
 							]
 						}
 					},
@@ -560,6 +607,55 @@
 								"auth",
 								"v1",
 								"assembly"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Types",
+			"item": [
+				{
+					"name": "List all used types",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/auth/v1/type/used",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"v1",
+								"type",
+								"used"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List all available types",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/auth/v1/type/available",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"v1",
+								"type",
+								"available"
 							]
 						}
 					},

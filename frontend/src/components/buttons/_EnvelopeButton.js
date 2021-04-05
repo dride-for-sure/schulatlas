@@ -6,15 +6,16 @@ const EnvelopeButton = css`
   margin: 0;
   padding: 0;
   color: var(--color-medium-silver);
-  cursor: pointer;
   font-family: var(--font-family-content);
   font-size: var(--font-size-content);
   transition: var(--transition-opacity);
   background: transparent;
   opacity: ${(props) => (props.inactive ? '0.3' : '1')};
+  transition: var(--transition-opacity);
 
-  :hover {
+  :not(:disabled):hover {
     opacity: var(--opacity-hover);
+    cursor: pointer;
   }
 `;
 

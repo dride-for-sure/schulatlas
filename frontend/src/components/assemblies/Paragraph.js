@@ -9,7 +9,7 @@ export default function Paragraph({ component, onChange }) {
       <Textarea
         id="content"
         placeholder="Add some content..."
-        value={component.content}
+        value={component.content || ''}
         onChange={onChange} />
     </>
   );

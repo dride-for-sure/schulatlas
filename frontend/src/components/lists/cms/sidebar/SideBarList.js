@@ -16,8 +16,8 @@ export default function SideBarList({ pages, usedTypes, setLandingPage }) {
 
   return (
     <List>
-      <SideBarListHeader usedTypes={usedTypes} />
-      {usedTypes.map((type) => type.name && <SideBarListItem key={type.slug} type={type} />)}
+      <SideBarListHeader key="AllTypes" usedTypes={usedTypes} />
+      {usedTypes.map((type) => type.name && <SideBarListItem key={type.name} type={type} />)}
     </List>
   );
 }

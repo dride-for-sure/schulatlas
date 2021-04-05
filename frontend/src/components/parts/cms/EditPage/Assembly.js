@@ -16,7 +16,7 @@ export default function Assembly({ assembly, onChange, onFileUpload, onFileDelet
       case 'subtitle':
         return (
           <Title
-            key={id}
+            key={`${id}-${component.type}`}
             component={component}
             onChange={(event) => onChange(id, { [event.target.id]: event.target.value })} />
         );

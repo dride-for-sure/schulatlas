@@ -5,8 +5,8 @@ import BrandButton from '../../../buttons/BrandButton';
 import BrandButtonAsSpan from '../../../buttons/BrandButtonAsSpan';
 import Input from '../../../form/Input';
 import Label from '../../../form/Label';
-import GridTwoOne from '../../../grid/cms/GridTwoOne';
 import CustomImage from '../../../image/Image';
+import GridTwoOne from '../../../structures/GridTwoOne';
 
 export default function SchoolImage({ imageUrl, onFileUpload, onFileDelete }) {
   const uniqueFieldId = uuid();

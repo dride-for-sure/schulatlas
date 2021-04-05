@@ -32,7 +32,7 @@ public class PrivateSchoolController {
          @PathVariable String type,
          @RequestParam (defaultValue = "0") int page,
          @RequestParam (defaultValue = "30") int size,
-         @RequestParam (defaultValue = "number") String sort,
+         @RequestParam (defaultValue = "type") String sort,
          @RequestParam (defaultValue = "asc") String direction) {
   return schoolService.listSchoolsByType( type, page, size, sort, direction );
  }

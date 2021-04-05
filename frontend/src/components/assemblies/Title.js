@@ -11,7 +11,7 @@ export default function Title({ component, onChange }) {
         id="content"
         type="text"
         placeholder={component.type === 'title' ? 'Enter a title...' : 'Enter a subtitle...'}
-        value={component.content}
+        value={component.content || ''}
         onChange={onChange} />
     </>
   );
