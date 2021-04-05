@@ -112,4 +112,5 @@ public class SchoolService {
  public void deleteSchoolByNumber (String number) {
   schoolDb.deleteById( number );
  }
+
 }
