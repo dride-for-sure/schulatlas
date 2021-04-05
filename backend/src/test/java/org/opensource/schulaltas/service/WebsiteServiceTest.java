@@ -2,9 +2,9 @@ package org.opensource.schulaltas.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.opensource.schulaltas.controller.model.PageDto;
+import org.opensource.schulaltas.controller.model.WebsiteDto;
 import org.opensource.schulaltas.model.website.Website;
-import org.opensource.schulaltas.repository.PageDb;
+import org.opensource.schulaltas.repository.WebsiteDb;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,10 +17,10 @@ import static org.mockito.Mockito.*;
 
 class WebsiteServiceTest {
 
- private final PageDb pageDb = mock( PageDb.class );
+ private final WebsiteDb websiteDb = mock( WebsiteDb.class );
  private final TimeUTC timeUTC = mock( TimeUTC.class );
  private final AssemblyService assemblyService = mock( AssemblyService.class );
- private final PageService pageService = new PageService( pageDb, timeUTC, assemblyService );
+ private final WebsiteService websiteService = new WebsiteService( websiteDb, timeUTC, assemblyService );
 
  private Website getPage (String slug) {
   return Website.builder()
@@ -34,12 +34,12 @@ class WebsiteServiceTest {
 
  @Test
  @DisplayName ("List pages should return all pages in the db")
- void listPages () {
+ void listWebsites () {
   // GIVEN
-  when( pageDb.findAll() ).thenReturn( List.of( getPage( "A" ), getPage( "B" ) ) );
+  when( websiteDb.findAll() ).thenReturn( List.of( getPage( "A" ), getPage( "B" ) ) );
 
   // WHEN
-  List<Website> actual = pageService.listPages();
+  List<Website> actual = websiteService.listWebsites();
 
   // THEN
   assertThat( actual, containsInAnyOrder( getPage( "A" ), getPage( "B" ) ) );
@@ -47,12 +47,12 @@ class WebsiteServiceTest {
 
  @Test
  @DisplayName ("Get pages should return a specific page")
- void getPageBySlug () {
+ void getWebsiteBySlug () {
   // GIVEN
-  when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
+  when( websiteDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
 
   // WHEN
-  Optional<Website> actual = pageService.getPageBySlug( "A" );
+  Optional<Website> actual = websiteService.getWebsiteBySlug( "A" );
 
   // THEN
   assertThat( actual.get(), is( getPage( "A" ) ) );
@@ -60,12 +60,12 @@ class WebsiteServiceTest {
 
  @Test
  @DisplayName ("Get pages should return an optional.empty for a non existing page")
- void getNotExistingPageBySlug () {
+ void getNotExistingWebsiteBySlug () {
   // GIVEN
-  when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
+  when( websiteDb.findById( "A" ) ).thenReturn( Optional.empty() );
 
   // WHEN
-  Optional<Website> actual = pageService.getPageBySlug( "A" );
+  Optional<Website> actual = websiteService.getWebsiteBySlug( "A" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
@@ -73,234 +73,234 @@ class WebsiteServiceTest {
 
  @Test
  @DisplayName ("Add page should add the page to the db and return optional of page")
- void addPage () {
+ void addWebsite () {
   // GIVEN
-  PageDto pageDto = PageDto.builder()
-                            .slug( "A" )
-                            .userId( "B" )
-                            .assemblies( List.of() )
-                            .build();
-  when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
-  when( pageDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
+  WebsiteDto websiteDto = WebsiteDto.builder()
+                                  .slug( "A" )
+                                  .userId( "B" )
+                                  .assemblies( List.of() )
+                                  .build();
+  when( websiteDb.findById( "A" ) ).thenReturn( Optional.empty() );
+  when( websiteDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
   when( timeUTC.now() ).thenReturn( 1L );
-  when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( true );
+  when( assemblyService.hasAvailableAssemblies( websiteDto.getAssemblies() ) ).thenReturn( true );
 
   // WHEN
-  Optional<Website> actual = pageService.addPage( pageDto );
+  Optional<Website> actual = websiteService.addWebsite( websiteDto );
 
   // THEN
   assertThat( actual.get(), is( getPage( "A" ) ) );
-  verify( pageDb ).save( getPage( "A" ) );
+  verify( websiteDb ).save( getPage( "A" ) );
  }
 
  @Test
  @DisplayName ("Add page should return optional empty if assembly is invalid")
- void addPageWithInvalidAssembly () {
+ void addWebsiteWithInvalidAssembly () {
   // GIVEN
-  PageDto pageDto = PageDto.builder()
-                            .slug( "A" )
-                            .userId( "B" )
-                            .assemblies( List.of() )
-                            .build();
-  when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
-  when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( false );
+  WebsiteDto websiteDto = WebsiteDto.builder()
+                                  .slug( "A" )
+                                  .userId( "B" )
+                                  .assemblies( List.of() )
+                                  .build();
+  when( websiteDb.findById( "A" ) ).thenReturn( Optional.empty() );
+  when( assemblyService.hasAvailableAssemblies( websiteDto.getAssemblies() ) ).thenReturn( false );
 
   // WHEN
-  Optional<Website> actual = pageService.addPage( pageDto );
+  Optional<Website> actual = websiteService.addWebsite( websiteDto );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
-  verify( pageDb, never() ).save( getPage( "A" ) );
+  verify( websiteDb, never() ).save( getPage( "A" ) );
  }
 
  @Test
  @DisplayName ("Add existing page should return the already existing page as optional")
- void addExistingPage () {
+ void addExistingWebsite () {
   // GIVEN
-  PageDto pageDto = PageDto.builder()
-                            .slug( "A" )
-                            .userId( "B" )
-                            .assemblies( List.of() )
-                            .build();
-  when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
-  when( pageDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
+  WebsiteDto websiteDto = WebsiteDto.builder()
+                                  .slug( "A" )
+                                  .userId( "B" )
+                                  .assemblies( List.of() )
+                                  .build();
+  when( websiteDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
+  when( websiteDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
   when( timeUTC.now() ).thenReturn( 1L );
-  when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( true );
+  when( assemblyService.hasAvailableAssemblies( websiteDto.getAssemblies() ) ).thenReturn( true );
 
   // WHEN
-  Optional<Website> actual = pageService.addPage( pageDto );
+  Optional<Website> actual = websiteService.addWebsite( websiteDto );
 
   // THEN
   assertThat( actual.get(), is( getPage( "A" ) ) );
-  verify( pageDb, never() ).save( getPage( "A" ) );
+  verify( websiteDb, never() ).save( getPage( "A" ) );
  }
 
  @Test
  @DisplayName ("Update existing page should update the page in the db")
- void updatePage () {
+ void updateWebsite () {
   // GIVEN
-  PageDto pageDto = PageDto.builder()
-                            .slug( "A" )
-                            .userId( "B" )
-                            .assemblies( List.of() )
-                            .build();
-  when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
-  when( pageDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
+  WebsiteDto websiteDto = WebsiteDto.builder()
+                                  .slug( "A" )
+                                  .userId( "B" )
+                                  .assemblies( List.of() )
+                                  .build();
+  when( websiteDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
+  when( websiteDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
   when( timeUTC.now() ).thenReturn( 1L );
-  when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( true );
+  when( assemblyService.hasAvailableAssemblies( websiteDto.getAssemblies() ) ).thenReturn( true );
 
   // WHEN
-  Optional<Website> actual = pageService.updatePage( pageDto, "A" );
+  Optional<Website> actual = websiteService.updateWebsite( websiteDto, "A" );
 
   // THEN
   assertThat( actual.get(), is( getPage( "A" ) ) );
-  verify( pageDb ).save( getPage( "A" ) );
+  verify( websiteDb ).save( getPage( "A" ) );
  }
 
  @Test
  @DisplayName ("Update existing page should return optional empty if assemblies are invalid")
- void updatePageWithInvalidAssembly () {
+ void updateWebsiteWithInvalidAssembly () {
   // GIVEN
-  PageDto pageDto = PageDto.builder()
-                            .slug( "A" )
-                            .userId( "B" )
-                            .assemblies( List.of() )
-                            .build();
-  when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
-  when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( false );
+  WebsiteDto websiteDto = WebsiteDto.builder()
+                                  .slug( "A" )
+                                  .userId( "B" )
+                                  .assemblies( List.of() )
+                                  .build();
+  when( websiteDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
+  when( assemblyService.hasAvailableAssemblies( websiteDto.getAssemblies() ) ).thenReturn( false );
 
   // WHEN
-  Optional<Website> actual = pageService.updatePage( pageDto, "A" );
+  Optional<Website> actual = websiteService.updateWebsite( websiteDto, "A" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
-  verify( pageDb, never() ).save( getPage( "A" ) );
+  verify( websiteDb, never() ).save( getPage( "A" ) );
  }
 
  @Test
  @DisplayName ("Update page should return an optional.empty if page doesnt exist")
- void updateNotExistingPage () {
+ void updateNotExistingWebsite () {
   // GIVEN
-  PageDto pageDto = PageDto.builder()
-                            .slug( "A" )
-                            .userId( "B" )
-                            .assemblies( List.of() )
-                            .build();
-  when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
-  when( pageDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
+  WebsiteDto websiteDto = WebsiteDto.builder()
+                                  .slug( "A" )
+                                  .userId( "B" )
+                                  .assemblies( List.of() )
+                                  .build();
+  when( websiteDb.findById( "A" ) ).thenReturn( Optional.empty() );
+  when( websiteDb.save( getPage( "A" ) ) ).thenReturn( getPage( "A" ) );
   when( timeUTC.now() ).thenReturn( 1L );
 
   // WHEN
-  Optional<Website> actual = pageService.updatePage( pageDto, "A" );
+  Optional<Website> actual = websiteService.updateWebsite( websiteDto, "A" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
-  verify( pageDb, never() ).save( getPage( "A" ) );
+  verify( websiteDb, never() ).save( getPage( "A" ) );
  }
 
  @Test
  @DisplayName ("Update slug of existing page should return page with new slug")
- void updatePagesSlug () {
+ void updateWebsitesSlug () {
   // GIVEN
-  PageDto pageDto = PageDto.builder()
-                            .slug( "NEWSLUG" )
-                            .userId( "B" )
-                            .assemblies( List.of() )
-                            .build();
+  WebsiteDto websiteDto = WebsiteDto.builder()
+                                  .slug( "NEWSLUG" )
+                                  .userId( "B" )
+                                  .assemblies( List.of() )
+                                  .build();
   String originalSlug = "A";
-  when( pageDb.findById( originalSlug ) ).thenReturn( Optional.of( getPage( originalSlug ) ) );
-  when( pageDb.save( getPage( "NEWSLUG" ) ) ).thenReturn( getPage( "NEWSLUG" ) );
-  when( assemblyService.hasAvailableAssemblies( pageDto.getAssemblies() ) ).thenReturn( true );
+  when( websiteDb.findById( originalSlug ) ).thenReturn( Optional.of( getPage( originalSlug ) ) );
+  when( websiteDb.save( getPage( "NEWSLUG" ) ) ).thenReturn( getPage( "NEWSLUG" ) );
+  when( assemblyService.hasAvailableAssemblies( websiteDto.getAssemblies() ) ).thenReturn( true );
   when( timeUTC.now() ).thenReturn( 1L );
 
   // WHEN
-  Optional<Website> actual = pageService.updatePage( pageDto, originalSlug );
+  Optional<Website> actual = websiteService.updateWebsite( websiteDto, originalSlug );
 
   // THEN
   assertThat( actual.get(), is( getPage( "NEWSLUG" ) ) );
-  verify( pageDb ).save( getPage( "NEWSLUG" ) );
-  verify( pageDb ).deleteById( "A" );
+  verify( websiteDb ).save( getPage( "NEWSLUG" ) );
+  verify( websiteDb ).deleteById( "A" );
  }
 
  @Test
  @DisplayName ("Update slug of not existing page should return optional empty")
- void updateNotExistingPagesSlug () {
+ void updateNotExistingWebsitesSlug () {
   // GIVEN
-  PageDto pageDto = PageDto.builder()
-                            .slug( "NOTEXISTING" )
-                            .userId( "B" )
-                            .assemblies( List.of() )
-                            .build();
+  WebsiteDto websiteDto = WebsiteDto.builder()
+                                  .slug( "NOTEXISTING" )
+                                  .userId( "B" )
+                                  .assemblies( List.of() )
+                                  .build();
   String originalSlug = "A";
-  when( pageDb.findById( originalSlug ) ).thenReturn( Optional.empty() );
+  when( websiteDb.findById( originalSlug ) ).thenReturn( Optional.empty() );
   when( timeUTC.now() ).thenReturn( 1L );
 
   // WHEN
-  Optional<Website> actual = pageService.updatePage( pageDto, originalSlug );
+  Optional<Website> actual = websiteService.updateWebsite( websiteDto, originalSlug );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
-  verify( pageDb, never() ).save( getPage( "NOTEXISTING" ) );
+  verify( websiteDb, never() ).save( getPage( "NOTEXISTING" ) );
  }
 
  @Test
  @DisplayName ("Set landing page should set landingPage to true, remove all other landingPages " +
                        "and return it as an optional")
- void setLandingPageBySlug () {
+ void setLandingWebsiteBySlug () {
   // GIVEN
-  when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
-  when( pageDb.findByLandingPageIs( true ) )
+  when( websiteDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ) ) );
+  when( websiteDb.findByLandingPageIs( true ) )
           .thenReturn( List.of( getPage( "B" ).toBuilder().landingPage( true ).build() ) );
-  when( pageDb.save( getPage( "A" ).toBuilder().landingPage( true ).build() ) ).then( returnsFirstArg() );
-  when( pageDb.save( getPage( "B" ).toBuilder().landingPage( false ).build() ) ).then( returnsFirstArg() );
+  when( websiteDb.save( getPage( "A" ).toBuilder().landingPage( true ).build() ) ).then( returnsFirstArg() );
+  when( websiteDb.save( getPage( "B" ).toBuilder().landingPage( false ).build() ) ).then( returnsFirstArg() );
 
   // WHEN
-  Optional<Website> actual = pageService.setLandingPageBySlug( "A" );
+  Optional<Website> actual = websiteService.setLandingPageBySlug( "A" );
 
   // THEN
   assertThat( actual.get(), is( getPage( "A" ).toBuilder().landingPage( true ).build() ) );
-  verify( pageDb ).save( getPage( "A" ).toBuilder().landingPage( true ).build() );
+  verify( websiteDb ).save( getPage( "A" ).toBuilder().landingPage( true ).build() );
  }
 
  @Test
  @DisplayName ("Set landing page as landing page again should return it as optional")
- void setLandingPageAgainAsLandingPageBySlug () {
+ void setLandingWebsiteAgainAsLandingPageBySlug () {
   // GIVEN
-  when( pageDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ).toBuilder().landingPage( true ).build() ) );
-  when( pageDb.findByLandingPageIs( true ) )
+  when( websiteDb.findById( "A" ) ).thenReturn( Optional.of( getPage( "A" ).toBuilder().landingPage( true ).build() ) );
+  when( websiteDb.findByLandingPageIs( true ) )
           .thenReturn( List.of( getPage( "B" ).toBuilder().landingPage( false ).build() ) );
-  when( pageDb.save( getPage( "A" ).toBuilder().landingPage( true ).build() ) ).then( returnsFirstArg() );
+  when( websiteDb.save( getPage( "A" ).toBuilder().landingPage( true ).build() ) ).then( returnsFirstArg() );
 
   // WHEN
-  Optional<Website> actual = pageService.setLandingPageBySlug( "A" );
+  Optional<Website> actual = websiteService.setLandingPageBySlug( "A" );
 
   // THEN
   assertThat( actual.get(), is( getPage( "A" ).toBuilder().landingPage( true ).build() ) );
-  verify( pageDb ).save( getPage( "A" ).toBuilder().landingPage( true ).build() );
+  verify( websiteDb ).save( getPage( "A" ).toBuilder().landingPage( true ).build() );
  }
 
  @Test
  @DisplayName ("Set a non existing landing page should return optional empty")
- void setNotExistingPageAsLandingPageBySlug () {
+ void setNotExistingWebsiteAsLandingPageBySlug () {
   // GIVEN
-  when( pageDb.findById( "A" ) ).thenReturn( Optional.empty() );
+  when( websiteDb.findById( "A" ) ).thenReturn( Optional.empty() );
 
   // WHEN
-  Optional<Website> actual = pageService.setLandingPageBySlug( "NOTEXISTING" );
+  Optional<Website> actual = websiteService.setLandingPageBySlug( "NOTEXISTING" );
 
   // THEN
   assertThat( actual.isEmpty(), is( true ) );
-  verify( pageDb, never() ).save( any() );
+  verify( websiteDb, never() ).save( any() );
  }
 
  @Test
  @DisplayName ("Delete page should call deleteById on the db")
- void deletePageBySlug () {
+ void deleteWebsiteBySlug () {
   // GIVEN
   // WHEN
-  pageService.deletePageBySlug( "A" );
+  websiteService.deleteWebsiteBySlug( "A" );
 
   // THEN
-  verify( pageDb ).deleteById( "A" );
+  verify( websiteDb ).deleteById( "A" );
  }
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PageDb extends PagingAndSortingRepository<Website, String> {
+public interface WebsiteDb extends PagingAndSortingRepository<Website, String> {
 
  @Override
  List<Website> findAll ();

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.opensource.schulaltas.model.website.Assembly;
 import org.opensource.schulaltas.model.website.Website;
-import org.opensource.schulaltas.repository.PageDb;
+import org.opensource.schulaltas.repository.WebsiteDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -30,13 +30,13 @@ class PublicWebsiteControllerTest {
  private TestRestTemplate testRestTemplate;
 
  @Autowired
- private PageDb pageDb;
+ private WebsiteDb websiteDb;
 
  @BeforeEach
  public void Setup () {
-  pageDb.deleteAll();
-  pageDb.save( getPage( "page1" ) );
-  pageDb.save( getPage( "page2" ) );
+  websiteDb.deleteAll();
+  websiteDb.save( getPage( "page1" ) );
+  websiteDb.save( getPage( "page2" ) );
  }
 
  private String getUrl () {

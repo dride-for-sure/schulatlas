@@ -3,12 +3,12 @@ package org.opensource.schulaltas.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.opensource.schulaltas.controller.model.PageDto;
+import org.opensource.schulaltas.controller.model.WebsiteDto;
 import org.opensource.schulaltas.model.website.Assembly;
 import org.opensource.schulaltas.model.website.Website;
 import org.opensource.schulaltas.repository.AssemblyDb;
-import org.opensource.schulaltas.repository.PageDb;
 import org.opensource.schulaltas.repository.SchoolUserDb;
+import org.opensource.schulaltas.repository.WebsiteDb;
 import org.opensource.schulaltas.security.model.AuthenticationRequest;
 import org.opensource.schulaltas.security.model.SchoolUser;
 import org.opensource.schulaltas.security.model.enums.SchoolUserAuthorities;
@@ -45,7 +45,7 @@ class PrivateWebsiteControllerTest {
  private TestRestTemplate testRestTemplate;
 
  @Autowired
- private PageDb pageDb;
+ private WebsiteDb websiteDb;
 
  @Autowired
  private SchoolUserDb schoolUserDb;
@@ -55,16 +55,16 @@ class PrivateWebsiteControllerTest {
 
  @BeforeEach
  public void Setup () {
-  pageDb.deleteAll();
-  pageDb.save( getPage( "A" ) );
-  pageDb.save( getPage( "B" ) );
+  websiteDb.deleteAll();
+  websiteDb.save( getWebsite( "A" ) );
+  websiteDb.save( getWebsite( "B" ) );
  }
 
  private String getUrl () {
   return "http://localhost:" + port;
  }
 
- private Website getPage (String slug) {
+ private Website getWebsite (String slug) {
   return Website.builder()
                  .slug( slug )
                  .updated( 1L )
@@ -77,8 +77,8 @@ class PrivateWebsiteControllerTest {
                                  .build() ) ).build();
  }
 
- private PageDto getPageDto (String slug) {
-  return PageDto.builder()
+ private WebsiteDto getWebsiteDto (String slug) {
+  return WebsiteDto.builder()
                  .slug( slug )
                  .userId( "1" )
                  .assemblies( List.of(
@@ -110,7 +110,7 @@ class PrivateWebsiteControllerTest {
 
  @Test
  @DisplayName ("List pages should return all pages within the db")
- void listPages () {
+ void listWebsites () {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
@@ -120,12 +120,12 @@ class PrivateWebsiteControllerTest {
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
-  assertThat( actual.getBody(), arrayContainingInAnyOrder( getPage( "A" ), getPage( "B" ) ) );
+  assertThat( actual.getBody(), arrayContainingInAnyOrder( getWebsite( "A" ), getWebsite( "B" ) ) );
  }
 
  @Test
  @DisplayName ("Get Page should return the specific page")
- void getPageBySlug () {
+ void getWebsiteBySlug () {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
@@ -135,12 +135,12 @@ class PrivateWebsiteControllerTest {
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
-  assertThat( actual.getBody(), is( getPage( "A" ) ) );
+  assertThat( actual.getBody(), is( getWebsite( "A" ) ) );
  }
 
  @Test
  @DisplayName ("Get Page should throw an exception in case of not existing page")
- void getNotExistingPageBySlug () {
+ void getNotExistingWebsiteBySlug () {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
@@ -155,43 +155,43 @@ class PrivateWebsiteControllerTest {
 
  @Test
  @DisplayName ("Add not existing page to the db should return this again")
- void addPage () {
+ void addWebsite () {
   // GIVEN
   when( timeUTC.now() ).thenReturn( 1L );
   when( assemblyDb.findAll() ).thenReturn( List.of( getAssembly( "A" ), getAssembly( "B" ) ) );
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
-  HttpEntity<PageDto> entity = new HttpEntity<>( getPageDto( "NEW" ), headers );
+  HttpEntity<WebsiteDto> entity = new HttpEntity<>( getWebsiteDto( "NEW" ), headers );
   ResponseEntity<Website> actual =
           testRestTemplate.exchange( getUrl() + "/auth/v1/page/",
                   HttpMethod.POST, entity, Website.class );
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
-  assertThat( actual.getBody(), is( getPage( "NEW" ) ) );
-  assertTrue( pageDb.existsById( "NEW" ) );
+  assertThat( actual.getBody(), is( getWebsite( "NEW" ) ) );
+  assertTrue( websiteDb.existsById( "NEW" ) );
  }
 
  @Test
  @DisplayName ("Add existing page should return the existing one")
- void addExistingPage () {
+ void addExistingWebsite () {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
-  HttpEntity<PageDto> entity = new HttpEntity<>( getPageDto( "A" ), headers );
+  HttpEntity<WebsiteDto> entity = new HttpEntity<>( getWebsiteDto( "A" ), headers );
   ResponseEntity<Website> actual =
           testRestTemplate.exchange( getUrl() + "/auth/v1/page/",
                   HttpMethod.POST, entity, Website.class );
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
-  assertThat( actual.getBody(), is( getPage( "A" ) ) );
+  assertThat( actual.getBody(), is( getWebsite( "A" ) ) );
  }
 
  @Test
  @DisplayName ("Update existing page should return the updated version")
- void updatePage () {
+ void updateWebsite () {
   // GIVEN
   when( timeUTC.now() ).thenReturn( 1L );
   when( assemblyDb.findAll() ).thenReturn( List.of( getAssembly( "A" ), getAssembly( "B" ) ) );
@@ -199,8 +199,8 @@ class PrivateWebsiteControllerTest {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
-  HttpEntity<PageDto> entity =
-          new HttpEntity<>( getPageDto( "A" ).toBuilder().userId( "UPDATED" ).build(),
+  HttpEntity<WebsiteDto> entity =
+          new HttpEntity<>( getWebsiteDto( "A" ).toBuilder().userId( "UPDATED" ).build(),
                   headers );
   ResponseEntity<Website> actual =
           testRestTemplate.exchange( getUrl() + "/auth/v1/page/slug/A",
@@ -208,17 +208,17 @@ class PrivateWebsiteControllerTest {
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
-  assertThat( actual.getBody(), is( getPage( "A" ).toBuilder().userId( "UPDATED" ).build() ) );
+  assertThat( actual.getBody(), is( getWebsite( "A" ).toBuilder().userId( "UPDATED" ).build() ) );
  }
 
  @Test
  @DisplayName ("Update not existing page should throw an exception")
- void updateNotExistingPage () {
+ void updateNotExistingWebsite () {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
-  HttpEntity<PageDto> entity =
-          new HttpEntity<>( getPageDto( "NOTEXISTING" ),
+  HttpEntity<WebsiteDto> entity =
+          new HttpEntity<>( getWebsiteDto( "NOTEXISTING" ),
                   headers );
   ResponseEntity<Website> actual =
           testRestTemplate.exchange( getUrl() + "/auth/v1/page/slug/NOTEXISTING",
@@ -230,7 +230,7 @@ class PrivateWebsiteControllerTest {
 
  @Test
  @DisplayName ("Update existing pages slug should return the updated version")
- void updateSlugOfExistingPage () {
+ void updateSlugOfExistingWebsite () {
   // GIVEN
   when( timeUTC.now() ).thenReturn( 1L );
   when( assemblyDb.findAll() ).thenReturn( List.of( getAssembly( "A" ), getAssembly( "B" ) ) );
@@ -238,8 +238,8 @@ class PrivateWebsiteControllerTest {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
-  HttpEntity<PageDto> entity =
-          new HttpEntity<>( getPageDto( "NEWSLUG" ).toBuilder().userId( "UPDATED" ).build(),
+  HttpEntity<WebsiteDto> entity =
+          new HttpEntity<>( getWebsiteDto( "NEWSLUG" ).toBuilder().userId( "UPDATED" ).build(),
                   headers );
   ResponseEntity<Website> actual =
           testRestTemplate.exchange( getUrl() + "/auth/v1/page/slug/A",
@@ -247,13 +247,13 @@ class PrivateWebsiteControllerTest {
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
-  assertThat( actual.getBody(), is( getPage( "NEWSLUG" ).toBuilder().userId( "UPDATED" ).build() ) );
-  assertFalse( pageDb.existsById( "A" ) );
+  assertThat( actual.getBody(), is( getWebsite( "NEWSLUG" ).toBuilder().userId( "UPDATED" ).build() ) );
+  assertFalse( websiteDb.existsById( "A" ) );
  }
 
  @Test
  @DisplayName ("Update not existing pages slug should throw an exception")
- void updateSlugOfNotExistingPage () {
+ void updateSlugOfNotExistingWebsite () {
   // GIVEN
   when( timeUTC.now() ).thenReturn( 1L );
   when( assemblyDb.findAll() ).thenReturn( List.of( getAssembly( "A" ), getAssembly( "B" ) ) );
@@ -261,8 +261,8 @@ class PrivateWebsiteControllerTest {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
-  HttpEntity<PageDto> entity =
-          new HttpEntity<>( getPageDto( "NEWSLUG" ).toBuilder().userId( "UPDATED" ).build(),
+  HttpEntity<WebsiteDto> entity =
+          new HttpEntity<>( getWebsiteDto( "NEWSLUG" ).toBuilder().userId( "UPDATED" ).build(),
                   headers );
   ResponseEntity<Website> actual =
           testRestTemplate.exchange( getUrl() + "/auth/v1/page/slug/NOTEXISTING",
@@ -270,14 +270,14 @@ class PrivateWebsiteControllerTest {
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.BAD_REQUEST ) );
-  assertFalse( pageDb.existsById( "NEWSLUG" ) );
+  assertFalse( websiteDb.existsById( "NEWSLUG" ) );
  }
 
  @Test
  @DisplayName ("Set landing page should change landingPage to true and save it within the db")
  void setLandingPageBySlug () {
   // GIVEN
-  pageDb.save( getPage( "B" ).toBuilder().landingPage( true ).build() );
+  websiteDb.save( getWebsite( "B" ).toBuilder().landingPage( true ).build() );
 
   // WHEN
   HttpHeaders headers = new HttpHeaders();
@@ -288,17 +288,17 @@ class PrivateWebsiteControllerTest {
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
-  assertThat( actual.getBody(), is( getPage( "A" ).toBuilder().landingPage( true ).build() ) );
-  assertThat( pageDb.findByLandingPageIs( true ),
-          containsInAnyOrder( getPage( "A" ).toBuilder().landingPage( true ).build() ) );
-  assertThat( pageDb.findByLandingPageIs( false ), containsInAnyOrder( getPage( "B" ) ) );
+  assertThat( actual.getBody(), is( getWebsite( "A" ).toBuilder().landingPage( true ).build() ) );
+  assertThat( websiteDb.findByLandingPageIs( true ),
+          containsInAnyOrder( getWebsite( "A" ).toBuilder().landingPage( true ).build() ) );
+  assertThat( websiteDb.findByLandingPageIs( false ), containsInAnyOrder( getWebsite( "B" ) ) );
  }
 
  @Test
  @DisplayName ("Set landing page again should return it again")
- void setLandingPageAgainAsLandingPageBySlug () {
+ void setLandingWebsiteAgainAsLandingPageBySlug () {
   // GIVEN
-  pageDb.save( getPage( "A" ).toBuilder().landingPage( true ).build() );
+  websiteDb.save( getWebsite( "A" ).toBuilder().landingPage( true ).build() );
 
   // WHEN
   HttpHeaders headers = new HttpHeaders();
@@ -309,15 +309,15 @@ class PrivateWebsiteControllerTest {
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
-  assertThat( actual.getBody(), is( getPage( "A" ).toBuilder().landingPage( true ).build() ) );
-  assertThat( pageDb.findByLandingPageIs( true ),
-          containsInAnyOrder( getPage( "A" ).toBuilder().landingPage( true ).build() ) );
-  assertThat( pageDb.findByLandingPageIs( false ), containsInAnyOrder( getPage( "B" ) ) );
+  assertThat( actual.getBody(), is( getWebsite( "A" ).toBuilder().landingPage( true ).build() ) );
+  assertThat( websiteDb.findByLandingPageIs( true ),
+          containsInAnyOrder( getWebsite( "A" ).toBuilder().landingPage( true ).build() ) );
+  assertThat( websiteDb.findByLandingPageIs( false ), containsInAnyOrder( getWebsite( "B" ) ) );
  }
 
  @Test
  @DisplayName ("Set not existing landing page should throw an exception")
- void setNotExistingPageAsLandingPageBySlug () {
+ void setNotExistingWebsiteAsLandingPageBySlug () {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
@@ -328,11 +328,11 @@ class PrivateWebsiteControllerTest {
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.BAD_REQUEST ) );
-  assertFalse( pageDb.existsById( "NOTEXISTING" ) );
+  assertFalse( websiteDb.existsById( "NOTEXISTING" ) );
  }
 
  @Test
- void deletePageBySlug () {
+ void deleteWebsiteBySlug () {
   // WHEN
   HttpHeaders headers = new HttpHeaders();
   headers.setBearerAuth( getJWTToken() );
@@ -343,6 +343,6 @@ class PrivateWebsiteControllerTest {
 
   // THEN
   assertThat( actual.getStatusCode(), is( HttpStatus.OK ) );
-  assertFalse( pageDb.existsById( "A" ) );
+  assertFalse( websiteDb.existsById( "A" ) );
  }
 }
