@@ -38,10 +38,12 @@ that is well suited for the 21st century and for future generations to come.
 - **Backend** written in **Java/Spring** to aggregate, process and serve datasets
 - **Custom Headless CMS** written in *React* to maintain the numerous databases on the one hand and
 	to fill the public frontend area with content on the other hand.
-- Real-time processing of all datasets to create interactive custom map overlays to visualize the
-	user-selected datapoints with the help of [Leaflet](https://leafletjs.com/)
-- Public REST API to maintain and access all gathered Datasets in the context of Open Data / Open
-	Government
+- **Indexed MongoDb** to make all datapoints available to the user in the frontend as quickly as
+	possible
+- Real-time processing of all datasets to create interactive **custom map overlays** to visualize
+	the user-selected datapoints with the help of [Leaflet](https://leafletjs.com/)
+- **Public REST API** to maintain and access all gathered Datasets in the context of **Open Data /
+	Open Government**
 
 ### Contributing
 
