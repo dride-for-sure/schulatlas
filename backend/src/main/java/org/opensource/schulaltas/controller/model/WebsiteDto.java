@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder (toBuilder = true)
-public class PageDto {
+public class WebsiteDto {
 
  private String slug;
  private String userId;
