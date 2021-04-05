@@ -1,4 +1,4 @@
-const debounce = (callback, timer, setTimer) => {
+const throttle = (callback, timer, setTimer) => {
   if (!timer) {
     const currentTimer = setTimeout(() => {
       callback();
@@ -8,4 +8,4 @@ const debounce = (callback, timer, setTimer) => {
   }
 };
 
-export default debounce;
+export default throttle;
