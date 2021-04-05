@@ -2,10 +2,10 @@ import decode from 'jwt-decode';
 import { useEffect, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import debounce from '../../common/debounceChanges';
 import { addIndicesToNestedData, updateNestedData } from '../../common/indexData';
 import { escapeSlug } from '../../common/slug';
 import sortPages from '../../common/sortPages';
+import throttle from '../../common/throttle';
 import Header from '../../components/header/cms/Header';
 import EditPage from '../../components/parts/cms/EditPage/EditPage';
 import SideBar from '../../components/parts/cms/SideBar';
@@ -17,9 +17,9 @@ import { addAttachment } from '../../services/api/private/attachmentApiService';
 import { addPage, deletePageBySlug, getPageBySlug, listPages, setLandingPageBySlug, updatePage } from '../../services/api/private/pageApiService';
 
 export default function PageDetails() {
-  const [page, setPage] = useState('');
-  const [pages, setPages] = useState('');
-  const [timer, setTimer] = useState('');
+  const [page, setPage] = useState(null);
+  const [pages, setPages] = useState([]);
+  const [timer, setTimer] = useState(null);
   const [currentSlug, setCurrentSlug] = useState('');
   const pageRef = useRef(page);
   const history = useHistory();
@@ -78,7 +78,7 @@ export default function PageDetails() {
           .catch((error) => console.log(error));
       }
     };
-    debounce(() => save(), timer, setTimer);
+    throttle(() => save(), timer, setTimer);
   };
 
   const updateEntry = (id, entry) => {
