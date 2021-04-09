@@ -7,10 +7,12 @@ import { escapeSlug } from '../../common/slug';
 import sortPages from '../../common/sortPages';
 import throttle from '../../common/throttle';
 import Header from '../../components/header/cms/Header';
+import PaddingContainerM from '../../components/padding/_PaddingContainerM';
 import EditPage from '../../components/parts/cms/EditPage/EditPage';
 import SideBar from '../../components/parts/cms/SideBar';
-import GridSideBar from '../../components/structures/GridSideBar';
 import FlexRowCenter from '../../components/structures/_FlexRowCenter';
+import GridSideBar from '../../components/structures/_GridSideBar';
+import MaxWidthL from '../../components/structures/_MaxWidthL';
 import { getPageTemplate } from '../../config/schulatlasConfig';
 import { useAuth } from '../../contexts/AuthProvider';
 import { addAttachment } from '../../services/api/private/attachmentApiService';
@@ -129,30 +131,40 @@ export default function PageDetails() {
   return (
     <>
       <Header />
-      <Container>
-        <GridSideBar>
-          {pages && (
-          <SideBar
-            pages={pages}
-            onAddPage={addNewPage}
-            setLandingPage={setLandingPage} />
-          )}
-          {page && (
-            <EditPage
-              page={page}
-              pages={pages}
-              onChange={updateEntry}
-              onUpdateSlug={updateSlug}
-              onDeletePage={handleDelete}
-              onUploadFile={uploadFile}
-              onDeleteFile={deleteFile} />
-          )}
-        </GridSideBar>
-      </Container>
+      <Wrapper>
+        <PaddingContainer>
+          <MaxWidthContainer>
+            {pages && (
+              <SideBar
+                pages={pages}
+                onAddPage={addNewPage}
+                setLandingPage={setLandingPage} />
+            )}
+            {page && (
+              <EditPage
+                page={page}
+                pages={pages}
+                onChange={updateEntry}
+                onUpdateSlug={updateSlug}
+                onDeletePage={handleDelete}
+                onUploadFile={uploadFile}
+                onDeleteFile={deleteFile} />
+            )}
+          </MaxWidthContainer>
+        </PaddingContainer>
+      </Wrapper>
     </>
   );
 }
 
-const Container = styled.div`
-  ${FlexRowCenter};
+const Wrapper = styled.main``;
+
+const PaddingContainer = styled.div`
+  ${FlexRowCenter}
+  ${PaddingContainerM}
+`;
+
+const MaxWidthContainer = styled.div`
+  ${MaxWidthL}
+  ${GridSideBar};
 `;
