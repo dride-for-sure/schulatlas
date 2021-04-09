@@ -1,7 +1,7 @@
 import { css } from 'styled-components/macro';
 
 const UnorderedList = css`
-  list-style-position: inside;
+  list-style: none;
   text-transform: capitalize;
   
   > li {
