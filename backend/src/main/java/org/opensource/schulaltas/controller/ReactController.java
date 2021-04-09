@@ -7,17 +7,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ReactController {
 
  @RequestMapping (value = { "/" })
- public String forward () {
+ public String index () {
   return "index.html";
  }
 
  @RequestMapping (value = { "/*" })
- public String forward () {
+ public String schulatlas () {
   return "/";
  }
 
  @RequestMapping (value = { "/cms/**" })
- public String forward () {
+ public String cms () {
   return "/";
  }
 }
