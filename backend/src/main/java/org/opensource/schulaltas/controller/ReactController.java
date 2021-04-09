@@ -11,12 +11,12 @@ public class ReactController {
   return "index.html";
  }
 
- @RequestMapping (value = { "/*" })
+ @RequestMapping (value = { "/{*}" })
  public String schulatlas () {
   return "/";
  }
 
- @RequestMapping (value = { "/cms/**" })
+ @RequestMapping (value = { "/cms/{**}" })
  public String cms () {
   return "/";
  }
