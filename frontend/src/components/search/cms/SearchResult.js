@@ -55,7 +55,7 @@ export default function SearchResult({ schoolSearchResults, typeSearchResults })
 
 const Container = styled.div`
   position: absolute;
-  z-index: 1;
+  z-index: 3;
   box-sizing: border-box;
   top: 38px;
   width: 300px;

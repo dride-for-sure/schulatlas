@@ -13,7 +13,6 @@ export const getAssemblyVariants = (type) => {
 
 export const getSchoolTemplate = () => ({
   number: `new-school-${uuid()}`,
-  newSchool: true,
   name: 'New School',
   address: {
     street: '',
@@ -38,7 +37,6 @@ export const getPageTemplate = (name) => {
     case 'highlights':
       return {
         slug: 'new-highlights-page',
-        newPage: true,
         landingPage: false,
         updated: Date.now(),
         assemblies: [
@@ -112,7 +110,6 @@ export const getPageTemplate = (name) => {
       return {
         slug: 'new-contentfull-page',
         landingPage: false,
-        newPage: true,
         updated: Date.now(),
         assemblies: [
           {
