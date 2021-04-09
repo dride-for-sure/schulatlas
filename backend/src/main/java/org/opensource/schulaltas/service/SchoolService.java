@@ -47,6 +47,9 @@ public class SchoolService {
  }
 
  public Optional<School> addSchool (SchoolDto schoolDto) {
+  if ( schoolDto.getNumber().isEmpty() ) {
+   return Optional.empty();
+  }
   Optional<Coordinates> coordinates = geoService.getCoordinatesFromAddress( schoolDto.getAddress() );
   Optional<School> school = schoolDb.findById( schoolDto.getNumber() );
   Boolean areAvailableProperties = propertyService.areAvailableProperties( schoolDto.getProperties() );

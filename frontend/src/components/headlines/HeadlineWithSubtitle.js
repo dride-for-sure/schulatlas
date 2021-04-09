@@ -1,5 +1,7 @@
 import { bool, string } from 'prop-types';
 import styled, { css } from 'styled-components/macro';
+import CapitalizeFirstLetter from '../text/_CapitalizeFirstLetter';
+import TextEllipsis from '../text/_TextEllipsis';
 
 const HeadlineWithSubtitle = ({ title, subtitle, size, margin }) => (
   <Container>
@@ -10,9 +12,9 @@ const HeadlineWithSubtitle = ({ title, subtitle, size, margin }) => (
 
 const Container = styled.div`
   > * {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    ${CapitalizeFirstLetter}
+    ${TextEllipsis}
+    line-height: initial;
   }
 `;
 
@@ -26,13 +28,12 @@ const Title = styled.h2`
   `}
 `;
 
-const Subtitle = styled.span`
-  display: block;
+const Subtitle = styled.h3`
   font-family: var(--font-family-subtitle);
   font-size: var(--font-size-subtitle-m);
   font-style: var(--font-style-subtitle);
 
-  ${(props) => props.margin === false && css`
+  ${(props) => props.margin && css`
     margin: var(--margin-subtitle);
   `}
   

@@ -1,41 +1,117 @@
+import { func, object, string } from 'prop-types';
+import { useEffect, useRef } from 'react';
 import styled from 'styled-components/macro';
-import Image from '../../../resources/images/HeaderBackgroundSmall.jpg';
-import BrandBar from '../../brandBar/BrandBar';
+import { addSearchBarClickEvent, addSearchBarEnterEvent, removeSearchBarClickEvent, removeSearchBarEnterEvent } from '../../../events/searchBarEvents';
+import Image from '../../../resources/images/HeaderBackgroundBig.jpg';
+import BackgroundCoverCenter from '../../background/_BackgroundCoverCenter';
+import BrandBar from '../../brandBar/_BrandBar';
 import Logo from '../../icons/Logo';
 import Navigation from '../../navigation/cms/Navigation';
+import PaddingContainerS from '../../padding/_PaddingContainerS';
+import SearchBar from '../../search/cms/Searchbar';
+import SearchResult from '../../search/cms/SearchResult';
 import FlexRowCenter from '../../structures/_FlexRowCenter';
-import FlexRowSpaceBetween from '../../structures/_FlexRowSpaceBetween';
-import MaxWidth from '../../structures/_MaxWidth';
+import MaxWidthL from '../../structures/_MaxWidthL';
 
-export default function Header() {
+export default function Header({
+  searchString,
+  onSearch,
+  schoolSearchResults,
+  typeSearchResults,
+  onSearchBarLeave,
+  onSearchBarEnter }) {
+  const searchBarRef = useRef(null);
+
+  useEffect(() => {
+    if (searchBarRef.current) {
+      addSearchBarClickEvent(searchBarRef, onSearchBarLeave);
+      addSearchBarEnterEvent(searchBarRef, onSearchBarEnter);
+    }
+    return (() => {
+      removeSearchBarClickEvent(searchBarRef, onSearchBarLeave);
+      removeSearchBarEnterEvent(searchBarRef, onSearchBarEnter);
+    });
+  }, []);
+
   return (
     <>
       <Wrapper background={Image}>
-        <Container>
-          <Logo />
-          <Navigation />
-        </Container>
+        <PaddingContainer>
+          <MaxWidthContainer>
+            <Logo />
+            {onSearch && (
+              <PositionRelative>
+                <SearchBar
+                  inputRef={searchBarRef}
+                  searchString={searchString}
+                  onSearch={onSearch}
+                  onLeave={onSearchBarLeave}
+                  onEnter={onSearchBarEnter} />
+                <SearchResult
+                  schoolSearchResults={schoolSearchResults}
+                  typeSearchResults={typeSearchResults} />
+              </PositionRelative>
+            ) }
+            <Navigation />
+          </MaxWidthContainer>
+        </PaddingContainer>
       </Wrapper>
-      <BrandBar />
     </>
   );
 }
 
 const Wrapper = styled.header`
-  background-image: url(${(props) => props.background});
-  background-repeat: no-repeat;
-  background-position: center;
-  background-position: 50% 50%;
-  background-size: cover;
-  ${FlexRowCenter};
+  ${BackgroundCoverCenter}
+
+  :after {
+    ${BrandBar}
+    position: relative;
+    z-index: 0;
+  }
 `;
 
-const Container = styled.div`
-  ${FlexRowSpaceBetween};
-  ${MaxWidth};
-  padding: var(--container-padding) calc(var(--container-padding) * 2);
+const PaddingContainer = styled.div`
+  ${FlexRowCenter}
+  ${PaddingContainerS}
+`;
+
+const MaxWidthContainer = styled.div`
+  ${MaxWidthL};
+  display: grid;
+  grid-template-columns: min-content 300px 1fr;
+  grid-template-areas: "logo search navi";
+  grid-gap: 0 var(--default-padding-m);
   
+  > align-self {
+    grid-area: logo;
+  }
+
+  > div {
+    grid-area: search;
+  }
+
+  > ol {
+    grid-area: navi;
+  }
+
   > * {
     align-self:center;
   }
+
+  * {
+    min-width: 0;
+  }
 `;
+
+const PositionRelative = styled.div`
+  position: relative;
+`;
+
+Header.propTypes = {
+  searchString: string,
+  onSearch: func,
+  typeSearchResults: object,
+  schoolSearchResults: object,
+  onSearchBarLeave: func,
+  onSearchBarEnter: func,
+};

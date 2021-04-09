@@ -1,6 +1,8 @@
 import styled, { css } from 'styled-components/macro';
+import CapitalizeFirstLetter from '../text/_CapitalizeFirstLetter';
 
 const Headline = styled.h1`
+  ${CapitalizeFirstLetter}
   font-family: var(--font-family-title);
   font-size: var(--font-size-title-m);
 
@@ -21,12 +23,15 @@ const Headline = styled.h1`
   ${(props) => props.size === 's' && css`
     margin: var(--margin-title-s);
   `}
-  
-  text-transform: capitalize;
 
-  > i {
-    font-weight: 400;
-  }
+  ${(props) => props.before && css`
+    :before {
+      content: '${`${props.before}:`}';
+      margin-right: 0.4rem;
+      font-style: italic;
+      font-weight: 400;
+    }
+  `}
 `;
 
 export default Headline;

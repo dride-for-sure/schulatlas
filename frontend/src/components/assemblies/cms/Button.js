@@ -1,9 +1,9 @@
 import { array, func, object } from 'prop-types';
-import { prettifySlug } from '../../common/slug';
-import Input from '../form/Input';
-import Label from '../form/Label';
-import Select from '../form/Select';
-import GridTwoOne from '../structures/GridTwoOne';
+import { prettifySlug } from '../../../common/slug';
+import Input from '../../form/Input';
+import Label from '../../form/Label';
+import Select from '../../form/Select';
+import GridTwoOne from '../../structures/GridTwoOne';
 
 export default function Button({ component, onChange, pages }) {
   return (

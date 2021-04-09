@@ -8,11 +8,7 @@ import SchoolListItem from './SchoolListItem';
 export default function SchoolList({ prefix, schools, onPagination, toggleSort, searchParams }) {
   return (
     <GridSchoolList>
-      <Headline size="l">
-        Search:
-        {' '}
-        <i>{prefix || 'All Types'}</i>
-      </Headline>
+      <Headline size="l" before="Search">{prefix || 'All Types'}</Headline>
       <SchoolListHeader toggleSort={toggleSort} searchParams={searchParams} />
       {schools.content.map((school) => <SchoolListItem key={school.number} school={school} />)}
       <Pagination pageable={schools} onPagination={onPagination} />

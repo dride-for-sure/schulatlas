@@ -1,7 +1,7 @@
 import { array, func, object } from 'prop-types';
-import { prettifySlug } from '../../common/slug';
-import Label from '../form/Label';
-import Select from '../form/Select';
+import { prettifySlug } from '../../../common/slug';
+import Label from '../../form/Label';
+import Select from '../../form/Select';
 
 export default function Card({ component, pages, onChange }) {
   return (

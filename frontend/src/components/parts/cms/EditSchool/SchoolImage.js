@@ -52,7 +52,7 @@ const Right = styled.div`
   }
 
   > button {
-    margin: var(--container-padding) 0;
+    margin: var(--default-padding-s) 0;
   }
 `;
 

@@ -29,6 +29,10 @@ public class WebsiteService {
   return websiteDb.findById( slug );
  }
 
+ public Optional<Website> getLandingPage () {
+  return websiteDb.findByLandingPageIs( true ).stream().findFirst();
+ }
+
  public Optional<Website> addWebsite (WebsiteDto websiteDto) {
   Optional<Website> website = websiteDb.findById( websiteDto.getSlug() );
   if ( website.isEmpty() ) {
@@ -80,4 +84,5 @@ public class WebsiteService {
  public void deleteWebsiteBySlug (String slug) {
   websiteDb.deleteById( slug );
  }
+
 }

@@ -1,5 +1,5 @@
 const removeUsedProperties = (available, used) => {
-  if (used) {
+  if (used !== null) {
     return available.filter((availableProp) =>
       !used.some((usedProp) => usedProp.name === availableProp.name));
   }

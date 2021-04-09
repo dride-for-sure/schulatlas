@@ -1,11 +1,11 @@
 import { func, object } from 'prop-types';
 import styled from 'styled-components/macro';
-import BrandButton from '../buttons/BrandButton';
-import BrandButtonAsSpan from '../buttons/BrandButtonAsSpan';
-import Input from '../form/Input';
-import Label from '../form/Label';
-import CustomImage from '../image/Image';
-import GridTwoOne from '../structures/GridTwoOne';
+import BrandButton from '../../buttons/BrandButton';
+import BrandButtonAsSpan from '../../buttons/BrandButtonAsSpan';
+import Input from '../../form/Input';
+import Label from '../../form/Label';
+import CustomImage from '../../image/Image';
+import GridTwoOne from '../../structures/GridTwoOne';
 
 export default function Image({ component, onChange, onFileDelete, onFileUpload }) {
   return (
@@ -27,7 +27,7 @@ export default function Image({ component, onChange, onFileDelete, onFileUpload 
             align="left"
             id={`${component.id}-'fileUpload'`}
             type="file"
-            accept="image/jpg, image/jpeg"
+            accept="image/jpg, image/jpeg, image/png"
             style={{ display: 'none' }}
             onChange={onFileUpload} />
           <BrandButtonAsSpan
@@ -50,7 +50,7 @@ export default function Image({ component, onChange, onFileDelete, onFileUpload 
 
 const ColumnLeft = styled.div`
   > img {
-    margin-bottom: var(--container-padding);
+    margin-bottom: var(--default-padding-s);
   }
 `;
 
@@ -60,7 +60,7 @@ const ColumnRight = styled.div`
   }
 
   > button {
-    margin: var(--container-padding) 0;
+    margin: var(--default-padding-s) 0;
   }
 `;
 

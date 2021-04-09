@@ -1,6 +1,6 @@
 import { func, string } from 'prop-types';
-import Input from '../form/Input';
-import Label from '../form/Label';
+import Input from '../../form/Input';
+import Label from '../../form/Label';
 
 export default function Slug({ slug, onChange }) {
   return (

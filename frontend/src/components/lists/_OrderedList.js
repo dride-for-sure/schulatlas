@@ -2,7 +2,7 @@ import { css } from 'styled-components/macro';
 
 const OrderedList = css`
   list-style: none;
-  list-style-position: inside;
+  text-transform: capitalize;
 `;
 
 export default OrderedList;

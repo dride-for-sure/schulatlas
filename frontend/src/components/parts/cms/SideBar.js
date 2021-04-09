@@ -10,7 +10,7 @@ export default function SideBar({ pages, usedTypes, onAddPage, onAddSchool, setL
       {pages && (
         <>
           <HeadlineWithSubtitle title="Pages" subtitle="List of all pages" />
-          <MainButton onClick={() => onAddPage('highlights')}>Add Hightlight Page</MainButton>
+          <MainButton onClick={() => onAddPage('highlights')}>Add Highlight Page</MainButton>
           <MainButton variant="secondary" onClick={() => onAddPage('contentfull')}>Add Content Page</MainButton>
         </>
       )}
@@ -35,7 +35,7 @@ const Container = styled.div`
   }
   
   > button+button {
-    margin-top: var(--container-padding);
+    margin-top: var(--default-padding-s);
   }
 `;
 

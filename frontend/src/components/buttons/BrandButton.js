@@ -14,7 +14,7 @@ export default function BrandButton({ children, variant, disabled, type, onClick
 
 const CustomButton = styled.button`
   ${Button};
-
+  
   > img {
     margin: 0.125rem 0 0 0.8rem;
   }

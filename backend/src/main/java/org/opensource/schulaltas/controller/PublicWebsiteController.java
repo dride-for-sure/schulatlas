@@ -25,4 +25,11 @@ public class PublicWebsiteController {
                  .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
                          "Page: " + slug + " is not available" ) );
  }
+
+ @GetMapping ("/landingpage")
+ public Website getLandingPage () {
+  return websiteService.getLandingPage()
+                 .orElseThrow( () -> new ResponseStatusException( HttpStatus.BAD_REQUEST,
+                         "Landing Page is not available" ) );
+ }
 }

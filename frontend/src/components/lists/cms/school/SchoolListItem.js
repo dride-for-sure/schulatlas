@@ -2,6 +2,8 @@ import { object } from 'prop-types';
 import styled, { css } from 'styled-components/macro';
 import convertTimeStampToDate from '../../../../common/timeStamp';
 import RegularLink from '../../../links/RegularLink';
+import TextEllipsis from '../../../text/_TextEllipsis';
+import TextRight from '../../../text/_TextRight';
 
 export default function SchoolListItem({ school }) {
   return (
@@ -48,14 +50,13 @@ const AlignLeft = styled.span`
 
 const AlignRight = styled.span`
   ${ListItem};
-  display:block;
-  text-align: right;
+  ${TextRight}
 `;
 
 const AlignRightItalic = styled.span`
   ${ListItem};
-  display:block;
-  text-align: right;
+  ${TextEllipsis}
+  ${TextRight}
   font-style: italic;
 `;
 

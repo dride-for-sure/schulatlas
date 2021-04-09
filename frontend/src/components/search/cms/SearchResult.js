@@ -55,30 +55,29 @@ export default function SearchResult({ schoolSearchResults, typeSearchResults })
 
 const Container = styled.div`
   position: absolute;
+  z-index: 1;
+  box-sizing: border-box;
   top: 38px;
+  width: 300px;
+  padding: calc(var(--default-padding-s) * 0.5) var(--default-padding-s) calc(var(--default-padding-s) * 0.9);
   border-radius: var(--border-radius);
   border: 1px solid rgb(250,250,250);
-  width: 300px;
-  box-sizing: border-box;
-  padding: calc(var(--container-padding) * 0.5) var(--container-padding) calc(var(--container-padding) * 0.9);
   background-color: white;
-  opacity: 0.85;
   backdrop-filter: blur(20px);
-  z-index: 1;
   box-shadow: 0px 0px 10px rgba(0,0,0, .2);
+  opacity: 0.85;
 
   > div:first-of-type {
-    margin-bottom: calc(var(--container-padding) * 0.5);
+    margin-bottom: calc(var(--default-padding-s) * 0.5);
   }
 
   > ul + h1 {
-    margin-top: calc(var(--container-padding) * 0.5);
+    margin-top: calc(var(--default-padding-s) * 0.5);
   }
 `;
 
 const List = styled.ul`
   ${UnorderedList};
-  list-style: none;
 `;
 
 SearchResult.propTypes = {

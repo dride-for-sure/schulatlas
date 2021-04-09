@@ -22,7 +22,7 @@ export default function Pagination({ pageable, onPagination }) {
 }
 
 const AlignRight = styled.div`
-  margin-top: var(--container-padding);
+  margin-top: var(--default-padding-s);
   text-align: right;
 
   > button + button {

@@ -7,12 +7,14 @@ import removeUsedProperties from '../../common/properties';
 import { getBackendQueryString, getQueryStringForPaginate, getQueryStringForToggleSort, getSearchParams } from '../../common/searchParams';
 import throttle from '../../common/throttle';
 import { removeTypeless } from '../../common/types';
-import HeaderWithSearch from '../../components/header/cms/HeaderWithSearch';
+import Header from '../../components/header/cms/Header';
 import SchoolList from '../../components/lists/cms/school/SchoolList';
+import PaddingContainerM from '../../components/padding/_PaddingContainerM';
 import EditSchool from '../../components/parts/cms/EditSchool/EditSchool';
 import SideBar from '../../components/parts/cms/SideBar';
-import GridSideBar from '../../components/structures/GridSideBar';
 import FlexRowCenter from '../../components/structures/_FlexRowCenter';
+import GridSideBar from '../../components/structures/_GridSideBar';
+import MaxWidthL from '../../components/structures/_MaxWidthL';
 import { getSchoolTemplate } from '../../config/schulatlasConfig';
 import { useAuth } from '../../contexts/AuthProvider';
 import { addAttachment, deleteAttachmentByUrl } from '../../services/api/private/attachmentApiService';
@@ -94,7 +96,9 @@ export default function SchoolsOverview() {
   const getAvailableProperties = () => {
     listProperties()
       .then((incomingProperties) =>
-        setAvailableProperties(removeUsedProperties(incomingProperties, school.properties)))
+        setAvailableProperties(
+          removeUsedProperties(incomingProperties, school ? school.properties : null),
+        ))
       .catch((error) => console.log(error));
   };
 
@@ -149,6 +153,9 @@ export default function SchoolsOverview() {
   const handleSave = () => {
     const save = () => {
       const schoolToSave = schoolRef.current;
+      if (!schoolToSave.number.length) {
+        return;
+      }
       if (school.number !== schoolToSave.number) {
         if (!schoolToSave.newSchool) {
           deleteSchoolByNumber(school.number);
@@ -217,6 +224,7 @@ export default function SchoolsOverview() {
 
   useEffect(() => {
     schoolRef.current = school;
+    getAvailableProperties();
   }, [school]);
 
   useEffect(() => {
@@ -231,47 +239,56 @@ export default function SchoolsOverview() {
 
   return (
     <>
-      <HeaderWithSearch
+      <Header
         searchString={searchString}
         schoolSearchResults={schoolSearchResults}
         typeSearchResults={typeSearchResults}
         onSearchBarLeave={handleSearchBarLeave}
         onSearchBarEnter={redirectToSearchList}
         onSearch={handleSearch} />
-      <Container>
-        <GridSideBar>
-          {usedTypes && (
-          <SideBar
-            usedTypes={usedTypes}
-            onAddSchool={addNewSchool} />
-          )}
-          {schools && (
-          <SchoolList
-            prefix={type || searchFor || ''}
-            schools={schools}
-            onPagination={handlePagination}
-            toggleSort={toggleSort}
-            searchParams={getSearchParams(search)}
-             />
-          )}
-          {school && (
-            <EditSchool
-              school={school}
-              availableTypes={availableTypes}
-              availableProperties={availableProperties}
-              onChange={updateEntry}
-              onAddProperty={addProperty}
-              onDeleteProperty={deleteProperty}
-              onSchoolDelete={deleteSchool}
-              onFileUpload={uploadFile}
-              onFileDelete={deleteFile} />
-          )}
-        </GridSideBar>
-      </Container>
+      <Wrapper>
+        <PaddingContainer>
+          <MaxWidthContainer>
+            {usedTypes && (
+              <SideBar
+                usedTypes={usedTypes}
+                onAddSchool={addNewSchool} />
+            )}
+            {schools && (
+              <SchoolList
+                prefix={type || searchFor || ''}
+                schools={schools}
+                onPagination={handlePagination}
+                toggleSort={toggleSort}
+                searchParams={getSearchParams(search)} />
+            )}
+            {school && (
+              <EditSchool
+                school={school}
+                availableTypes={availableTypes}
+                availableProperties={availableProperties}
+                onChange={updateEntry}
+                onAddProperty={addProperty}
+                onDeleteProperty={deleteProperty}
+                onSchoolDelete={deleteSchool}
+                onFileUpload={uploadFile}
+                onFileDelete={deleteFile} />
+            )}
+          </MaxWidthContainer>
+        </PaddingContainer>
+      </Wrapper>
     </>
   );
 }
 
-const Container = styled.div`
-  ${FlexRowCenter};
+const Wrapper = styled.main``;
+
+const PaddingContainer = styled.div`
+  ${FlexRowCenter}
+  ${PaddingContainerM}
+`;
+
+const MaxWidthContainer = styled.div`
+  ${MaxWidthL}
+  ${GridSideBar}
 `;

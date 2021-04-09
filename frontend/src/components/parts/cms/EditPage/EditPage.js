@@ -1,7 +1,7 @@
 import { array, func, object } from 'prop-types';
 import { prettifySlug } from '../../../../common/slug';
 import convertTimeStampToDate from '../../../../common/timeStamp';
-import Slug from '../../../assemblies/Slug';
+import Slug from '../../../assemblies/cms/Slug';
 import BrandButton from '../../../buttons/BrandButton';
 import HeadlineWithSubtitle from '../../../headlines/HeadlineWithSubtitle';
 import Loading from '../../../loading/Loading';
@@ -19,12 +19,13 @@ export default function EditPage({
   if (!page) {
     return <Loading />;
   }
+
   return (
     <GridEdit>
       <HeadlineWithSubtitle
         size="l"
         title={prettifySlug(page.slug)}
-        subtitle={`Updated on ${convertTimeStampToDate(page.updated)} by ${page.userId}`} />
+        subtitle={`Updated on ${convertTimeStampToDate(page.updated)} ${page.userId ? `by ${page.userId}` : ''}`} />
       <Slug
         slug={page.slug}
         onChange={onUpdateSlug} />
