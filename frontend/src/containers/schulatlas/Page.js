@@ -7,12 +7,14 @@ import FeatureCard from '../../components/assemblies/schulatlas/featureCard/Feat
 import Footer from '../../components/assemblies/schulatlas/footer/Footer';
 import Sponsors from '../../components/assemblies/schulatlas/sponsors/Sponsors';
 import TextBlock from '../../components/assemblies/schulatlas/textblock/TextBlock';
+import ErrorNotAvailable from '../../components/error/ErrorNotAvailable';
 import Header from '../../components/header/schulatlas/Header';
 import Loading from '../../components/loading/Loading';
 import { getLandingPage, getPageBySlug } from '../../services/api/public/pageApiService';
 
 export default function Page() {
   const [page, setPage] = useState(null);
+  const [error, setError] = useState(null);
   const { slug } = useParams();
 
   const getHero = () => page.assemblies.find((assembly) => assembly.type === 'hero');
@@ -38,13 +40,17 @@ export default function Page() {
     if (!slug) {
       getLandingPage()
         .then(setPage)
-        .catch((error) => console.log(error));
+        .catch((e) => setError({ error: e }));
     } else {
       getPageBySlug(slug)
         .then(setPage)
-        .catch((error) => console.log(error));
+        .catch((e) => setError({ error: e }));
     }
   }, [slug]);
+
+  if (error) {
+    return <ErrorNotAvailable error={error} />;
+  }
 
   if (!page) {
     return <Loading />;

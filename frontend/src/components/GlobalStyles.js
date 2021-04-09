@@ -38,6 +38,7 @@ const GlobalStyle = createGlobalStyle`
   --font-size-title-s: 1rem;
   --font-size-title-m: 1.5rem;
   --font-size-title-l: 2rem;
+  --font-size-title-xl: 3rem;
   --margin-title: 0 0 1rem;
   --margin-title-s: 0 0 0.4rem;
 
