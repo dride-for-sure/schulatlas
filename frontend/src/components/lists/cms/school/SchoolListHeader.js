@@ -68,8 +68,8 @@ const Button = styled.button`
   ${(props) => props.indicator === 'desc' && css`
     > img {
       opacity: 1;
-      -webkit-transform: scaleY(-1);
       transform: scaleY(-1);
+      -webkit-transform: scaleY(-1);
     }
   `}
 
