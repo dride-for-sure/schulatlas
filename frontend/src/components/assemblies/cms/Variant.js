@@ -1,7 +1,7 @@
 import { func, object } from 'prop-types';
-import { getAssemblyVariants } from '../../config/schulatlasConfig';
-import Label from '../form/Label';
-import Select from '../form/Select';
+import { getAssemblyVariants } from '../../../config/schulatlasConfig';
+import Label from '../../form/Label';
+import Select from '../../form/Select';
 
 export default function Variant({ assembly, onChange }) {
   const variants = getAssemblyVariants(assembly.type);

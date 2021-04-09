@@ -1,6 +1,6 @@
 import { func, object } from 'prop-types';
-import Label from '../form/Label';
-import Textarea from '../form/Textarea';
+import Label from '../../form/Label';
+import Textarea from '../../form/Textarea';
 
 export default function Paragraph({ component, onChange }) {
   return (
