@@ -6,8 +6,6 @@ export const getAssemblyVariants = (type) => {
       return ['primary', 'secondary'];
     case 'feature-card':
       return ['image-left', 'image-right'];
-    case 'button':
-      return ['primary', 'secondary', 'arrow'];
     default:
       return '';
   }
@@ -39,9 +37,10 @@ export const getPageTemplate = (name) => {
   switch (name) {
     case 'highlights':
       return {
-        slug: 'new-hightlights-page',
+        slug: 'new-highlights-page',
         newPage: true,
         landingPage: false,
+        updated: Date.now(),
         assemblies: [
           {
             type: 'hero',
@@ -65,6 +64,7 @@ export const getPageTemplate = (name) => {
           },
           {
             type: 'feature-card',
+            variant: 'image-left',
             components: [
               { type: 'title' },
               { type: 'subtitle' },
@@ -74,6 +74,7 @@ export const getPageTemplate = (name) => {
           },
           {
             type: 'feature-card',
+            variant: 'image-right',
             components: [
               { type: 'title' },
               { type: 'subtitle' },
@@ -105,15 +106,15 @@ export const getPageTemplate = (name) => {
         slug: 'new-contentfull-page',
         landingPage: false,
         newPage: true,
+        updated: Date.now(),
         assemblies: [
           {
             type: 'hero',
             variant: 'secondary',
             components: [
-              { type: 'title' },
+              { type: 'title row 1' },
+              { type: 'title row 2' },
               { type: 'subtitle' },
-              { type: 'button' },
-              { type: 'button' },
               { type: 'image' },
             ],
           },
@@ -124,15 +125,7 @@ export const getPageTemplate = (name) => {
               { type: 'subtitle' },
               { type: 'paragraph' },
               { type: 'image' },
-            ],
-          },
-          {
-            type: 'textblock',
-            components: [
-              { type: 'title' },
-              { type: 'subtitle' },
               { type: 'paragraph' },
-              { type: 'image' },
             ],
           },
           {
