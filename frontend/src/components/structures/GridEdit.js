@@ -1,19 +1,18 @@
 import styled from 'styled-components/macro';
+import TextEllipsis from '../text/_TextEllipsis';
 
 const GridEdit = styled.div`
-  display:grid;
+  display: grid;
   grid-template-columns: minmax(auto, 6rem) 1fr;
   grid-template-rows: repeat();
-  grid-gap: var(--container-padding) var(--container-padding);
+  grid-gap: var(--default-padding-s) var(--default-padding-s);
   height: fit-content;
   min-width: 0;
 
   > * {
     grid-column: 2 / span 1;
     min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    ${TextEllipsis}
   }
 
   > h1 {

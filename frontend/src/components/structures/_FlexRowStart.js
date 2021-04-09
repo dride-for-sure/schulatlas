@@ -1,9 +1,9 @@
 import { css } from 'styled-components/macro';
 
-const FlexRowCenter = css`
+const FlexRowStart = css`
   display:flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
 `;
 
-export default FlexRowCenter;
+export default FlexRowStart;

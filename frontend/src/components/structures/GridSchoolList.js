@@ -1,19 +1,18 @@
 import styled from 'styled-components/macro';
+import TextEllipsis from '../text/_TextEllipsis';
 
 const GridSchoolList = styled.div`
-  display:grid;
+  display: grid;
   grid-template-columns: minmax(auto, 6rem) 2fr 0.8fr 0.6fr 0.4fr;
   grid-template-rows: repeat();
-  grid-gap:  calc(var(--container-padding) * 0.5) var(--container-padding);
+  grid-gap:  calc(var(--default-padding-s) * 0.5) var(--default-padding-s);
   height: fit-content;
   min-height: 0;
   min-width: 0;
 
   > * {
     min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    ${TextEllipsis}
   }
 
   > h1 {
@@ -22,12 +21,6 @@ const GridSchoolList = styled.div`
 
   > button:first-of-type {
     grid-column: 1 / span 1;
-  }
-
-  > span {
-    min-width: 0;
-    white-space: nowrap;
-    overflow: hidden;
   }
 
   > div:last-of-type {
