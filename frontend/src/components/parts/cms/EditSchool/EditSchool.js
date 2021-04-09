@@ -32,7 +32,7 @@ export default function EditSchool({
       <HeadlineWithSubtitle
         size="l"
         title={prettifySlug(school.name)}
-        subtitle={`Updated on ${convertTimeStampToDate(school.updated)} by ${school.userId}, MarkOutdated: ${school.markedOutdated ? school.markedOutdated : 0}`}
+        subtitle={`Updated on ${convertTimeStampToDate(school.updated)}${school.userId ? ` by ${school.userId}` : ''}, MarkOutdated: ${school.markedOutdated ? school.markedOutdated : 0}`}
         />
       <SchoolName
         school={school}
