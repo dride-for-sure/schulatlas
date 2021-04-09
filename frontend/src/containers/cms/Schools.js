@@ -1,5 +1,6 @@
 import decode from 'jwt-decode';
 import { useEffect, useRef, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { addIndicesToNestedData, deleteNestedData, updateNestedData } from '../../common/indexData';
@@ -239,6 +240,9 @@ export default function SchoolsOverview() {
 
   return (
     <>
+      <Helmet>
+        <title>{school ? `SCHULATLAS CMS | Edit School: "${school.number} - ${school.name}"` : 'SCHULATLAS CMS | Schools Overview'}</title>
+      </Helmet>
       <Header
         searchString={searchString}
         schoolSearchResults={schoolSearchResults}
