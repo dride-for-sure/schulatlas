@@ -48,6 +48,7 @@ public class AttachmentService {
   List<String> validFileTypes = List.of(
           "image/jpg",
           "image/jpeg",
+          "image/png",
           "application/pdf"
   );
   return !file.getContentType().isEmpty() && validFileTypes.contains( file.getContentType() );
