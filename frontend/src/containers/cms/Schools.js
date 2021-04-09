@@ -30,6 +30,7 @@ export default function SchoolsOverview() {
   const [availableProperties, setAvailableProperties] = useState([]);
   const [schools, setSchools] = useState(null);
   const [school, setSchool] = useState(null);
+  const [isNewSchool, setIsNewSchool] = useState(false);
   const [timer, setTimer] = useState('');
   const [searchString, setSearchString] = useState('');
   const [schoolSearchResults, setSchoolSearchResults] = useState(null);
@@ -44,6 +45,7 @@ export default function SchoolsOverview() {
   const clearStates = () => {
     setSchools(null);
     setSchool(null);
+    setIsNewSchool(false);
   };
 
   const clearSearchStates = () => {
@@ -144,6 +146,7 @@ export default function SchoolsOverview() {
     } else if (number && number === 'new-school') {
       const newSchoolFromTemplate = getSchoolTemplate();
       setSchool(newSchoolFromTemplate);
+      setIsNewSchool(true);
     } else {
       listSchools(getBackendQueryString(search))
         .then(setSchools)
@@ -164,14 +167,10 @@ export default function SchoolsOverview() {
         addSchool(schoolToSave)
           .then(setTimeout(getUsedTypes, 1000))
           .catch((error) => console.log(error));
-      } else if (schoolToSave.newSchool) {
-        const clearedSchool = {
-          ...schoolToSave,
-          newSchool: false,
-        };
-        addSchool(clearedSchool)
+      } else if (isNewSchool) {
+        addSchool(schoolToSave)
           .then(setTimeout(getUsedTypes, 1000))
-          .then(setSchool(clearedSchool))
+          .then(setIsNewSchool(false))
           .catch((error) => console.log(error));
       } else {
         updateSchool(schoolToSave, schoolToSave.number)
@@ -205,6 +204,7 @@ export default function SchoolsOverview() {
   const deleteSchool = (num) => {
     deleteSchoolByNumber(num);
     setSchool(null);
+    setTimeout(getUsedTypes, 1000);
     history.push('/cms/schools');
   };
 

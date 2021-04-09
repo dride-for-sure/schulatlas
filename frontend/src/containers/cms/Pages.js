@@ -23,6 +23,7 @@ export default function PageDetails() {
   const [page, setPage] = useState(null);
   const [pages, setPages] = useState([]);
   const [timer, setTimer] = useState(null);
+  const [isNewPage, setIsNewPage] = useState(false);
   const [currentSlug, setCurrentSlug] = useState('');
   const pageRef = useRef(page);
   const history = useHistory();
@@ -42,6 +43,7 @@ export default function PageDetails() {
   };
 
   const handleParamsUpdate = () => {
+    setIsNewPage(false);
     if (slug) {
       getPageBySlug(slug)
         .then((incomingPage) => setPage(addIndicesToNestedData(incomingPage)))
@@ -55,26 +57,20 @@ export default function PageDetails() {
   const handleDelete = () => {
     deletePageBySlug(slug);
     setPage('');
-    getPageList();
+    setTimeout(getPageList, 1000);
     history.push('/cms/pages');
   };
 
   const handleSave = () => {
     const save = () => {
       const pageToSave = pageRef.current;
-      if (pageToSave.newPage && pageToSave.slug) {
-        const clearedPage = {
-          slug: pageToSave.slug,
-          updated: pageToSave.updated,
-          userId: pageToSave.userId,
-          landingPage: false,
-          assemblies: pageToSave.assemblies };
-        addPage(clearedPage)
-          .then(setCurrentSlug(clearedPage.slug))
-          .then(setPage(clearedPage))
+      if (isNewPage) {
+        addPage(pageToSave)
+          .then(setCurrentSlug(pageToSave.slug))
+          .then(setIsNewPage(false))
           .then(setTimeout(getPageList, 1000))
           .catch((error) => console.log(error));
-      } else if (pageToSave.slug) {
+      } else {
         updatePage(pageToSave, currentSlug)
           .then(setCurrentSlug(pageToSave.slug))
           .then(setTimeout(getPageList, 1000))
@@ -105,6 +101,7 @@ export default function PageDetails() {
   const addNewPage = (template) => {
     const pageFromTemplate = getPageTemplate(template);
     const randomIndex = Math.floor(Math.random() * 1000);
+    setIsNewPage(true);
     setPage(addIndicesToNestedData({ ...pageFromTemplate, slug: `${pageFromTemplate.slug}-${randomIndex}` }));
   };
 
