@@ -1,11 +1,11 @@
 import { array, func, object } from 'prop-types';
 import { prettifySlug } from '../../../../common/slug';
-import Button from '../../../assemblies/Button';
-import Card from '../../../assemblies/Card';
-import Image from '../../../assemblies/Image';
-import Paragraph from '../../../assemblies/Paragraph';
-import Title from '../../../assemblies/Title';
-import Variant from '../../../assemblies/Variant';
+import Button from '../../../assemblies/cms/Button';
+import Card from '../../../assemblies/cms/Card';
+import Image from '../../../assemblies/cms/Image';
+import Paragraph from '../../../assemblies/cms/Paragraph';
+import Title from '../../../assemblies/cms/Title';
+import Variant from '../../../assemblies/cms/Variant';
 import Headline from '../../../headlines/Headline';
 
 export default function Assembly({ assembly, onChange, onFileUpload, onFileDelete, pages }) {
@@ -13,6 +13,8 @@ export default function Assembly({ assembly, onChange, onFileUpload, onFileDelet
     const { id } = component;
     switch (component.type) {
       case 'title':
+      case 'title row 1':
+      case 'title row 2':
       case 'subtitle':
         return (
           <Title
