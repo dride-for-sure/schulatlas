@@ -18,7 +18,7 @@ export default function Image({ component, onChange, onFileDelete, onFileUpload 
             align="left"
             id="description"
             type="text"
-            placeholder="Image description..."
+            placeholder="Add image description..."
             value={component.description || ''}
             onChange={onChange} />
         </ColumnLeft>
