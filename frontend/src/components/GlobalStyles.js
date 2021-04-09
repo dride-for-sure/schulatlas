@@ -77,6 +77,7 @@ const GlobalStyle = createGlobalStyle`
    * COLOR SCHEME ###########################
    */
 
+  --color-lightest-silver: #efefef;
   --color-lighter-silver: #c5c5c5;
   --color-light-silver: #505050;
   --color-medium-silver: #454545;

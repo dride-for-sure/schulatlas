@@ -48,12 +48,12 @@ export default function Page() {
     }
   }, [slug]);
 
-  if (error) {
-    return <ErrorNotAvailable error={error} />;
+  if (!page && !error) {
+    return <Loading />;
   }
 
-  if (!page) {
-    return <Loading />;
+  if (error) {
+    return <ErrorNotAvailable error={error} />;
   }
 
   return (
