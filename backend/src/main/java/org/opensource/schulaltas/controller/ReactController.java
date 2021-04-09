@@ -1,24 +1,14 @@
 package org.opensource.schulaltas.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class ReactController {
 
- /*
- @RequestMapping (value = { "/" })
+
+ @RequestMapping (value = { "/**/{path:[^\\.]*}" })
  public String index () {
-  return "index.html";
+  return "forward:/";
  }
-
- @RequestMapping (value = { "/{*}" })
- public String schulatlas () {
-  return "/";
- }
-
- @RequestMapping (value = { "/cms/{**}" })
- public String cms () {
-  return "/";
- }
-  */
 }
