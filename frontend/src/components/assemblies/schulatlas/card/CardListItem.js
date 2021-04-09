@@ -6,7 +6,7 @@ import { getPageBySlug } from '../../../../services/api/public/pageApiService';
 import Headline from '../../../headlines/Headline';
 import Image from '../../../image/Image';
 import ArrowLink from '../../../links/ArrowLink';
-import Loading from '../../../loading/Loading';
+import RegularLink from '../../../links/RegularLink';
 import FlexColumnSpaceBetween from '../../../structures/_FlexColumnSpaceBetween';
 import FlexColumnStart from '../../../structures/_FlexColumnStart';
 import Paragraph from '../paragraph/Paragraph';
@@ -15,8 +15,7 @@ export default function CardListItem({ card }) {
   const [target, setTarget] = useState(null);
 
   const extractContent = (response) => {
-    const hero = response.assemblies
-      .find((assembly) => assembly.type === 'hero');
+    const hero = response.assemblies.find((assembly) => assembly.type === 'hero');
     return {
       title: hero.components.find((component) => component.type === 'title').content,
       subtitle: hero.components.find((component) => component.type === 'subtitle').content,
@@ -34,16 +33,16 @@ export default function CardListItem({ card }) {
   }, []);
 
   if (!target) {
-    return <Loading />;
+    return null;
   }
 
   return (
     <Wrapper>
       <Image src={target.imageUrl} alt={target.imageDescription} />
       <Content>
-        <Headline>{target.title}</Headline>
+        <RegularLink to={`/${card.target}`} title={target.title}><Headline>{target.title}</Headline></RegularLink>
         <Paragraph>{target.subtitle}</Paragraph>
-        <ArrowLink to={`/${card.target}`} alt={target.title} />
+        <ArrowLink to={`/${card.target}`} title={target.title} />
       </Content>
     </Wrapper>
   );
@@ -70,7 +69,7 @@ const Content = styled.div`
   height: 100%;
   padding: calc(var(--default-padding-s) * 0.8) var(--default-padding-s) calc(var(--default-padding-s) * 0.4); 
 
-  > a {
+  > a:last-of-type {
     align-self: flex-end;
     margin: 0;
     padding: 0.5rem 0 0.5rem 0.5rem;
