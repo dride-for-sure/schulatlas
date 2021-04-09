@@ -10,4 +10,14 @@ public class ReactController {
  public String forward () {
   return "index.html";
  }
+
+ @RequestMapping (value = { "/*" })
+ public String forward () {
+  return "/";
+ }
+
+ @RequestMapping (value = { "/cms/**" })
+ public String forward () {
+  return "/";
+ }
 }
