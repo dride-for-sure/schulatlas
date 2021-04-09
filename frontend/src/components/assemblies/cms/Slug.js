@@ -10,7 +10,7 @@ export default function Slug({ slug, onChange }) {
         align="left"
         id="slug"
         type="text"
-        placeholder="Enter page slug"
+        placeholder="Add a page slug"
         value={slug || ''}
         onChange={onChange} />
     </>

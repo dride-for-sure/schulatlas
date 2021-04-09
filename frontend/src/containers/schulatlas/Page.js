@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import getPageSeoTags from '../../common/seoDescription';
 import CardList from '../../components/assemblies/schulatlas/card/CardList';
 import CTA from '../../components/assemblies/schulatlas/cta/CTA';
 import FeatureCard from '../../components/assemblies/schulatlas/featureCard/FeatureCard';
@@ -51,6 +52,7 @@ export default function Page() {
 
   return (
     <>
+      {getPageSeoTags(page)}
       <Header hero={getHero()} />
       {page.assemblies.map((assembly, index) => getAssembly(assembly, index))}
       <Footer />

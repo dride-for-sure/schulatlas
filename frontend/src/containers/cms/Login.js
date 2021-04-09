@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import MainButton from '../../components/buttons/BrandButton';
@@ -32,25 +33,31 @@ export default function Login() {
   };
 
   return (
-    <Wrapper>
-      <Container>
-        <Logo />
-        <Headline size="l">Please login:</Headline>
-        <Form onSubmit={handleSubmit}>
-          <Input
-            placeholder="username..."
-            type="text"
-            value={username}
-            onChange={({ target }) => setUsername(target.value)} />
-          <Input
-            placeholder="password..."
-            type="password"
-            value={password}
-            onChange={({ target }) => setPassword(target.value)} />
-          <MainButton disabled={!username || !password}>Continue</MainButton>
-        </Form>
-      </Container>
-    </Wrapper>
+    <>
+      <Helmet>
+        <title>SCHULATLAS CMS | Login</title>
+        <meta name="description" content="SCHULATLAS Content Management System" />
+      </Helmet>
+      <Wrapper>
+        <Container>
+          <Logo />
+          <Headline size="l">Please login:</Headline>
+          <Form onSubmit={handleSubmit}>
+            <Input
+              placeholder="username..."
+              type="text"
+              value={username}
+              onChange={({ target }) => setUsername(target.value)} />
+            <Input
+              placeholder="password..."
+              type="password"
+              value={password}
+              onChange={({ target }) => setPassword(target.value)} />
+            <MainButton disabled={!username || !password}>Continue</MainButton>
+          </Form>
+        </Container>
+      </Wrapper>
+    </>
   );
 }
 

@@ -1,16 +1,46 @@
-const getSeoDescription = (pages, slug) => {
-  const wantedPage = pages.find((page) => page.slug === slug);
-  if (wantedPage) {
-    const hero = wantedPage.assemblies.find((assembly) => assembly.type === 'hero');
-    if (hero) {
-      const titleComp = hero.components.find((component) => component.type === 'title');
-      const subtitleComp = hero.components.find((component) => component.type === 'subtitle');
-      if (titleComp && subtitleComp) {
-        return `${titleComp.content} - ${subtitleComp.content}`;
-      }
-    }
+import { Helmet } from 'react-helmet';
+
+const getSeoTitle = (page) => {
+  try {
+    return page.assemblies.find((assembly) => assembly.type === 'seo')
+      .components.find((component) => component.type === 'title').content;
+  } catch (e) {
+    return '';
   }
-  return '';
 };
 
-export default getSeoDescription;
+const getSeoDescription = (page) => {
+  try {
+    return page.assemblies.find((assembly) => assembly.type === 'seo')
+      .components.find((component) => component.type === 'description').content;
+  } catch (e) {
+    return '';
+  }
+};
+
+const getHeroImage = (page) => {
+  try {
+    return page.assemblies.find((assembly) => assembly.type === 'hero')
+      .components.find((component) => component.type === 'image');
+  } catch (e) {
+    return '';
+  }
+};
+
+const getPageSeoTags = (page) => (
+  <Helmet>
+    <title>{page ? getSeoTitle(page) : 'SCHULATLAS'}</title>
+    <meta name="description" content={`${getSeoDescription(page)}`} />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={getSeoTitle(page)} />
+    <meta property="og:description" content={`${getSeoDescription(page)}`} />
+    <meta property="og:image" content={getHeroImage(page).url} />
+    <meta property="og:url" content={window.location.href} />
+    <meta property="og:site_name" content="SCHULATLAS" />
+    <meta name="twitter:title" content={getSeoTitle(page)} />
+    <meta name="twitter:description" content={`${getSeoDescription(page)}`} />
+    <meta name="twitter:image" content={getHeroImage(page).url} />
+  </Helmet>
+);
+
+export default getPageSeoTags;

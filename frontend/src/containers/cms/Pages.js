@@ -1,9 +1,10 @@
 import decode from 'jwt-decode';
 import { useEffect, useRef, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { addIndicesToNestedData, updateNestedData } from '../../common/indexData';
-import { escapeSlug } from '../../common/slug';
+import { escapeSlug, prettifySlug } from '../../common/slug';
 import sortPages from '../../common/sortPages';
 import throttle from '../../common/throttle';
 import Header from '../../components/header/cms/Header';
@@ -130,6 +131,9 @@ export default function PageDetails() {
 
   return (
     <>
+      <Helmet>
+        <title>{page ? `SCHULATLAS CMS | Edit Page: "${prettifySlug(page.slug)}"` : 'SCHULATLAS CMS | Pages Overview'}</title>
+      </Helmet>
       <Header />
       <Wrapper>
         <PaddingContainer>

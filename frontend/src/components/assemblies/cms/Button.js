@@ -14,7 +14,7 @@ export default function Button({ component, onChange, pages }) {
           align="left"
           id="content"
           type="text"
-          placeholder="Button Text..."
+          placeholder="Add a button text..."
           value={component.content || ''}
           onChange={onChange} />
         <Select

@@ -43,6 +43,13 @@ export const getPageTemplate = (name) => {
         updated: Date.now(),
         assemblies: [
           {
+            type: 'seo',
+            components: [
+              { type: 'title' },
+              { type: 'description' },
+            ],
+          },
+          {
             type: 'hero',
             variant: 'primary',
             components: [
@@ -108,6 +115,13 @@ export const getPageTemplate = (name) => {
         newPage: true,
         updated: Date.now(),
         assemblies: [
+          {
+            type: 'seo',
+            components: [
+              { type: 'title' },
+              { type: 'description' },
+            ],
+          },
           {
             type: 'hero',
             variant: 'secondary',
