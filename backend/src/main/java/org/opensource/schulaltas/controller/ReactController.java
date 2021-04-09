@@ -10,6 +10,6 @@ public class ReactController {
 
  @RequestMapping (value = { "/", "/*", "/cms/**" })
  public String forward (HttpServletRequest httpServletRequest) {
-  return "forward:/";
+  return "forward:/index.html";
  }
 }
