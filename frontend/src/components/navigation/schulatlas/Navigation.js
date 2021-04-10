@@ -6,8 +6,8 @@ import FlexRowEnd from '../../structures/_FlexRowEnd';
 export default function Navigation() {
   return (
     <List>
-      <li><NavigationLink to="/entdecken">Entdecken</NavigationLink></li>
-      <li><NavigationLink to="/vergleichen">Vergleichen</NavigationLink></li>
+      <li><NavigationLink to="/maps">Entdecken</NavigationLink></li>
+      <li><NavigationLink to="/">Vergleichen</NavigationLink></li>
     </List>
   );
 }
