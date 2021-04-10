@@ -31,7 +31,7 @@ export default function SchoolsOverview() {
   const [schools, setSchools] = useState(null);
   const [school, setSchool] = useState(null);
   const [isNewSchool, setIsNewSchool] = useState(false);
-  const [timer, setTimer] = useState('');
+  const [timer, setTimer] = useState(null);
   const [searchString, setSearchString] = useState('');
   const [schoolSearchResults, setSchoolSearchResults] = useState(null);
   const [typeSearchResults, setTypeSearchResults] = useState(null);

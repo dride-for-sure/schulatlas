@@ -48,6 +48,7 @@ export default function Header({
                   onLeave={onSearchBarLeave}
                   onEnter={onSearchBarEnter} />
                 <SearchResult
+                  path="/cms"
                   schoolSearchResults={schoolSearchResults}
                   typeSearchResults={typeSearchResults} />
               </PositionRelative>

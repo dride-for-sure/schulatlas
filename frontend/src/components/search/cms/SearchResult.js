@@ -1,11 +1,12 @@
-import { object } from 'prop-types';
+import { object, string } from 'prop-types';
 import styled from 'styled-components/macro';
 import Headline from '../../headlines/Headline';
 import HeadlineWithSubtitle from '../../headlines/HeadlineWithSubtitle';
 import RegularLink from '../../links/RegularLink';
 import UnorderedList from '../../lists/_UnorderedList';
 
-export default function SearchResult({ schoolSearchResults, typeSearchResults }) {
+export default function SearchResult({
+  path, searchQueries, schoolSearchResults, typeSearchResults }) {
   if (!schoolSearchResults && !typeSearchResults) {
     return null;
   }
@@ -26,7 +27,7 @@ export default function SearchResult({ schoolSearchResults, typeSearchResults })
           <List>
             {typeSearchResults.content.map((type) => (
               <li key={type.name}>
-                <RegularLink to={`/cms/type/${type.name}`}>
+                <RegularLink to={`${path}/type/${type.name}${searchQueries || ''}`}>
                   {type.name}
                 </RegularLink>
               </li>
@@ -40,7 +41,7 @@ export default function SearchResult({ schoolSearchResults, typeSearchResults })
           <List>
             {schoolSearchResults.content.map((school) => (
               <li key={school.number}>
-                <RegularLink to={`/cms/school/${school.number}`}>
+                <RegularLink to={`${path}/school/${school.number}${searchQueries || ''}`}>
                   {`${school.name}, `}
                   <i>{school.address.city}</i>
                 </RegularLink>
@@ -81,6 +82,8 @@ const List = styled.ul`
 `;
 
 SearchResult.propTypes = {
+  path: string.isRequired,
   schoolSearchResults: object,
   typeSearchResults: object,
+  searchQueries: string,
 };
