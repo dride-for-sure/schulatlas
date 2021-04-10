@@ -6,6 +6,7 @@ import ScrollToTop from './components/scroll/ScrollToTop';
 import Login from './containers/cms/Login';
 import Pages from './containers/cms/Pages';
 import Schools from './containers/cms/Schools';
+import Maps from './containers/schulatlas/Maps';
 import Page from './containers/schulatlas/Page';
 import { AuthProvider } from './contexts/AuthProvider';
 import './fonts.css';
@@ -42,6 +43,18 @@ function App() {
             <Redirect to="/cms/pages" />
           </ProtectedRoute>
 
+          <Route path="/maps/type/:type" exact>
+            <Maps />
+          </Route>
+          <Route path="/maps/school/:number" exact>
+            <Maps />
+          </Route>
+          <Route path="/maps/search/:searchFor" exact>
+            <Maps />
+          </Route>
+          <Route path="/maps" exact>
+            <Maps />
+          </Route>
           <Route path="/:slug?" exact>
             <Page />
           </Route>

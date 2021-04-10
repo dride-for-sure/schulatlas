@@ -2,9 +2,6 @@ import { func, object, string } from 'prop-types';
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components/macro';
 import { addSearchBarClickEvent, addSearchBarEnterEvent, removeSearchBarClickEvent, removeSearchBarEnterEvent } from '../../../events/searchBarEvents';
-import Image from '../../../resources/images/HeaderBackgroundBig.jpg';
-import BackgroundCoverCenter from '../../background/_BackgroundCoverCenter';
-import BrandBar from '../../brandBar/_BrandBar';
 import Logo from '../../icons/Logo';
 import Navigation from '../../navigation/cms/Navigation';
 import PaddingContainerS from '../../padding/_PaddingContainerS';
@@ -13,13 +10,14 @@ import SearchResult from '../../search/cms/SearchResult';
 import FlexRowCenter from '../../structures/_FlexRowCenter';
 import MaxWidthL from '../../structures/_MaxWidthL';
 
-export default function Header({
+export default function HeaderMaps({
   searchString,
   onSearch,
   schoolSearchResults,
   typeSearchResults,
   onSearchBarLeave,
-  onSearchBarEnter }) {
+  onSearchBarEnter,
+  searchQueries }) {
   const searchBarRef = useRef(null);
 
   useEffect(() => {
@@ -35,7 +33,7 @@ export default function Header({
 
   return (
     <>
-      <Wrapper background={Image}>
+      <Wrapper>
         <PaddingContainer>
           <MaxWidthContainer>
             <Logo />
@@ -48,7 +46,8 @@ export default function Header({
                   onLeave={onSearchBarLeave}
                   onEnter={onSearchBarEnter} />
                 <SearchResult
-                  path="/cms"
+                  path="/maps"
+                  searchQueries={searchQueries}
                   schoolSearchResults={schoolSearchResults}
                   typeSearchResults={typeSearchResults} />
               </PositionRelative>
@@ -62,13 +61,8 @@ export default function Header({
 }
 
 const Wrapper = styled.header`
-  ${BackgroundCoverCenter}
-
-  :after {
-    ${BrandBar}
-    position: relative;
-    z-index: 0;
-  }
+  position: absolute;
+  width: 100%;
 `;
 
 const PaddingContainer = styled.div`
@@ -108,11 +102,12 @@ const PositionRelative = styled.div`
   position: relative;
 `;
 
-Header.propTypes = {
+HeaderMaps.propTypes = {
   searchString: string,
   onSearch: func,
   typeSearchResults: object,
   schoolSearchResults: object,
   onSearchBarLeave: func,
   onSearchBarEnter: func,
+  searchQueries: string,
 };
