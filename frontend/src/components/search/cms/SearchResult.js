@@ -67,6 +67,9 @@ const Container = styled.div`
   backdrop-filter: blur(20px);
   box-shadow: 0px 0px 10px rgba(0,0,0, .2);
   opacity: 0.85;
+  max-height: 350px;
+  overflow: hidden;
+  overflow-y: scroll;
 
   > div:first-of-type {
     margin-bottom: calc(var(--default-padding-s) * 0.5);
@@ -79,6 +82,10 @@ const Container = styled.div`
 
 const List = styled.ul`
   ${UnorderedList};
+
+  > li {
+    height: fit-content;
+  }
 `;
 
 SearchResult.propTypes = {

@@ -11,9 +11,9 @@ export default function SchoolDetailsSummary({ schoolDetails }) {
         <span>{`${schoolDetails.address.postcode} ${schoolDetails.address.city}`}</span>
       </Flex>
       <Flex>
-        <span>{schoolDetails.contact.phone}</span>
-        <span>{schoolDetails.contact.email}</span>
-        <span>{schoolDetails.contact.url}</span>
+        <span>{schoolDetails.contact.phone ? schoolDetails.contact.phone : 'Phone not available'}</span>
+        <span>{schoolDetails.contact.email ? schoolDetails.contact.email : 'Email not available'}</span>
+        <span>{schoolDetails.contact.url ? schoolDetails.contact.url : 'Url not available'}</span>
       </Flex>
     </Container>
   );

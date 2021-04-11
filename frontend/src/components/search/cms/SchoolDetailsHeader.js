@@ -17,7 +17,7 @@ export default function SchoolDetailsHeader({ schoolDetails }) {
         <Children />
         <span>{'value' in childrenCount ? childrenCount.value : ''}</span>
         <Children />
-        <span>{'value' in teacherCount ? childrenCount.value : ''}</span>
+        <span>{'value' in teacherCount ? teacherCount.value : ''}</span>
       </CountContainer>
     </GridHeader>
   );

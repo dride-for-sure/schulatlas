@@ -8,7 +8,8 @@ import FlexRowCenter from '../../../structures/_FlexRowCenter';
 import MaxWidthL from '../../../structures/_MaxWidthL';
 
 export default function HeroSecondary({ assembly }) {
-  const title = assembly.components.find((component) => component.type === 'title');
+  const title1 = assembly.components.find((component) => component.type === 'title row 1');
+  const title2 = assembly.components.find((component) => component.type === 'title row 2');
   const subtitle = assembly.components.find((component) => component.type === 'subtitle');
   const image = assembly.components.find((component) => component.type === 'image');
 
@@ -16,7 +17,7 @@ export default function HeroSecondary({ assembly }) {
     <Wrapper>
       <PaddingContainer>
         <MaxWidthContainer>
-          <HeadlineTwoRowWithSubtitle row1={title.content} row2={subtitle.content} subtitle={subtitle.content} size="l" variant="marked" />
+          <HeadlineTwoRowWithSubtitle row1={title1.content} row2={title2.content} subtitle={subtitle.content} size="l" variant="marked" />
           <Image src={image.url} alt={image.description} />
         </MaxWidthContainer>
       </PaddingContainer>

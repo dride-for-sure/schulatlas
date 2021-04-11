@@ -22,7 +22,7 @@ export const getQueryStringForPaginate = (whichWay, search, totalPages) => {
     return 1;
   };
   const page = `?page=${getPage()}`;
-  const size = params.size !== null ? `&size=${params.size}` : '';
+  const size = Object.is(params.size, NaN) ? '' : `&size=${params.size}`;
   const sort = params.sort !== null ? `&sort=${params.sort}` : '';
   const direction = params.direction !== null ? `&direction=${params.direction}` : '';
   return `${page}${size}${sort}${direction}`;
@@ -31,7 +31,7 @@ export const getQueryStringForPaginate = (whichWay, search, totalPages) => {
 export const getQueryStringForToggleSort = (sortBy, search) => {
   const params = getSearchParams(search);
   const page = Object.is(params.page, NaN) ? '?page=1' : `?page=${params.page}`;
-  const size = params.size !== null && `&size=${params.size}`;
+  const size = Object.is(params.size, NaN) ? '' : `&size=${params.size}`;
   const sort = `&sort=${sortBy}`;
   const getDirection = () => {
     if (params.direction === null || params.direction === 'asc') {
@@ -45,7 +45,7 @@ export const getQueryStringForToggleSort = (sortBy, search) => {
 export const getBackendQueryString = (search) => {
   const params = getSearchParams(search);
   const page = Object.is(params.page, NaN) ? '?page=0' : `?page=${params.page - 1}`;
-  const size = Object.is(params.page, NaN) ? '&size=' : `&size=${params.size}`;
+  const size = Object.is(params.size, NaN) ? '' : `&size=${params.size}`;
   const sort = params.sort !== null ? `&sort=${params.sort}` : '';
   const direction = params.direction !== null ? `&direction=${params.direction}` : '';
   return `${page}${size}${sort}${direction}`;

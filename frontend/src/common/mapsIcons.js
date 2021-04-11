@@ -15,21 +15,32 @@ import PinWhite2x from '../resources/images/PinWhite@2x.png';
 const getIconUrlByType = (type) => {
   switch (type.toLowerCase()) {
     case 'grundschule':
+    case 'gymnasium':
+    case 'integrierte sekundarschule':
+    case 'abendgymnasium':
       return {
         normal: PinPink,
         retina: PinPink2x,
       };
-    case 'realschule':
+    case 'fachschule':
+    case 'berufsfachschule':
+    case 'volkshochschule':
+    case 'berufsoberschule':
+    case 'berufsschule':
       return {
         normal: PinGreen,
         retina: PinGreen2x,
       };
-    case 'gymnasium':
+    case 'künstlerische schule':
+    case 'freie waldorfschule':
+    case 'sonstige ergänzungsschule':
       return {
         normal: PinPurple,
         retina: PinPurple2x,
       };
-    case 'integrierte gesamtschule':
+    case 'heilpraktikerschule':
+    case 'kosmetikschule':
+    case 'berufsschule mit sonderpädagogik':
       return {
         normal: PinBeige,
         retina: PinBeige2x,
