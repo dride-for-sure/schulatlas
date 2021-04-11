@@ -12,9 +12,9 @@ export default function Atlas({ schools, selectedSchools, onClick,
   const layerRef = useRef(null);
   const selectionLayerRef = useRef(null);
 
-  const removeDuplicates = (geoDataToClean, geoDataToSubstract) =>
-    geoDataToClean.filter((data) =>
-      !geoDataToSubstract.some((dataToSubstract) =>
+  const removeDuplicates = (schoolsToClean, selectedSchoolsToSubstract) =>
+    schoolsToClean.filter((data) =>
+      !selectedSchoolsToSubstract.some((dataToSubstract) =>
         data.number === dataToSubstract.number));
 
   const addDataToMap = (dataToAdd, isSelection) => {
@@ -42,16 +42,16 @@ export default function Atlas({ schools, selectedSchools, onClick,
   };
 
   const moveMapToSelectedData = () => {
+    const bounds = selectionLayerRef.current.getBounds();
     if (!hasMoved) {
-      const bounds = selectionLayerRef.current.getBounds();
       if (selectedSchools > 1) {
         mapRef.current.fitBounds(bounds);
       } else {
-        const shiftedBounds = L.latLngBounds(
-          [L.latLng(bounds._northEast.lat, bounds._northEast.lng - 0.0003)],
-          [L.latLng(bounds._southWest.lat, bounds._southWest.lng - 0.0003)],
-        );
-        mapRef.current.fitBounds(shiftedBounds);
+        const shiftedBounds = [
+          selectedSchools[0].coordinates.latitude,
+          selectedSchools[0].coordinates.longitude,
+        ];
+        mapRef.current.panTo(shiftedBounds);
       }
     }
     setHasMoved(true);
@@ -76,10 +76,10 @@ export default function Atlas({ schools, selectedSchools, onClick,
     });
     L.control.zoom().setPosition('bottomright').addTo(mapRef.current);
     mapRef.current.locate({ setView: true });
-    onBoundsChange(mapRef.current.getBounds());
     mapRef.current.on('moveend', () => onBoundsChange(mapRef.current.getBounds()));
     layerRef.current = L.featureGroup().addTo(mapRef.current);
     selectionLayerRef.current = L.featureGroup().addTo(mapRef.current);
+    onBoundsChange(mapRef.current.getBounds());
   };
 
   useEffect(() => {
@@ -95,6 +95,7 @@ export default function Atlas({ schools, selectedSchools, onClick,
       addDataToMap(selectedSchools, true);
       moveMapToSelectedData();
     } else if (schools.length) {
+      selectionLayerRef.current.clearLayers();
       layerRef.current.clearLayers();
       addDataToMap(schools);
     } else if (selectedSchools.length) {

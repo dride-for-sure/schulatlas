@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import throttle from '../../common/throttle';
-import Atlas from '../../components/assemblies/schulatlas/atlas/atlas';
+import Atlas from '../../components/assemblies/schulatlas/atlas/Atlas';
 import CTA from '../../components/assemblies/schulatlas/cta/CTA';
 import Footer from '../../components/assemblies/schulatlas/footer/Footer';
 import ErrorNotAvailable from '../../components/error/ErrorNotAvailable';
@@ -50,7 +50,6 @@ export default function Maps() {
   };
 
   const handleMarkerClick = (event) => {
-    console.log(event);
     setSearchString(event.target.options.name);
     history.push(`/maps/school/${event.target.options.id}`);
   };
@@ -107,7 +106,6 @@ export default function Maps() {
   };
 
   const handleBoundsChange = () => {
-    console.log(bounds);
     searchMapByBounds(bounds)
       .then((data) => setSchools(data))
       .catch(() => setSchools([]));

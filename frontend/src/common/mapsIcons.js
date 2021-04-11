@@ -59,7 +59,7 @@ export const getIconByType = (type) => L.icon({
 export const getSelectionIconByType = (type) => L.icon({
   iconUrl: getIconUrlByType(type).normal,
   iconRetinaUrl: getIconUrlByType(type).retina,
-  iconSize: [25, 45],
+  iconSize: [35, 60],
   iconAnchor: [12.5, 45],
   tooltipAnchor: [0, -50],
 });
