@@ -14,6 +14,10 @@ const Headline = styled.h1`
     font-size: var(--font-size-title-l);
   `}
 
+  ${(props) => props.size === 's2' && css`
+    font-size: var(--font-size-title-s2);
+  `}
+
   ${(props) => props.size === 's' && css`
     font-size: var(--font-size-title-s);
   `}

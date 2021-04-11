@@ -4,7 +4,7 @@ import DeleteButton from '../../buttons/DeleteButton';
 import SearchButton from '../../buttons/SearchButton';
 import Input from '../../form/Input';
 
-export default function SearchBar({ searchString, onSearch, onLeave, inputRef }) {
+export default function SearchBar({ searchString, onSearch, onClear, inputRef }) {
   return (
     <Container>
       <Input
@@ -15,7 +15,7 @@ export default function SearchBar({ searchString, onSearch, onLeave, inputRef })
         type="text"
         value={searchString || ''}
         onChange={onSearch} />
-      {searchString && <DeleteButton onClick={onLeave} dark />}
+      {searchString && <DeleteButton onClick={onClear} dark />}
       {!searchString && <SearchButton disabled dark />}
     </Container>
   );
@@ -40,5 +40,5 @@ SearchBar.propTypes = {
   inputRef: object.isRequired,
   searchString: string.isRequired,
   onSearch: func.isRequired,
-  onLeave: func.isRequired,
+  onClear: func.isRequired,
 };

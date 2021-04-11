@@ -7,19 +7,23 @@ import Footer from '../../components/assemblies/schulatlas/footer/Footer';
 import ErrorNotAvailable from '../../components/error/ErrorNotAvailable';
 import HeaderMaps from '../../components/header/schulatlas/HeaderMaps';
 import Loading from '../../components/loading/Loading';
-import { getSchoolByNumber } from '../../services/api/private/schoolApiService';
+import { searchMapByBounds, searchMapByBoundsAndType, searchMapByString } from '../../services/api/public/mapsApiService';
 import { getLandingPage } from '../../services/api/public/pageApiService';
+import { getSchoolByNumber } from '../../services/api/public/schoolApiService';
 import { searchForSchools, searchForTypes } from '../../services/api/public/searchApiService';
 
 export default function Maps() {
   const [maps, setMaps] = useState(null);
-  const [school, setSchool] = useState(null);
-  const [schools, setSchools] = useState(null);
+  const [hasMoved, setHasMoved] = useState(false);
+  const [schools, setSchools] = useState([]);
+  const [selectedSchools, setSelectedSchools] = useState([]);
+  const [schoolDetails, setSchoolDetails] = useState(null);
   const [searchString, setSearchString] = useState(null);
   const [schoolSearchResults, setSchoolSearchResults] = useState(null);
   const [typeSearchResults, setTypeSearchResults] = useState(null);
   const [timer, setTimer] = useState(null);
   const [error, setError] = useState(false);
+  const [bounds, setBounds] = useState(null);
   const searchStringRef = useRef(searchString);
   const { search } = useLocation();
   const { number, type, searchFor } = useParams();
@@ -27,31 +31,28 @@ export default function Maps() {
 
   const getCTA = () => maps.assemblies.find((assembly) => assembly.type === 'cta');
 
-  const getSchool = (schoolNumber) => {
-    getSchoolByNumber(schoolNumber)
-      .then(setSchool)
-      .catch((e) => console.error(e));
-  };
-
-  const getSchools = (section) => {
-    console.log(section);
-    console.log(setSchools);
-  };
-
-  const clearSchool = () => {
-    setSchool(null);
-  };
-
   const handleSearchBarLeave = () => {
     setTypeSearchResults(null);
     setSchoolSearchResults(null);
+  };
+
+  const handleSearchBarClear = () => {
+    handleSearchBarLeave();
     setSearchString('');
+    setSchoolDetails(null);
+    history.push('/maps');
   };
 
   const redirectToSearchList = () => {
     if (searchStringRef.current.length > 0) {
       history.push(`/maps/search/${searchStringRef.current}${search}`);
     }
+  };
+
+  const handleMarkerClick = (event) => {
+    console.log(event);
+    setSearchString(event.target.options.name);
+    history.push(`/maps/school/${event.target.options.id}`);
   };
 
   const handleSearch = (event) => {
@@ -63,6 +64,9 @@ export default function Maps() {
       return;
     }
     const searchRequest = () => {
+      history.push('/maps');
+      setSchoolDetails(null);
+      setSelectedSchools([]);
       if (searchStringRef.current) {
         searchForSchools(searchStringRef.current)
           .then(setSchoolSearchResults)
@@ -75,35 +79,49 @@ export default function Maps() {
     throttle(() => searchRequest(), timer, setTimer);
   };
 
+  const handleSingleMapSelection = (selectedSchool) => {
+    setSearchString(selectedSchool.name);
+    setSchoolDetails(selectedSchool);
+    setSelectedSchools([selectedSchool]);
+  };
+
   const handleParamUpdates = () => {
-    setSchool(null);
-    setSchools(null);
     setTypeSearchResults(null);
     setSchoolSearchResults(null);
-    setSearchString('');
+    setSchoolDetails(null);
+    setSelectedSchools([]);
+    setHasMoved(false);
     if (number) {
-      console.log(`Get school by number: ${number}`);
-      if (search) {
-        console.log(`Preserve view: ${search}`);
-      }
+      getSchoolByNumber(number)
+        .then((data) => handleSingleMapSelection(data))
+        .catch(() => setSelectedSchools([]));
     } else if (type) {
-      console.log(`Show schools for type: ${type}`);
-      if (search) {
-        console.log(`Preserve view: ${search}`);
-      }
+      searchMapByBoundsAndType(type, bounds)
+        .then((data) => setSelectedSchools(data))
+        .catch(() => setSelectedSchools([]));
     } else if (searchFor) {
-      console.log(`Search for: ${searchFor}`);
-      if (search) {
-        console.log(`Within this area: ${search}`);
-      }
-    } else {
-      console.log('Load default map based on user position');
+      searchMapByString(searchFor, bounds)
+        .then((data) => setSelectedSchools(data))
+        .catch(() => setSelectedSchools([]));
     }
+  };
+
+  const handleBoundsChange = () => {
+    console.log(bounds);
+    searchMapByBounds(bounds)
+      .then((data) => setSchools(data))
+      .catch(() => setSchools([]));
   };
 
   useEffect(() => {
     handleParamUpdates();
-  }, [search, number]);
+  }, [search, number, type, searchFor]);
+
+  useEffect(() => {
+    if (bounds !== null) {
+      handleBoundsChange();
+    }
+  }, [bounds]);
 
   useEffect(() => {
     searchStringRef.current = searchString;
@@ -132,15 +150,18 @@ export default function Maps() {
         typeSearchResults={typeSearchResults}
         onSearchBarLeave={handleSearchBarLeave}
         onSearchBarEnter={redirectToSearchList}
+        onSearchBarClear={handleSearchBarClear}
         onSearch={handleSearch}
+        schoolDetails={schoolDetails}
         searchQueries={search}
       />
       <Atlas
-        school={school}
-        clearSchool={clearSchool}
-        getSchool={getSchool}
         schools={schools}
-        getSchools={getSchools} />
+        selectedSchools={selectedSchools}
+        onClick={handleMarkerClick}
+        onBoundsChange={setBounds}
+        hasMoved={hasMoved}
+        setHasMoved={setHasMoved} />
       <CTA assembly={getCTA()} />
       <Footer />
     </>
