@@ -16,7 +16,7 @@ export default function SearchDetails({ schoolDetails }) {
     <Wrapper>
       <ImageContainer>
         <Image
-          src={schoolDetails.image}
+          src={schoolDetails.image === null ? '' : schoolDetails.image}
           alt={`Bilder der ${schoolDetails.name} in ${schoolDetails.city}`} />
       </ImageContainer>
       <MaxHeightContainer>
@@ -49,7 +49,11 @@ const ImageContainer = styled.div`
   display: flex;
   position: relative;
   width: 100%;
-  height: fit-content;
+
+  > img {
+    height: 180px;
+    object-fit: cover;
+  }
 
   :after {
     ${BrandBar}

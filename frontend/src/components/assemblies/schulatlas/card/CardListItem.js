@@ -16,9 +16,10 @@ export default function CardListItem({ card }) {
 
   const extractContent = (response) => {
     const hero = response.assemblies.find((assembly) => assembly.type === 'hero');
+    const seo = response.assemblies.find((assembly) => assembly.type === 'seo');
     return {
-      title: hero.components.find((component) => component.type === 'title').content,
-      subtitle: hero.components.find((component) => component.type === 'subtitle').content,
+      title: seo.components.find((component) => component.type === 'title').content,
+      description: seo.components.find((component) => component.type === 'description').content,
       imageUrl: hero.components.find((component) => component.type === 'image').url,
       imageDescription: hero.components.find((component) => component.type === 'image').description,
     };
@@ -41,7 +42,7 @@ export default function CardListItem({ card }) {
       <Image src={target.imageUrl} alt={target.imageDescription} />
       <Content>
         <RegularLink to={`/${card.target}`} title={target.title}><Headline>{target.title}</Headline></RegularLink>
-        <Paragraph>{target.subtitle}</Paragraph>
+        <Paragraph>{target.description}</Paragraph>
         <ArrowLink to={`/${card.target}`} title={target.title} />
       </Content>
     </Wrapper>
