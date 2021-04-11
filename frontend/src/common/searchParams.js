@@ -53,5 +53,5 @@ export const getBackendQueryString = (search) => {
 
 export const getQueryStringForBounds = (bounds) =>
   (((Object.prototype.toString.call(bounds) === '[object Object]') && bounds !== null)
-    ? `?northEast=${bounds._northEast.lat},${bounds._northEast.lng}&southWest=${bounds._southWest.lat},${bounds._southWest.lng}`
+    ? `?northeast=${bounds._northEast.lat},${bounds._northEast.lng}&southwest=${bounds._southWest.lat},${bounds._southWest.lng}`
     : '');
