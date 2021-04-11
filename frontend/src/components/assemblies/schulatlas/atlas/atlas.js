@@ -34,6 +34,7 @@ export default function Atlas({ schools, selectedSchools, onClick,
           alt: `${data.name} (Schoolnumber: ${data.number})`,
           name: data.name,
           id: data.number,
+          opacity: isSelection ? 1.0 : 0.4,
         },
       ).addTo(layer);
       mark.bindTooltip(`${data.name} ${data.type} ${data.number}`, { direction: 'top' }, layerRef.current);
