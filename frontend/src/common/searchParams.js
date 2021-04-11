@@ -1,6 +1,6 @@
 export const getSearchParams = (search) => ({
   page: parseInt(new URLSearchParams(search).get('page'), 10),
-  size: parseInt(new URLSearchParams(search).get('size'), 10) || 3, // As long as there are not hundreds of schools...
+  size: parseInt(new URLSearchParams(search).get('size'), 10),
   sort: new URLSearchParams(search).get('sort'),
   direction: new URLSearchParams(search).get('direction'),
 });
@@ -45,8 +45,13 @@ export const getQueryStringForToggleSort = (sortBy, search) => {
 export const getBackendQueryString = (search) => {
   const params = getSearchParams(search);
   const page = Object.is(params.page, NaN) ? '?page=0' : `?page=${params.page - 1}`;
-  const size = params.size !== null ? `&size=${params.size}` : '';
+  const size = Object.is(params.page, NaN) ? '&size=' : `&size=${params.size}`;
   const sort = params.sort !== null ? `&sort=${params.sort}` : '';
   const direction = params.direction !== null ? `&direction=${params.direction}` : '';
   return `${page}${size}${sort}${direction}`;
 };
+
+export const getQueryStringForBounds = (bounds) =>
+  (((Object.prototype.toString.call(bounds) === '[object Object]') && bounds !== null)
+    ? `?northEast=${bounds._northEast.lat},${bounds._northEast.lng}&southWest=${bounds._southWest.lat},${bounds._southWest.lng}`
+    : '');
