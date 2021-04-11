@@ -73,6 +73,9 @@ const Wrapper = styled.header`
   position: absolute;
   z-index: 2;
   width: 100%;
+  background-color: rgba(0,0,0, 10%);
+  box-shadow: 0 20px 20px 0 rgb(0 0 0 / 10%);
+
 `;
 
 const PaddingContainer = styled.div`
