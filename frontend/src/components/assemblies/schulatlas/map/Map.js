@@ -6,7 +6,7 @@ import styled from 'styled-components/macro';
 import { getIconByType, getSelectionIconByType } from '../../../../common/mapsIcons';
 import BrandBar from '../../../brandBar/_BrandBar';
 
-export default function Atlas({ schools, selectedSchools, onClick,
+export default function Map({ schools, selectedSchools, onClick,
   onBoundsChange, hasMoved, setHasMoved }) {
   const mapRef = useRef(null);
   const layerRef = useRef(null);
@@ -135,7 +135,7 @@ const Leaflet = styled.div`
   z-index: 1;
 `;
 
-Atlas.propTypes = {
+Map.propTypes = {
   schools: array,
   selectedSchools: array,
   onClick: func.isRequired,
