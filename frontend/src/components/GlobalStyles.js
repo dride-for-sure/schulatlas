@@ -36,6 +36,7 @@ const GlobalStyle = createGlobalStyle`
   --font-weight-title-slim: 400;
   --font-size-title-xs: 0.8rem;
   --font-size-title-s: 1rem;
+  --font-size-title-s2: 1.3rem;
   --font-size-title-m: 1.5rem;
   --font-size-title-l: 2rem;
   --font-size-title-xl: 3rem;
