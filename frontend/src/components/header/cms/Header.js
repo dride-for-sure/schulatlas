@@ -45,7 +45,7 @@ export default function Header({
                   inputRef={searchBarRef}
                   searchString={searchString}
                   onSearch={onSearch}
-                  onLeave={onSearchBarLeave}
+                  onClear={onSearchBarLeave}
                   onEnter={onSearchBarEnter} />
                 <SearchResult
                   path="/cms"

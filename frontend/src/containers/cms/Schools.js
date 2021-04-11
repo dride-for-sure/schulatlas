@@ -145,7 +145,7 @@ export default function SchoolsOverview() {
         .catch((error) => console.log(error));
     } else if (number && number === 'new-school') {
       const newSchoolFromTemplate = getSchoolTemplate();
-      setSchool(newSchoolFromTemplate);
+      setSchool(addIndicesToNestedData(newSchoolFromTemplate));
       setIsNewSchool(true);
     } else {
       listSchools(getBackendQueryString(search))
