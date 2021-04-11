@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import throttle from '../../common/throttle';
-import Atlas from '../../components/assemblies/schulatlas/atlas/Atlas';
 import CTA from '../../components/assemblies/schulatlas/cta/CTA';
 import Footer from '../../components/assemblies/schulatlas/footer/Footer';
+import Map from '../../components/assemblies/schulatlas/map/Map';
 import ErrorNotAvailable from '../../components/error/ErrorNotAvailable';
 import HeaderMaps from '../../components/header/schulatlas/HeaderMaps';
 import Loading from '../../components/loading/Loading';
@@ -153,7 +153,7 @@ export default function Maps() {
         schoolDetails={schoolDetails}
         searchQueries={search}
       />
-      <Atlas
+      <Map
         schools={schools}
         selectedSchools={selectedSchools}
         onClick={handleMarkerClick}
