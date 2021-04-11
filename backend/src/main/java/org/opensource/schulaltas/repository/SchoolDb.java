@@ -22,4 +22,9 @@ public interface SchoolDb extends PagingAndSortingRepository<School, String> {
  Page<School> findAllByTypeContainingIgnoreCaseOrNameContainingIgnoreCaseOrAddress_CityContainingIgnoreCaseOrAddress_StreetContainingIgnoreCaseOrAddress_PostcodeContainingIgnoreCaseOrNumberContainingIgnoreCase (
          String type, String name, String address_city, String address_street,
          String address_postcode, String number, Pageable pageable);
+
+ List<School> findAllByCoordinates_LatitudeBetweenAndCoordinates_LongitudeBetween (Double coordinates_latitude, Double coordinates_latitude2, Double coordinates_longitude, Double coordinates_longitude2);
+
+ List<School> findAllByTypeAndCoordinates_LatitudeBetweenAndCoordinates_LongitudeBetween (String type, Double coordinates_latitude, Double coordinates_latitude2, Double coordinates_longitude, Double coordinates_longitude2);
+
 }
