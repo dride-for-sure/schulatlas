@@ -1,26 +1,9 @@
 <p align=center>
   <img src="Logo.png" alt="Schulatlas Logo"/>
 </p>
-
-<h1 align=center>
-SCHULATLAS
-</h1>
-
-<p align=center><i>To increase transparency within the education sector</i></p>
-
-<p align=center>
-  <img alt="Status Beta" src="https://img.shields.io/badge/Status-Beta-green.svg?style=flat"/>  
-<img alt="GPL v3" src="https://img.shields.io/badge/License-GPL%20v3-orange.svg"/>  
-<img alt="React" src="https://img.shields.io/badge/-React-blue?logo=react&style=flat"/>  
-<img alt="Java" src="https://img.shields.io/badge/-Java-brown?logo=java&style=flat"/> 
-<img alt="Spring" src="https://img.shields.io/badge/-Spring-lightgrey?logo=spring&style=flat"/>  
-<img alt="Docker" src="https://img.shields.io/badge/-Docker-grey?logo=docker&style=flat"/>  
-<img alt="MongoDb" src="https://img.shields.io/badge/-MongoDb-green?logo=mongodb&style=flat"/>
-<img alt="AWS S3" src="https://img.shields.io/badge/-AWSS3-yellow?logo=amazon-aws&style=flat"/>
-<img alt="Google Geocode API" src="https://img.shields.io/badge/-Google-silver?logo=google&style=flat"/>
-<img alt="Backend TestCoverage" src="https://img.shields.io/badge/J--Unit%20Coverage-92%25-brightgreen&style=flat" />
-</p>
-
+<br/>
+<i><h3><p align=center>To increase transparency within the education sector</p></h3></i>
+<br/>
 Germany is known worldwide, among other things, for its sustained success in the education sector.
 Unfortunately, federalism and a lack of transparency mean that traceability and comparability are
 more or less impossible for all sides.
@@ -49,12 +32,7 @@ that is well suited for the 21st century and for future generations to come.
 
 This is the current state and to be seen as a work in progress. Feel free to contribute and improve this design:
 
-<img src="/documentation/adobexd-mockup-1.png" alt="AdobeXD Mockup Collections"/>
-
-<img src="/documentation/adobexd-mockup-2.png" alt="AdobeXD Mockup Frontend"/>
-
-<img src="/documentation/adobexd-mockup-3.png" alt="AdobeXD Mockup CMS"/>
-
+<img src="/documentation/adobexd-mockup.png" alt="AdobeXD Mockup Collections"/>
 
 ### Contributing
 
@@ -82,12 +60,18 @@ npm start
 
 To install the backend use `maven` and launch a local development server with the help of `spring`.
 
-#### API Architecture
+#### Internal API Architecture
 
-This is an overview of all existing endpoints. Details can be found in the API documentation and in
-the Postman Collections.
+This is an overview of all existing endpoints for the **SCHULATLAS** custom headless cms, frontend and map component. Details can be found in the API documentation and in the Postman Collections.
 
-<img src="/documentation/api-endpoints.png" alt="Api Overview"/>
+<img src="/documentation/internal-api-overview.png" alt="Api Overview"/>
+
+#### External API References
+
+- [AWS S3](https://www.aws.com)
+- [Google Geocode API](https://developers.google.com/maps/documentation/geocoding/overview)
+- [IP Geolocation API](https://geo.ipify.org)
+- [Mapbox Custom Map Tiles](https://www.mapbox.com)
 
 #### Postman Collections
 
@@ -105,3 +89,17 @@ To seed a local test environment mongodb instance please use the [`seed.js`](#) 
 SCHULATLAS is an open source project under the [GPLv3 License](LICENSE)
 
 Happy coding! :metal:
+<br/>
+<br/>
+<p>
+<img alt="Status Beta" src="https://img.shields.io/badge/Status-Beta-green.svg?style=flat"/>  <img alt="GPL v3" src="https://img.shields.io/badge/License-GPL%20v3-orange.svg"/>  
+<img alt="React" src="https://img.shields.io/badge/-React-blue?logo=react&style=flat"/>  
+<img alt="Java" src="https://img.shields.io/badge/-Java-brown?logo=java&style=flat"/> 
+<img alt="Spring" src="https://img.shields.io/badge/-Spring-lightgrey?logo=spring&style=flat"/>  
+<img alt="Docker" src="https://img.shields.io/badge/-Docker-grey?logo=docker&style=flat"/>  
+<img alt="MongoDb" src="https://img.shields.io/badge/-MongoDb-green?logo=mongodb&style=flat"/>
+<img alt="AWS S3" src="https://img.shields.io/badge/-AWSS3-yellow?logo=amazon-aws&style=flat"/>
+<img alt="Google Geocode API" src="https://img.shields.io/badge/-Google-silver?logo=google&style=flat"/>
+<img alt="Backend TestCoverage" src="https://img.shields.io/badge/J--Unit%20Coverage-92%25-brightgreen&style=flat" />
+</p>
+
