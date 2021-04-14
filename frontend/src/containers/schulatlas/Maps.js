@@ -112,6 +112,7 @@ export default function Maps() {
   };
 
   useEffect(() => {
+    setError(null);
     handleParamUpdates();
   }, [search, number, type, searchFor]);
 

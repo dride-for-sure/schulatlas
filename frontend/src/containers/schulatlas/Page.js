@@ -37,6 +37,7 @@ export default function Page() {
   };
 
   useEffect(() => {
+    setError(null);
     if (!slug) {
       getLandingPage()
         .then(setPage)

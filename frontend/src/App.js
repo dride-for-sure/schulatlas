@@ -44,6 +44,9 @@ function App() {
             <Redirect to="/cms/pages" />
           </ProtectedRoute>
 
+          <Route path="/featurenotavailable" exact>
+            <FeatureNotAvailable />
+          </Route>
           <Route path="/maps/type/:type" exact>
             <Maps />
           </Route>
@@ -58,10 +61,6 @@ function App() {
           </Route>
           <Route path="/:slug?" exact>
             <Page />
-          </Route>
-
-          <Route path="/featurenotavailable" exact>
-            <FeatureNotAvailable />
           </Route>
         </Switch>
       </AuthProvider>
