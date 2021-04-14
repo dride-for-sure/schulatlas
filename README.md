@@ -1,5 +1,5 @@
 <p align=center>
-  <img src="Logo.png" alt="Schulatlas Logo"/>
+  <img src="Splashscreen.png" alt="Schulatlas Logo"/>
 </p>
 <br/>
 <i><h3><p align=center>To increase transparency within the education sector</p></h3></i>
