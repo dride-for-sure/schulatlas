@@ -7,7 +7,7 @@ export default function Navigation() {
   return (
     <List>
       <li><NavigationLink to="/maps">Entdecken</NavigationLink></li>
-      <li><NavigationLink to="/">Vergleichen</NavigationLink></li>
+      <li><NavigationLink to="/featurenotavailable">Vergleichen</NavigationLink></li>
     </List>
   );
 }
