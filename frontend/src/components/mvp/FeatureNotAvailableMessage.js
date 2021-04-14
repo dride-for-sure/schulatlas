@@ -15,7 +15,7 @@ export default function FeatureNotAvailableMessage() {
           <Image src={Error} alt="Smiley vs Mvp" />
           <Headline size="xl">Sorry!</Headline>
           <Headline size="l">This MVP ends here...</Headline>
-          <Headline size="s">Feel free to come back later and see how the school atlas has expanded.</Headline>
+          <Headline size="s">Feel free to come back later and see how the schoolatlas has expanded.</Headline>
         </MaxWidthContainer>
       </PaddingContainer>
     </Wrapper>

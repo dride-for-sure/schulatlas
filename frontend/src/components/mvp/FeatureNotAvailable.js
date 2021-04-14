@@ -4,13 +4,13 @@ import Footer from '../assemblies/schulatlas/footer/Footer';
 import BackgroundCoverCenter from '../background/_BackgroundCoverCenter';
 import Header from '../header/error/Header';
 import FlexColumnSpaceBetween from '../structures/_FlexColumnSpaceBetween';
-import ErrorMessage from './FeatureNotAvailableMessage';
+import FeatureNotAvailableMessage from './FeatureNotAvailableMessage';
 
 export default function FeatureNotAvailable() {
   return (
     <Wrapper background={HeaderBackground}>
       <Header />
-      <ErrorMessage />
+      <FeatureNotAvailableMessage />
       <Footer />
     </Wrapper>
   );
