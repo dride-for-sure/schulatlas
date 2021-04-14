@@ -45,6 +45,17 @@ that is well suited for the 21st century and for future generations to come.
 - **Public REST API** to maintain and access all gathered Datasets in the context of **Open Data /
 	Open Government**
 
+### Design
+
+This is the current state and to be seen as a work in progress. Feel free to contribute and improve this design:
+
+<img src="/documentation/adobexd-mockup-1.png" alt="AdobeXD Mockup Collections"/>
+
+<img src="/documentation/adobexd-mockup-2.png" alt="AdobeXD Mockup Frontend"/>
+
+<img src="/documentation/adobexd-mockup-3.png" alt="AdobeXD Mockup CMS"/>
+
+
 ### Contributing
 
 **SCHULATLAS** is an open source project. Contributions of any kind are welcome and highly
