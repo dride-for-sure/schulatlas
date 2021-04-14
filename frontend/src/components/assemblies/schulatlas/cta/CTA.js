@@ -22,8 +22,8 @@ export default function CTA({ assembly }) {
           <Headline size="l">{title}</Headline>
           <Paragraph>{paragraph}</Paragraph>
           <Buttons>
-            <BrandLink to={buttons[0].target}>{buttons[0].content}</BrandLink>
-            <BrandLink to={buttons[1].target} variant="monochrome">{buttons[1].content}</BrandLink>
+            <BrandLink url={buttons[0].target}>{buttons[0].content}</BrandLink>
+            <BrandLink url={buttons[1].target} variant="monochrome">{buttons[1].content}</BrandLink>
           </Buttons>
         </MaxWidthContainer>
       </PaddingContainer>
