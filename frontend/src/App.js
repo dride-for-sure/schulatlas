@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import GlobalStyle from './components/GlobalStyles';
+import FeatureNotAvailable from './components/mvp/FeatureNotAvailable';
 import ProtectedRoute from './components/ProtectedRoute';
 import ScrollToTop from './components/scroll/ScrollToTop';
 import Login from './containers/cms/Login';
@@ -57,6 +58,10 @@ function App() {
           </Route>
           <Route path="/:slug?" exact>
             <Page />
+          </Route>
+
+          <Route path="/featurenotavailable" exact>
+            <FeatureNotAvailable />
           </Route>
         </Switch>
       </AuthProvider>

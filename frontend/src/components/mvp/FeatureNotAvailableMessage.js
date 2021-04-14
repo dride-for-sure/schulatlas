@@ -1,0 +1,45 @@
+import styled from 'styled-components/macro';
+import Error from '../../resources/images/Error.png';
+import Headline from '../headlines/Headline';
+import Image from '../image/Image';
+import PaddingContainerM from '../padding/_PaddingContainerM';
+import FlexColumnCenter from '../structures/_FlexColumnCenter';
+import FlexRowCenter from '../structures/_FlexRowCenter';
+import MaxWidthL from '../structures/_MaxWidthL';
+
+export default function FeatureNotAvailableMessage() {
+  return (
+    <Wrapper>
+      <PaddingContainer>
+        <MaxWidthContainer>
+          <Image src={Error} alt="Smiley vs Mvp" />
+          <Headline size="xl">Sorry!</Headline>
+          <Headline size="l">This MVP ends here...</Headline>
+          <Headline size="s">Feel free to come back later and see how the school atlas has expanded.</Headline>
+        </MaxWidthContainer>
+      </PaddingContainer>
+    </Wrapper>
+  );
+}
+
+const Wrapper = styled.section``;
+
+const PaddingContainer = styled.div`
+  ${PaddingContainerM}
+  ${FlexRowCenter}
+`;
+
+const MaxWidthContainer = styled.div`
+  ${MaxWidthL}
+  ${FlexColumnCenter}
+  align-items: center;
+  color: white;
+  text-align: center;
+
+  > img {
+    height: 25vw;
+    max-height: 200px;
+    width: auto;
+    padding-bottom: 1.5rem;
+  }
+`;
