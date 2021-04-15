@@ -92,13 +92,6 @@ Many thanks go to all those wonderful people who reviewed my pull requests in de
 	<tbody>
 		<tr>
 		<td align="center">
-			<a href="https://www.github.com/dride-for-sure">
-			<img src="https://avatars.githubusercontent.com/u/10451521?v=4" width="50" style="max-width:100%">
-			<br/>
-			<sub><b>Dennis Jauernig</b></sub>
-			</a>
-		</td>
-		<td align="center">
 			<a href="https://github.com/Roman-devs">
 			<img src="https://avatars.githubusercontent.com/u/68698213?v=4" width="50" style="max-width:100%">
 			<br/>
@@ -147,7 +140,14 @@ Many thanks go to all those wonderful people who reviewed my pull requests in de
 			<sub><b>Nils Mester</b></sub>
 			</a>
 		</td>
+		<td align="center">
+			<a href="https://www.github.com/dride-for-sure">
+			<img src="https://avatars.githubusercontent.com/u/10451521?v=4" width="50" style="max-width:100%">
+			<br/>
+			<sub><b>Dennis Jauernig</b></sub>
+			</a>
 		</td>
+		</tr>
 	</tbody>
 </table>
 
