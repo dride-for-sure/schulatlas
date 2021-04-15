@@ -1,4 +1,4 @@
-<p align=center>
+t<p align=center>
   <img src="Splashscreen.png" alt="Schulatlas Logo"/>
 </p>
 <br/>
@@ -33,6 +33,71 @@ that is well suited for the 21st century and for future generations to come.
 This is the current state and to be seen as a work in progress. Feel free to contribute and improve this design:
 
 <img src="/documentation/adobexd-mockup.png" alt="AdobeXD Mockup Collections"/>
+
+### Contributors
+
+<table>
+	<tbody>
+		<tr>
+		<td align="center">
+			<a href="https://www.github.com/dride-for-sure">
+			<img src="https://avatars.githubusercontent.com/u/10451521?v=4" width="50" style="max-width:100%">
+			<br/>
+			<sub><b>Dennis Jauernig</b></sub>
+			</a>
+		</td>
+		<td align="center">
+			<a href="https://github.com/Roman-devs">
+			<img src="https://avatars.githubusercontent.com/u/68698213?v=4" width="50" style="max-width:100%">
+			<br/>
+			<sub><b>Roman Kuite</b></sub>
+			</a>
+		</td>
+		<td align="center">
+			<a href="https://github.com/lisamittmann">
+			<img src="https://avatars.githubusercontent.com/u/40956077?v=4" width="50" style="max-width:100%">
+			<br/>
+			<sub><b>Lisa Mittmann</b></sub>
+			</a>
+		</td>
+		<td align="center">
+			<a href="https://github.com/jamarob">
+			<img src="https://avatars.githubusercontent.com/u/48794499?v=4" width="50" style="max-width:100%">
+			<br/>
+			<sub><b>Jan Robert</b></sub>
+			</a>
+		</td>
+		<td align="center">
+			<a href="https://github.com/Jothaka">
+			<img src="https://avatars.githubusercontent.com/u/6401492?v=4" width="50" style="max-width:100%">
+			<br/>
+			<sub><b>Jan-Hendrik Kahle</b></sub>
+			</a>
+		</td>
+		<td align="center">
+			<a href="https://github.com/christophersiem">
+			<img src="https://avatars.githubusercontent.com/u/65181238?v=4" width="50" style="max-width:100%">
+			<br/>
+			<sub><b>Christopher Siem</b></sub>
+			</a>
+		</td>
+		<td align="center">
+			<a href="https://github.com/fabianschmauder">
+			<img src="https://avatars.githubusercontent.com/u/16700285?v=4" width="50" style="max-width:100%">
+			<br/>
+			<sub><b>Fabian Schmauder</b></sub>
+			</a>
+		</td>
+		<td align="center">
+			<a href="https://github.com/NilsMester">
+			<img src="https://avatars.githubusercontent.com/u/66268838?v=4" width="50" style="max-width:100%">
+			<br/>
+			<sub><b>Nils Mester</b></sub>
+			</a>
+		</td>
+		</td>
+	</tbody>
+</table>
 
 ### Contributing
 
