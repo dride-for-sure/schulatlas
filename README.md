@@ -149,6 +149,73 @@ To make local development easier, here are the postman collections as a starting
 
 To seed a local test environment mongodb instance please use the [`seed.js`](#) (*Upcoming*).
 
+### Contributors
+
+Many thanks go to all those wonderful people who reviewed my pull requests in detail and discovered one or the other blunder:
+
+<table>
+	<tbody>
+		<tr>
+		<td align="center">
+			<a href="https://www.github.com/dride-for-sure">
+			<img src="https://avatars.githubusercontent.com/u/10451521?v=4" width="50" style="max-width:100%">
+			<br/>
+			<sub><b>Dennis Jauernig</b></sub>
+			</a>
+		</td>
+		<td align="center">
+			<a href="https://github.com/Roman-devs">
+			<img src="https://avatars.githubusercontent.com/u/68698213?v=4" width="50" style="max-width:100%">
+			<br/>
+			<sub><b>Roman Kuite</b></sub>
+			</a>
+		</td>
+		<td align="center">
+			<a href="https://github.com/lisamittmann">
+			<img src="https://avatars.githubusercontent.com/u/40956077?v=4" width="50" style="max-width:100%">
+			<br/>
+			<sub><b>Lisa Mittmann</b></sub>
+			</a>
+		</td>
+		<td align="center">
+			<a href="https://github.com/jamarob">
+			<img src="https://avatars.githubusercontent.com/u/48794499?v=4" width="50" style="max-width:100%">
+			<br/>
+			<sub><b>Jan Robert</b></sub>
+			</a>
+		</td>
+		<td align="center">
+			<a href="https://github.com/Jothaka">
+			<img src="https://avatars.githubusercontent.com/u/6401492?v=4" width="50" style="max-width:100%">
+			<br/>
+			<sub><b>Jan-Hendrik Kahle</b></sub>
+			</a>
+		</td>
+		<td align="center">
+			<a href="https://github.com/christophersiem">
+			<img src="https://avatars.githubusercontent.com/u/65181238?v=4" width="50" style="max-width:100%">
+			<br/>
+			<sub><b>Christopher Siem</b></sub>
+			</a>
+		</td>
+		<td align="center">
+			<a href="https://github.com/fabianschmauder">
+			<img src="https://avatars.githubusercontent.com/u/16700285?v=4" width="50" style="max-width:100%">
+			<br/>
+			<sub><b>Fabian Schmauder</b></sub>
+			</a>
+		</td>
+		<td align="center">
+			<a href="https://github.com/NilsMester">
+			<img src="https://avatars.githubusercontent.com/u/66268838?v=4" width="50" style="max-width:100%">
+			<br/>
+			<sub><b>Nils Mester</b></sub>
+			</a>
+		</td>
+		</td>
+	</tbody>
+</table>
+
 ### License
 
 SCHULATLAS is an open source project under the [GPLv3 License](LICENSE)
