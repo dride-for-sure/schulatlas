@@ -24,7 +24,7 @@ public class PrivateTypeController {
   return typeService.listTypes();
  }
 
- @GetMapping ("available")
+ @GetMapping ("/available")
  public List<AvailableType> listAvailableTypes () {
   return typeService.listAvailableTypes();
  }
