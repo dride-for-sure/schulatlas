@@ -64,7 +64,7 @@ To install the backend use `maven` and launch a local development server with th
 
 This is an overview of all existing endpoints for the **SCHULATLAS** custom headless cms, frontend and map component. Details can be found in the API documentation and in the Postman Collections.
 
-<img src="/documentation/internal-api-overview-v1.png" alt="Api Overview"/>
+<img src="/documentation/internal-api-overview-v1-1.png" alt="Api Overview"/>
 
 #### External API References
 
