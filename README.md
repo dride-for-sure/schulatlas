@@ -40,13 +40,6 @@ This is the current state and to be seen as a work in progress. Feel free to con
 	<tbody>
 		<tr>
 		<td align="center">
-			<a href="https://www.github.com/dride-for-sure">
-			<img src="https://avatars.githubusercontent.com/u/10451521?v=4" width="50" style="max-width:100%">
-			<br/>
-			<sub><b>Dennis Jauernig</b></sub>
-			</a>
-		</td>
-		<td align="center">
 			<a href="https://github.com/Roman-devs">
 			<img src="https://avatars.githubusercontent.com/u/68698213?v=4" width="50" style="max-width:100%">
 			<br/>
@@ -95,7 +88,14 @@ This is the current state and to be seen as a work in progress. Feel free to con
 			<sub><b>Nils Mester</b></sub>
 			</a>
 		</td>
+			<td align="center">
+			<a href="https://www.github.com/dride-for-sure">
+			<img src="https://avatars.githubusercontent.com/u/10451521?v=4" width="50" style="max-width:100%">
+			<br/>
+			<sub><b>Dennis Jauernig</b></sub>
+			</a>
 		</td>
+		</tr>
 	</tbody>
 </table>
 
