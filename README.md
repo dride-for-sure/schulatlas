@@ -34,7 +34,59 @@ This is the current state and to be seen as a work in progress. Feel free to con
 
 <img src="/documentation/adobexd-mockup.png" alt="AdobeXD Mockup Collections"/>
 
+### Contributing
+
+**SCHULATLAS** is an open source project. Contributions of any kind are welcome and highly
+appreciated. Issues, bugs and feature requests are all listed on
+the [issues](https://github.com/dride-for-sure/schulatlas/) page. Feel free to open a ticket and
+make feature requests. Have a look at the [CONTRIBUTING.md](CONTRIBUTING.md) (*Upcoming*) to learn
+about the common style guide and project structure.
+
+#### Local Development
+
+Clone the git repository and install the frontend via `npm`:
+
+```
+git clone git@github.com:dride-for-sure/schulatlas.git
+cd schulatlas/frontend
+npm i
+```
+
+To run the development server use:
+
+```
+npm start
+```
+
+To install the backend use `maven` and launch a local development server with the help of `spring`.
+
+#### Internal API Architecture
+
+This is an overview of all existing endpoints for the **SCHULATLAS** custom headless cms, frontend and map component. Details can be found in the API documentation and in the Postman Collections.
+
+<img src="/documentation/internal-api-overview.png" alt="Api Overview"/>
+
+#### External API References
+
+- [AWS S3](https://www.aws.com)
+- [Google Geocode API](https://developers.google.com/maps/documentation/geocoding/overview)
+- [IP Geolocation API](https://geo.ipify.org)
+- [Mapbox Custom Map Tiles](https://www.mapbox.com)
+
+#### Postman Collections
+
+To make local development easier, here are the postman collections as a starting point:
+
+- [Postman Collection for Private Endpoints](/documentation/schulatlas-private-endpoints.postman_collection.json)
+- [Postman Collection for Public Endpoints](/documentation/schulatlas-public-endpoints.postman_collection.json)
+
+#### Seed data
+
+To seed a local test environment mongodb instance please use the [`seed.js`](#) (*Upcoming*).
+
 ### Contributors
+
+Many thanks go to all those wonderful people who reviewed my pull requests in detail and discovered one or the other blunder:
 
 <table>
 	<tbody>
@@ -98,56 +150,6 @@ This is the current state and to be seen as a work in progress. Feel free to con
 		</td>
 	</tbody>
 </table>
-
-### Contributing
-
-**SCHULATLAS** is an open source project. Contributions of any kind are welcome and highly
-appreciated. Issues, bugs and feature requests are all listed on
-the [issues](https://github.com/dride-for-sure/schulatlas/) page. Feel free to open a ticket and
-make feature requests. Have a look at the [CONTRIBUTING.md](CONTRIBUTING.md) (*Upcoming*) to learn
-about the common style guide and project structure.
-
-#### Local Development
-
-Clone the git repository and install the frontend via `npm`:
-
-```
-git clone git@github.com:dride-for-sure/schulatlas.git
-cd schulatlas/frontend
-npm i
-```
-
-To run the development server use:
-
-```
-npm start
-```
-
-To install the backend use `maven` and launch a local development server with the help of `spring`.
-
-#### Internal API Architecture
-
-This is an overview of all existing endpoints for the **SCHULATLAS** custom headless cms, frontend and map component. Details can be found in the API documentation and in the Postman Collections.
-
-<img src="/documentation/internal-api-overview.png" alt="Api Overview"/>
-
-#### External API References
-
-- [AWS S3](https://www.aws.com)
-- [Google Geocode API](https://developers.google.com/maps/documentation/geocoding/overview)
-- [IP Geolocation API](https://geo.ipify.org)
-- [Mapbox Custom Map Tiles](https://www.mapbox.com)
-
-#### Postman Collections
-
-To make local development easier, here are the postman collections as a starting point:
-
-- [Postman Collection for Private Endpoints](/documentation/schulatlas-private-endpoints.postman_collection.json)
-- [Postman Collection for Public Endpoints](/documentation/schulatlas-public-endpoints.postman_collection.json)
-
-#### Seed data
-
-To seed a local test environment mongodb instance please use the [`seed.js`](#) (*Upcoming*).
 
 ### License
 
